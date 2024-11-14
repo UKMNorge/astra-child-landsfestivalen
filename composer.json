@@ -1,0 +1,27 @@
+{
+    "name": "ukmnorge/designwordpress",
+    "description": "Design for UKM sin wordpress-site. Benytter UKMDesign i bunn.",
+    "homepage": "http://github.com/UKMNorge/UKMDesignWordpress",
+    "minimum-stability": "dev",
+    "authors": [{
+            "name": "Kushtrim Aliu",
+            "email": "kushtrim@ukm.no",
+            "role": "Developer"
+        },
+        {
+            "name": "UKM Norge",
+            "email": "support@ukm.no",
+            "role": "Owner"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "UKMNorge\\DesignWordpress\\": ""
+        }
+    },
+    "require": {
+        "symfony/yaml": ">=2.0",
+        "mariusmandal/wpoo": "dev-master",
+        "ukmnorge/designvanilla": "dev-master"
+    }
+}
