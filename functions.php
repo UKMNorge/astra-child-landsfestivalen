@@ -11,7 +11,6 @@ add_action('wp_enqueue_scripts', 'your_child_theme_enqueue_styles');
 
 // [landsfestivalen_shortcode component="deltakere"]
 function vue_component_shortcode($atts) {
-    echo 'Hello from vue_component_shortcode: ' . $atts['component'];
     enqueue_api_script();
 
     $atts = shortcode_atts(['component' => 'DefaultComponent'], $atts);
