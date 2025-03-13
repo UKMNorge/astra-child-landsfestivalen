@@ -9,12 +9,16 @@ function your_child_theme_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'your_child_theme_enqueue_styles');
 
 
-function custom_elementor_shortcode() {
+// [landsfestivalen_shortcode component="deltakere"]
+function vue_component_shortcode($atts) {
+    echo 'Hello from vue_component_shortcode: ' . $atts['component'];
     enqueue_api_script();
-    return '<div id="vue-app">Hello from Vue Shortcode!</div>'; // Element where the Vue app will be mounted
-}
 
-add_shortcode('my_shortcode_ls', 'custom_elementor_shortcode');
+    $atts = shortcode_atts(['component' => 'DefaultComponent'], $atts);
+    return '<div class="vue-app" data-vue-component="' . esc_attr($atts['component']) . '"></div>';
+}
+add_shortcode('landsfestivalen_shortcode', 'vue_component_shortcode');
+
 
 
 function enqueue_api_script() {

@@ -1,6 +1,10 @@
 import { createApp, h, ref } from "vue";
 import App from "./App.vue";
 
+// Components
+import Liveprogram from './components/Liveprogram.vue';
+import Deltakere from "./components/Deltakere.vue";
+
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
 import css from "highlight.js/lib/languages/css";
@@ -47,7 +51,7 @@ console.log(interactionInstance);
 var ajaxurl : string = (<any>window).ajaxurl; // Kommer fra global
 
 if(ajaxurl == undefined || ajaxurl == null) {
-    throw new Error('ajaxurl is not defined');
+    // throw new Error('ajaxurl is not defined');
 }
 
 (<any>window).spaInteraction = new SPAInteraction(interactionInstance, ajaxurl);
@@ -63,4 +67,24 @@ var director = new Director();
 app.use(hljsVuePlugin);
 app.use(vuetify);
 
-app.mount("#app");
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-vue-component]").forEach(el => {
+        const componentName = el.getAttribute("data-vue-component");
+        let component = null;
+        
+        if(componentName == 'liveprogram') {
+            component = Liveprogram;
+        }
+        else if(componentName == 'deltakere') {
+            component = Deltakere;
+        }
+        else {
+            throw new Error('Unknown component: ' + componentName);
+        }
+        
+        const instance = createApp(component);
+        instance.use(vuetify);
+        instance.use(hljsVuePlugin);
+        instance.mount(el);
+    });
+});
