@@ -48,10 +48,10 @@ document.body.appendChild(interactionInstance.$el);
 console.log('interactionInstance');
 console.log(interactionInstance);
 
-var ajaxurl : string = (<any>window).ajaxurl; // Kommer fra global
+var ajaxurl : string = '/festivalen/wp-content/themes/astra-child-theme/endpoints/';
 
 if(ajaxurl == undefined || ajaxurl == null) {
-    // throw new Error('ajaxurl is not defined');
+    throw new Error('ajaxurl is not defined');
 }
 
 (<any>window).spaInteraction = new SPAInteraction(interactionInstance, ajaxurl);
