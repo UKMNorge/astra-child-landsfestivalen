@@ -32,7 +32,7 @@ export default {
     methods : {
         setActive() {
             this.active = true;
-            console.log(this.$refs);
+            // console.log(this.$refs);
             // (<typeof ChildComponent>this.$refs.childArrangementer).init();
         },
         setDeactive() {

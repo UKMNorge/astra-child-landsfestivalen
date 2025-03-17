@@ -42,13 +42,13 @@ export default {
     
     methods: {
         openTab(tabId : string) {
-            if(tabId == 'first') {
-                console.log(this.$refs);
-                (<any>this.$refs.firstTab).setActive();
-            }
-            else if(tabId == 'second') {
+            // if(tabId == 'first') {
+            //     console.log(this.$refs);
+            //     (<any>this.$refs.firstTab).setActive();
+            // }
+            // else if(tabId == 'second') {
     
-            }
+            // }
         }
     }
 }

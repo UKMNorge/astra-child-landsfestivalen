@@ -1,41 +1,46 @@
 <template>
     <div v-if="dataFetched == true" class="program-container">
-      <div class="row program-header">
-        <template v-for="(events, dateKey) in programData.hendelserDato" :key="dateKey">
-          <template v-for="event in events" :key="event.id">
-            <div v-if="event.synlig_i_rammeprogram" class="point col-6">
-              <div :class="['box-innslag', isPast(event.start) ? 'past' : '']">
-                <div v-if="isNow(event.start)" class="timeline-point now">
-                  <div class="blinking"></div>
-                </div>
-                <div v-else class="timeline-point">
-                  <div class="blinking"></div>
-                </div>
-                <div class="time">
-                  {{ isNow(event.start) ? "Nå" : formatTime(event.start) }}
-                </div>
-                <h4 class="title center">{{ event.navn }}</h4>
-                <div class="sted center">
-                  <div class="sted-btn collapsed" @click="toggleLocation(event.id)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                      <path d="M12 2C7.589 2 4 5.589 4 9.995 3.971 16.44 11.696 21.784 12 22c0 0 8.029-5.56 8-12 0-4.411-3.589-8-8-8zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
-                    </svg>
-                    {{ event.sted || "Ukjent sted" }}
-                  </div>
-                  <div v-if="expandedLocations.includes(event.id)" class="button-live-style">
-                    <a target="_blank" :href="getMapLink(event.sted)">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-                        <path d="m2.295 12.707 8.978 9c.389.39 1.025.391 1.414.002l9.021-9a1 1 0 0 0 0-1.416l-9.021-9a.999.999 0 0 0-1.414.002l-8.978 9a.998.998 0 0 0 0 1.412zm6.707-2.706h5v-2l3 3-3 3v-2h-3v4h-2v-6z"></path>
-                      </svg>
-                      <span>Veibeskrivelse</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </template>
-        </template>
-      </div>
+        <div class="row program-header">
+            <template v-for="(events, dateKey) in programData.hendelserDato" :key="dateKey">
+                <template v-for="(event) in events" :key="event.id">
+                    <template v-if="event.synlig_i_rammeprogram">
+                        <div class="point col-8 col-xs-10">
+                            <div :class="['box-innslag', isPast(event.start) ? 'past' : '']">
+                                <div v-if="isNow(event.start)" class="timeline-point now">
+                                    <div class="blinking"></div>
+                                </div>
+                                <div v-else class="timeline-point">
+                                    <div class="blinking"></div>
+                                </div>
+                                <div class="time">
+                                    {{ isNow(event.start) ? "Nå" : formatTime(event.start) }}
+                                </div>
+                                <h4 class="title center">{{ event.navn }}</h4>
+                                <p>{{ event.beskrivelse }}</p>
+                                <div class="sted center">
+                                    <div v-show="!expandedLocations.includes(event.id)" class="sted-btn collapsed" @click="toggleLocation(event.id)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                            <path d="M12 2C7.589 2 4 5.589 4 9.995 3.971 16.44 11.696 21.784 12 22c0 0 8.029-5.56 8-12 0-4.411-3.589-8-8-8zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
+                                        </svg>
+                                        {{ event.sted || "Ukjent sted" }}
+                                    </div>
+                                    <div v-if="expandedLocations.includes(event.id)" class="button-live-style as-margin-top-space-2">
+                                        <a target="_blank" :href="getMapLink(event.sted)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+                                                <path d="m2.295 12.707 8.978 9c.389.39 1.025.391 1.414.002l9.021-9a1 1 0 0 0 0-1.416l-9.021-9a.999.999 0 0 0-1.414.002l-8.978 9a.998.998 0 0 0 0 1.412zm6.707-2.706h5v-2l3 3-3 3v-2h-3v4h-2v-6z"></path>
+                                            </svg>
+                                            <span>Veibeskrivelse</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="empty col-4 col-xs-2"></div>
+                    </template>
+                </template>
+            </template>
+        </div>
     </div>
 </template>
 
@@ -81,12 +86,14 @@ export default {
         },
         formatTime(start: string) {
             const eventTime = new Date(Number(start) * 1000);
-            return eventTime.toLocaleString("nb-NO", {
-                day: "2-digit",
-                month: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-            });
+
+            // Extract and format day, month, hour, and minute
+            const day = eventTime.getDate().toString().padStart(2, "0");
+            const month = (eventTime.getMonth() + 1).toString().padStart(2, "0");
+            const hour = eventTime.getHours().toString().padStart(2, "0");
+            const minute = eventTime.getMinutes().toString().padStart(2, "0");
+
+            return `${day}.${month} ${hour}:${minute}`;
         },
         toggleParticipants(id: string) {
             const index = this.expandedParticipants.indexOf(id);
@@ -161,7 +168,7 @@ export default {
     min-height: 70px;
 }
 .point:nth-child(odd) {
-    border-right: 1px dashed #4b546f;
+    border-right: 4px solid #4b546f8f;
     padding-left: 15px;
 }
 .point:nth-child(even) {
@@ -181,10 +188,11 @@ export default {
     position: relative;
     height: auto;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     min-height: 100px;
     margin: auto;
     margin-top: 40px;
+    margin-bottom: 40px;
     border-radius: 5px;
     background: #fff;
     color: #00004B;
@@ -194,6 +202,7 @@ export default {
     text-decoration: none;
     color: #00004B;
     box-shadow: 0px 0px 3px #00000038;
+    padding: 10px;
 }
 .point .box-innslag:hover {
     box-shadow: 0px 0px 7px 1px #ffffff94;
@@ -222,16 +231,17 @@ export default {
     margin-right: 0;
 }
 .point .box-innslag .timeline-point {
-        height: 25px;
-        width: 25px;
-        background: #00004B !important;
-        position: absolute;
-        top: 10px;
-        left: -44px;
-        border-radius: 50%;
-        border: dashed 2px #4b546f;
-        z-index: 1;
-        overflow: hidden;
+    height: 25px;
+    width: 25px;
+    background: #00004B !important;
+    position: absolute;
+    top: 10px;
+    left: -44px;
+    border-radius: 50%;
+    border: solid 4px #4b546f;
+    z-index: 1;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 6px #00004b;
 }
 .point .box-innslag .title {
     font-size: 30px;
@@ -273,19 +283,20 @@ export default {
 }
 
 .button-live-style {
-    /* margin-top: 15px; */
+    margin-top: 15px;
 }
 .button-live-style a {
     padding: 4px 8px;
     border-radius: 5px;
 }
 .button-live-style a:hover {
-    cursor: pointer;
+    /* cursor: pointer;
     background: linear-gradient(45deg, hsl(var(--color-primary-blue-800, var(--color-primary-orange-900))), hsl(var(--color-primary-blue-600, var(--color-primary-orange-900)))) !important;
-    color: #fff;
+    color: #fff; */
 }
-.button-live-style a:hover svg {
-    fill: #fff !important;
+.button-live-style a svg {
+    margin-right: 10px;
+    margin-bottom: 5px;
 }
 .button-live-style .icon {
     margin-right: 5px;
@@ -392,6 +403,9 @@ export default {
     .vis-alle-deltakere .icon-chevron svg {
         margin-top: 0;
     }
+    .program-header {
+        padding: 0px 20px;
+    }
 }
 
 @media (max-width: 720px) {
@@ -426,6 +440,10 @@ export default {
     }
     a.wshop-href svg {
         width: 20px !important;
+    }
+    .point {
+        flex: 0 0 75% !important;
+        max-width: 75% !important;
     }
 }
 
