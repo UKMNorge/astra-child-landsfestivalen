@@ -1,0 +1,8 @@
+.swiper-slide-image {
+    width: 70% !important;
+    transition: .2s !important;
+}
+.swiper-slide-next .swiper-slide-inner .swiper-slide-image{
+    width: 100% !important;
+    transition: .2s !important;
+}
