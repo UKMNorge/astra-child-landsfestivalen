@@ -10,7 +10,7 @@ add_action('wp_enqueue_scripts', 'your_child_theme_enqueue_styles');
 
 
 function enqueue_styles() {
-    wp_enqueue_style('UKMFestivalenSideVueStyle', '/wp-content/themes/astra-child-theme/styles/landsfestivalen.css');
+    wp_enqueue_style('UKMFestivalenSideStyle', '/wp-content/themes/astra-child-theme/styles/landsfestivalen.css');
 }
 add_action('wp_enqueue_scripts', 'enqueue_styles');
 
