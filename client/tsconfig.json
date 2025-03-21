@@ -6,7 +6,8 @@
     "strict": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es2017",
+    "lib": ["es2017", "dom"],  // Include 'es2017' or a later version
     "skipLibCheck": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

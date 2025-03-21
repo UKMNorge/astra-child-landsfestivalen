@@ -4,6 +4,7 @@ import App from "./App.vue";
 // Components
 import Liveprogram from './components/Liveprogram.vue';
 import Deltakere from "./components/Deltakere.vue";
+import Program from "./components/Program.vue";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -78,13 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
         else if(componentName == 'deltakere') {
             component = Deltakere;
         }
+        else if(componentName == 'program') {
+            component = Program;
+        }
         else {
             throw new Error('Unknown component: ' + componentName);
         }
         
         const instance = createApp(component);
-        instance.use(vuetify);
         instance.use(hljsVuePlugin);
+        instance.use(vuetify);
         instance.mount(el);
     });
 });

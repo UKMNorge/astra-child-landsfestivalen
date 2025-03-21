@@ -54,7 +54,7 @@ export default {
             spaInteraction : (<any>window).spaInteraction, // Definert i main.ts
             dataFetched: false,
             fetchingStarted: false,
-            programData: {},
+            programData: {} as any,
             expandedParticipants: [] as string[],
             expandedLocations: [] as string[],
             timeNow: Date.now() / 1000,
