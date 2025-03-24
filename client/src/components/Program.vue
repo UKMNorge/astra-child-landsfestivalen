@@ -60,18 +60,21 @@
                             </div>
                             <div class="under-content">
                                 <div class="deltakere">
-                                    <div class="deltaker">
+
+                                    <div v-for="innslag in hendelse.innslag" class="deltaker">
                                         <div class="svg">
                                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g id="user-head">
                                             <path id="Shape" d="M5.75 5.17822C5.75 3.3833 7.20508 1.92822 9 1.92822C10.7949 1.92822 12.25 3.3833 12.25 5.17822C12.25 6.97315 10.7949 8.42822 9 8.42822C7.20508 8.42822 5.75 6.97315 5.75 5.17822ZM4.53836 11.747C5.94349 11.1171 7.67103 10.9282 9 10.9282C10.329 10.9282 12.0565 11.1171 13.4616 11.747C14.8773 12.3816 16 13.485 16 15.3032V16.0532C16 16.802 15.3936 17.4282 14.6387 17.4282H3.36126C2.60644 17.4282 2 16.802 2 16.0532V15.3032C2 13.485 3.12267 12.3816 4.53836 11.747Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                             </g>
                                             </svg>
+                                            <span>{{ innslag.antallDeltakere }}</span>
                                         </div>
                                         <div class="deltaker-info">
-                                            <span>Deltaker 1</span>
+                                            <span>{{ innslag.name }}</span>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="hendelse-beskrivelse">
                                     <span class="beskrivelse">{{ hendelse.beskrivelse }}</span>
@@ -125,6 +128,7 @@ export default {
             selectedSteder : [] as {id: number, title: string}[],
             selectedTider : [] as {id: number, title: string}[],
             selectedTyper : [] as {id: number, title: string}[],
+
         };
     },
     methods: {
@@ -160,8 +164,40 @@ export default {
 
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
+                let dataInnslag = h.innslag && h.innslag.innslag ? h.innslag.innslag[0] : null;
 
-                var newHendelse = new Hendelse(h.id, h.navn, 'https://placehold.co/155', h.start, 0, h.sted, h.context.type, h.beskrivelse);
+                console.log(h);
+                console.log(h.innslag);
+                console.log(h.innslag.innslag);
+                
+                console.warn(results.innslagPersoner);
+
+                // Innslag og deltakere
+                let innslag : {name : string, antallDeltakere : number, url : string}[] = [];
+                let antallDeltakere = 0;
+
+                if(dataInnslag != null) {
+                    antallDeltakere += results.innslagPersoner[dataInnslag.id].length;
+    
+                    innslag.push({
+                        name: dataInnslag.navn,
+                        antallDeltakere: antallDeltakere,
+                        url: 'inPerson.url'
+                    });
+                    
+                }
+
+                var newHendelse = new Hendelse(
+                    h.id, 
+                    h.navn, 
+                    'https://placehold.co/155', 
+                    h.start, 
+                    0, 
+                    h.sted, 
+                    h.context.type, 
+                    h.beskrivelse,
+                    innslag
+                );
                 this.hendelser.push(newHendelse);
                 
                 if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && h.start.trim() != '') {

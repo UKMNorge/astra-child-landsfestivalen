@@ -8,9 +8,18 @@ class Hendelse {
     type: string;
     beskrivelse: string;
     isOpen: boolean = false;
+    innslag: {name : string, antallDeltakere : number, url : string}[] = [];
 
-
-    constructor(id : number, title : string, img : string, start : number, end : number, sted : string, type : string, beskrivelse : string) {
+    constructor(id : number, 
+                title : string, 
+                img : string, 
+                start : number, 
+                end : number, 
+                sted : string, 
+                type : string, 
+                beskrivelse : string,
+                innslag : {name : string, antallDeltakere : number, url : string}[] = []
+    ) {
         this.id = id;
         this.title = title;
         this.img = img;
@@ -19,6 +28,7 @@ class Hendelse {
         this.sted = sted;
         this.type = type;
         this.beskrivelse = beskrivelse;
+        this.innslag = innslag;
     }
 
     getStart(): string {
