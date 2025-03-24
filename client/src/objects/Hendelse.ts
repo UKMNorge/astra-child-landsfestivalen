@@ -7,7 +7,7 @@ class Hendelse {
     sted: string;
     type: string;
     beskrivelse: string;
-    isOpen: boolean = true;
+    isOpen: boolean = false;
 
 
     constructor(id : number, title : string, img : string, start : number, end : number, sted : string, type : string, beskrivelse : string) {
@@ -23,7 +23,9 @@ class Hendelse {
 
     getStart() : string {
         // convert timestamp to date string
-        return new Date(this.start).toLocaleString();
+        const startDate = new Date(this.start * 1000);
+        
+        return `${String(startDate.getDate()).padStart(2, '0')}.${String(startDate.getMonth() + 1).padStart(2, '0')} ${String(startDate.getHours()).padStart(2, '0')}:${String(startDate.getMinutes()).padStart(2, '0')}`
     }
 }
 

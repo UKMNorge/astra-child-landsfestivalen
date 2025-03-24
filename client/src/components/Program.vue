@@ -1,22 +1,32 @@
 <template>
     <div v-if="dataFetched == true" class="program-container">
         <div class="ls-program-meny">
-            <div class="ls-meny-items">
-                <v-combobox
-                    variant="outlined"
-                    class="v-autocomplete-arr-sys"
-                    clearable
-                    chips
-                    multiple
-                    label="Sted"
-                    :items="availableSteder"
-                    v-model="selectedSteder"
-                />
-                
+            <div class="ls-inner-meny-beholder">
+                <div class="ls-meny-item">                 
+                    <SelectProgramStyle 
+                        :label="'Tid'"
+                        :availableItems="availableTider" 
+                        v-model:selectedItems="selectedTider" 
+                    />
+                </div>
+                <div class="ls-meny-item">                 
+                    <SelectProgramStyle 
+                        :label="'Sted'" 
+                        :availableItems="availableSteder" 
+                        v-model:selectedItems="selectedSteder" 
+                    />
+                </div>
+                <div class="ls-meny-item">                 
+                    <SelectProgramStyle 
+                        :label="'Type'"
+                        :availableItems="availableTyper" 
+                        v-model:selectedItems="selectedTyper" 
+                    />
+                </div>
             </div>
         </div>
-        <!-- <pre>{{ hendelser }}</pre> -->
-        <template v-for="hendelse in hendelser" :key="hendelse.id">
+
+        <template v-for="hendelse in getFilteredHendelser()" :key="hendelse.id">
             <div class="hendelse">
                 <div @click="hendelse.isOpen = !hendelse.isOpen" class="first-width">
                     <div class="inner-content">
@@ -92,10 +102,15 @@
 
 <script lang="ts">
 import Hendelse from '../objects/Hendelse';
+import SelectProgramStyle from './utils/SelectProgramStyle.vue';
+
 
 export default {
     mounted() {
         this.fetchProgramData();
+    },
+    components: {
+        SelectProgramStyle : SelectProgramStyle
     },
     data() {
         return {
@@ -103,11 +118,36 @@ export default {
             dataFetched: false,
             fetchingStarted: false,
             hendelser: [] as Hendelse[],
-            availableSteder: ['Tana', 'Norafjell'] as string[],
-            selectedSteder : [] as string[],
+            availableSteder: [] as {id: number, title: string}[],
+            availableTider: [] as {id: number, title: string}[],
+            availableTyper: [] as {id: number, title: string}[],
+
+            selectedSteder : [] as {id: number, title: string}[],
+            selectedTider : [] as {id: number, title: string}[],
+            selectedTyper : [] as {id: number, title: string}[],
         };
     },
     methods: {
+        getFilteredHendelser() : Hendelse[] {
+            if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
+                return this.hendelser;
+            }
+
+            return this.hendelser.filter(h => {
+                if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
+                    return false;
+                }
+                if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.start)) {
+                    return false;
+                }
+
+                if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
+                    return false;
+                }
+
+                return true;
+            });
+        },
         async fetchProgramData() {
             this.fetchingStarted = true;
             this.dataFetched = false;
@@ -119,8 +159,22 @@ export default {
             var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'GET', data);
 
             for (let h of results.hendelser) {
+                const startDate = new Date(h.start * 1000);
+
                 var newHendelse = new Hendelse(h.id, h.navn, 'https://placehold.co/155', h.start, 0, h.sted, h.context.type, h.beskrivelse);
                 this.hendelser.push(newHendelse);
+                
+                if(this.availableTider.find(t => t.id == h.start) == undefined) {
+                    this.availableTider.push({'id' : h.start, 'title' : newHendelse.getStart()});
+                }
+
+                if(this.availableSteder.find(s => s.id == h.sted) == undefined) {
+                    this.availableSteder.push({'id' : h.sted, 'title' : h.sted});
+                }
+
+                if(this.availableTyper.find(t => t.id == h.context.type) == undefined) {
+                    this.availableTyper.push({'id' : h.context.type, 'title' : h.context.type});
+                }
             }
 
             this.dataFetched = true;
@@ -136,10 +190,31 @@ export default {
 .entry-content {
     background: #00004C !important;
 }
+.v-autocomplete-arr-sys div .v-field,
+.v-text-field-arr-sys div .v-field {
+    border-radius: var(--radius-normal) !important;
+}
+.v-field__input input {
+    background: transparent !important;
+    border: none !important;
+}
 </style>
 <style scoped>
+.ls-program-meny {
+    display: flex;
+}
+.ls-inner-meny-beholder {
+    margin: auto;
+    display: flex;
+}
+.ls-meny-item {
+    width: auto;
+    margin: auto 10px;
+    min-width: 110px;
+}
 .program-container {
     color: #fff;
+    padding: 20px 0;
 }
 .hendelse {
     border-top: solid 1px #fff;
@@ -228,7 +303,32 @@ export default {
 .hendelse-beskrivelse .beskrivelse {
     font-size: 24px;
 }
-
+.v-select-program-meny :deep(.v-label) {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 10px;
+    color: #fff;
+    opacity: 1;
+}
+.v-select-program-meny.v-select--active-menu :deep(.v-label) {
+    color: #000;
+}
+/* .v-select-program-meny.v-select--active-menu .v-input__control { */
+.v-select-program-meny.v-select--active-menu :deep(.v-input__control) {
+    background: #fff !important;
+}
+.v-select-program-meny :deep(.mdi-menu-down) {
+    color: #fff !important;
+    opacity: 1;
+}
+.v-select-program-meny.v-select--active-menu :deep(.mdi-menu-down) {
+    color: #000 !important;
+}
+.v-select-program-meny :deep(.v-input__control) {
+    border: solid 2px;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
 
 /* COLLAPSE TRANSITION */
 /* Wrapper to prevent content from jumping */
