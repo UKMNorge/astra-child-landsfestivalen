@@ -164,15 +164,15 @@ export default {
                 var newHendelse = new Hendelse(h.id, h.navn, 'https://placehold.co/155', h.start, 0, h.sted, h.context.type, h.beskrivelse);
                 this.hendelser.push(newHendelse);
                 
-                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start) {
+                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && h.start != '') {
                     this.availableTider.push({'id' : h.start, 'title' : newHendelse.getStart()});
                 }
 
-                if(this.availableSteder.find(s => s.id == h.sted) == undefined && h.sted) {
+                if(this.availableSteder.find(s => s.id == h.sted) == undefined && h.sted && h.sted != '') {
                     this.availableSteder.push({'id' : h.sted, 'title' : h.sted});
                 }
 
-                if(this.availableTyper.find(t => t.id == h.context.type) == undefined && h.context && h.context.type) {
+                if(this.availableTyper.find(t => t.id == h.context.type) == undefined && h.context && h.context.type != '') {
                     this.availableTyper.push({'id' : h.context.type, 'title' : h.context.type});
                 }
             }
