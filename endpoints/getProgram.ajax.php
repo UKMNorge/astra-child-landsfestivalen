@@ -20,11 +20,16 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 
 
 $retHendelser = [];
+$innslagPersoner = [];
 
 $hendelser = $visInterne ? $arrangement->getProgram()->getAllInkludertInterne() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
     if($hendelse->erSynligRammeprogram()) {
-        $hendelse->getInnslag()->getAll();
+        foreach($hendelse->getInnslag()->getAll() as $innslag) {
+            foreach($innslag->getPersoner()->getAll() as $person) {
+                $innslagPersoner[$innslag->getId()][] = $person;
+            }
+        }
         $retHendelser[] = $hendelse;
     }
 }
@@ -32,4 +37,5 @@ foreach( $hendelser as $hendelse ) {
 
 $handleCall->sendToClient([
     'hendelser' => $retHendelser,
+    'innslagPersoner' => $innslagPersoner
 ]);
