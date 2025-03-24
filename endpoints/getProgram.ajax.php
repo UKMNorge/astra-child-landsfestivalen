@@ -18,8 +18,16 @@ $visInterne = $handleCall->getOptionalArgument('visInterne') == true ?? false;
 $arrangement = UKMFestival::getCurrentUKMFestival();
 
 
+
+$retHendelser = [];
+
 $hendelser = $visInterne ? $arrangement->getProgram()->getAllInkludertInterne() : $arrangement->getProgram()->getAll();
-// $program = Hendelser::sorterPerDag( $hendelser );
+foreach( $hendelser as $hendelse ) {
+    if($hendelse->erSynligRammeprogram()) {
+        $hendelse->getInnslag()->getAll();
+        $retHendelser[] = $hendelse;
+    }
+}
 
 
 $handleCall->sendToClient([
