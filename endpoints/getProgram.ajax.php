@@ -31,5 +31,5 @@ foreach( $hendelser as $hendelse ) {
 
 
 $handleCall->sendToClient([
-    'hendelser' => $hendelser,
+    'hendelser' => $retHendelser,
 ]);
