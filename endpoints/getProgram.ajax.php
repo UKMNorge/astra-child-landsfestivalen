@@ -11,19 +11,18 @@ require_once('UKM/Autoloader.php');
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-$handleCall = new HandleAPICall([], ['visInterne'], ['GET', 'POST'], false);
+$handleCall = new HandleAPICall(['erDeltakerProgram'], [], ['GET', 'POST'], false);
 
-$visInterne = $handleCall->getOptionalArgument('visInterne') == true ?? false;
+$erDeltakerProgram = $handleCall->getArgument('erDeltakerProgram') == 'true' ? true : false;
 
 $arrangement = UKMFestival::getCurrentUKMFestival();
-
-
 
 $retHendelser = [];
 $innslagPersoner = [];
 
-$hendelser = $visInterne ? $arrangement->getProgram()->getAllInkludertInterne() : $arrangement->getProgram()->getAll();
+$hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAllInterne() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
+    // var_dump($hendelse);
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
             foreach($innslag->getPersoner()->getAll() as $person) {
