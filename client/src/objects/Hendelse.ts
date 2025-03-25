@@ -31,6 +31,18 @@ class Hendelse {
         this.innslag = innslag;
     }
 
+    getStartDag() {
+        // Convert timestamp to date
+        const startDate = new Date(this.start * 1000);
+        
+        // Days of the week array
+        const daysOfWeek = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+    
+        // Format the date to the desired format "Mandag hh:mm"
+        return `${daysOfWeek[startDate.getDay()]}`;
+
+    }
+
     getStart(): string {
         // Convert timestamp to date
         const startDate = new Date(this.start * 1000);

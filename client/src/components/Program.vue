@@ -4,7 +4,7 @@
             <div class="ls-inner-meny-beholder">
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle 
-                        :label="'Tid'"
+                        :label="'Dag'"
                         :availableItems="availableTider" 
                         v-model:selectedItems="selectedTider" 
                     />
@@ -209,8 +209,8 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && h.start.trim() != '') {
-                    this.availableTider.push({'id' : h.start, 'title' : newHendelse.getStart()});
+                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && newHendelse.getStartDag() != '') {
+                    this.availableTider.push({'id' : h.start, 'title' : newHendelse.getStartDag()});
                 }
 
                 if(this.availableSteder.find(s => s.id == h.sted) == undefined && h.sted && h.sted.trim() != '') {
