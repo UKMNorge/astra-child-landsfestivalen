@@ -20,7 +20,7 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 $retHendelser = [];
 $innslagPersoner = [];
 
-$hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAllInkludertInterne() : $arrangement->getProgram()->getAll();
+$hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
     // var_dump($hendelse);
     if($hendelse->erSynligRammeprogram()) {
