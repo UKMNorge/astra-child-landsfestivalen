@@ -109,6 +109,15 @@ import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 
 
 export default {
+    props: {
+        programType: {
+            type: String,
+            validator: (value: string) => {
+                return ['publikum', 'deltakere'].includes(value)
+            },
+            required: true
+        },
+    },
     mounted() {
         this.fetchProgramData();
     },
@@ -157,11 +166,11 @@ export default {
             this.dataFetched = false;
 
             var data = {
-                unike: true
+                erDeltakerProgram: this.programType == 'deltakere'
             };
 
-            var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'GET', data);
-
+            var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'POST', data);
+            
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
                 let dataInnslag = h.innslag && h.innslag.innslag ? h.innslag.innslag[0] : null;
