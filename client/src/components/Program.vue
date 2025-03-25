@@ -209,8 +209,8 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && newHendelse.getStartDag() != '') {
-                    this.availableTider.push({'id' : h.start, 'title' : newHendelse.getStartDag()});
+                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && h.start.trim() != '') {
+                    this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
 
                 if(this.availableSteder.find(s => s.id == h.sted) == undefined && h.sted && h.sted.trim() != '') {
