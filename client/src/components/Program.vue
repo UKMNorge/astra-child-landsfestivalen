@@ -150,7 +150,7 @@ export default {
                 if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
                     return false;
                 }
-                if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.start)) {
+                if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) {
                     return false;
                 }
 
