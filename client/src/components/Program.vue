@@ -130,13 +130,13 @@ export default {
             dataFetched: false,
             fetchingStarted: false,
             hendelser: [] as Hendelse[],
-            availableSteder: [] as {id: number|number, title: string}[],
-            availableTider: [] as {id: number|number, title: string}[],
-            availableTyper: [] as {id: number|number, title: string}[],
+            availableSteder: [] as {id: number|string, title: string}[],
+            availableTider: [] as {id: number|string, title: string}[],
+            availableTyper: [] as {id: number|string, title: string}[],
 
-            selectedSteder : [] as {id: number|number, title: string}[],
-            selectedTider : [] as {id: number|number, title: string}[],
-            selectedTyper : [] as {id: number|number, title: string}[],
+            selectedSteder : [] as {id: number|string, title: string}[],
+            selectedTider : [] as {id: number|string, title: string}[],
+            selectedTyper : [] as {id: number|string, title: string}[],
 
         };
     },
@@ -209,7 +209,7 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                if(this.availableTider.find(t => t.id == h.start) == undefined && h.start && h.start.trim() != '') {
+                if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
 
@@ -222,8 +222,10 @@ export default {
                 }
             }
 
+            
             this.dataFetched = true;
 
+            
             return results;
         },
     },
