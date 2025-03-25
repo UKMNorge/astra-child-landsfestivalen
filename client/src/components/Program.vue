@@ -130,13 +130,13 @@ export default {
             dataFetched: false,
             fetchingStarted: false,
             hendelser: [] as Hendelse[],
-            availableSteder: [] as {id: number, title: string}[],
-            availableTider: [] as {id: number, title: string}[],
-            availableTyper: [] as {id: number, title: string}[],
+            availableSteder: [] as {id: number|number, title: string}[],
+            availableTider: [] as {id: number|number, title: string}[],
+            availableTyper: [] as {id: number|number, title: string}[],
 
-            selectedSteder : [] as {id: number, title: string}[],
-            selectedTider : [] as {id: number, title: string}[],
-            selectedTyper : [] as {id: number, title: string}[],
+            selectedSteder : [] as {id: number|number, title: string}[],
+            selectedTider : [] as {id: number|number, title: string}[],
+            selectedTyper : [] as {id: number|number, title: string}[],
 
         };
     },

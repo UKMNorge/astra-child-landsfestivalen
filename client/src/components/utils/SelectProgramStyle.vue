@@ -27,11 +27,11 @@ export default defineComponent({
             required: true
         },
         availableItems: {
-            type: Array as PropType<{id: number, title: string}[]>, 
+            type: Array as PropType<{id: number|string, title: string}[]>, 
             required: true
         },
         selectedItems: {
-            type: Array as PropType<{id: number, title: string}[]>, 
+            type: Array as PropType<{id: number|string, title: string}[]>, 
             required: true
         },
     },

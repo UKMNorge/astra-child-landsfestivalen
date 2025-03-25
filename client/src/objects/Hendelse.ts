@@ -31,7 +31,7 @@ class Hendelse {
         this.innslag = innslag;
     }
 
-    getStartDag() {
+    getStartDag() : string {
         // Convert timestamp to date
         const startDate = new Date(this.start * 1000);
         
