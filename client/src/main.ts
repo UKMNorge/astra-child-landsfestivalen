@@ -22,10 +22,10 @@ import * as directives from 'vuetify/directives'
 
 import "../node_modules/ukm-components-vue3/dist/style.css";
 
-const vuetify = createVuetify({
-    components,
-    directives,
-});
+// const vuetify = createVuetify({
+//     components,
+//     directives,
+// });
 
 hljs.registerLanguage("xml", xml);
 hljs.registerLanguage("javascript", javascript);
@@ -40,7 +40,7 @@ import { SPAInteraction } from 'ukm-components-vue3';
 const interactionObjectInstance = createApp(InteractionObject);
 
 // Ensure Vuetify is used by the interactionObjectInstance
-interactionObjectInstance.use(vuetify);
+// interactionObjectInstance.use(vuetify);
 
 const interactionInstance = interactionObjectInstance.mount(document.createElement('div'));
 
@@ -67,7 +67,7 @@ var director = new Director();
 (<any>window).director = director;
 
 app.use(hljsVuePlugin);
-app.use(vuetify);
+// app.use(vuetify);
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-vue-component]").forEach(el => {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const instance = createApp(component);
         instance.use(hljsVuePlugin);
-        instance.use(vuetify);
+        // instance.use(vuetify);
         instance.mount(el);
     });
 });
