@@ -2,27 +2,7 @@
     <div v-if="dataFetched == true" class="program-container">
         <div class="ls-program-meny">
             <div class="ls-inner-meny-beholder">
-                <div class="ls-meny-item">                 
-                    <SelectProgramStyle 
-                        :label="'Dag'"
-                        :availableItems="availableTider" 
-                        v-model:selectedItems="selectedTider" 
-                    />
-                </div>
-                <div class="ls-meny-item">                 
-                    <SelectProgramStyle 
-                        :label="'Sted'" 
-                        :availableItems="availableSteder" 
-                        v-model:selectedItems="selectedSteder" 
-                    />
-                </div>
-                <div class="ls-meny-item">                 
-                    <SelectProgramStyle 
-                        :label="'Type'"
-                        :availableItems="availableTyper" 
-                        v-model:selectedItems="selectedTyper" 
-                    />
-                </div>
+
             </div>
         </div>
 
@@ -82,47 +62,6 @@
                                 </div>
                             </div>
 
-                            <div class="hendelse-info-extendable">
-                                <div class="hendelse-bilde">
-            
-                                </div>
-                                <div class="as-margin-top-space-2">
-                                    <v-dialog min-width="80vw">
-                                        <template v-slot:activator="{ props: activatorProps }">
-                                            <v-btn
-                                                class="v-btn-as v-btn-hvit"
-                                                v-bind="activatorProps"
-                                                prepend-icon="mdi-dock-window"
-                                                color="#000"
-                                                size="x-large"
-                                                rounded="large"
-                                                variant="outlined" >
-                                                Mer om forestilling
-                                            </v-btn>
-                                        </template>
-
-                                        <template v-slot:default="{ isActive }">
-                                            <v-card title="Dialog">
-                                            <v-card-text>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                            </v-card-text>
-
-                                            <v-card-actions>
-                                                <v-spacer></v-spacer>
-
-                                                <v-btn
-                                                text="Lukk"
-                                                @click="isActive.value = false"
-                                                ></v-btn>
-                                            </v-card-actions>
-                                            </v-card>
-                                        </template>
-                                    </v-dialog>
-
-
-                                </div>
-                            </div>
-
                         </div>
 
 
@@ -149,7 +88,6 @@
 
 <script lang="ts">
 import Hendelse from '../objects/Hendelse';
-import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 
 
 export default {
@@ -166,7 +104,7 @@ export default {
         this.fetchProgramData();
     },
     components: {
-        SelectProgramStyle : SelectProgramStyle
+
     },
     data() {
         return {
