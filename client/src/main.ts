@@ -22,11 +22,6 @@ import * as directives from 'vuetify/directives'
 
 import "../node_modules/ukm-components-vue3/dist/style.css";
 
-// const vuetify = createVuetify({
-//     components,
-//     directives,
-// });
-
 hljs.registerLanguage("xml", xml);
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("css", css);
@@ -77,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(componentName == 'liveprogram') {
             component = Liveprogram;
         }
+        
         else if(componentName == 'deltakere') {
             component = Deltakere;
         }
@@ -90,9 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error('Unknown component: ' + componentName);
         }
         
+        const vuetify = createVuetify({
+            components,
+        });
+        
         const instance = createApp(component);
         instance.use(hljsVuePlugin);
-        // instance.use(vuetify);
+        instance.use(vuetify);
         instance.mount(el);
     });
 });
