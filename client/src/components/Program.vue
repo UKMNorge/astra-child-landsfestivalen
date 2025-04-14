@@ -87,7 +87,7 @@
             
                                 </div>
                                 <div class="as-margin-top-space-2">
-                                    <v-dialog min-width="80vw">
+                                    <v-dialog width="100%" max-width="800px">
                                         <template v-slot:activator="{ props: activatorProps }">
                                             <v-btn
                                                 class="v-btn-as v-btn-hvit"
@@ -102,11 +102,9 @@
                                         </template>
 
                                         <template v-slot:default="{ isActive }">
-                                            <v-card title="Dialog">
-                                            <v-card-text>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                            </v-card-text>
-
+                                            <v-card :title="hendelse.title">
+                                           <HendelseContentComponent :hendelseId="hendelse.id" />
+                                                
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
 
@@ -150,7 +148,7 @@
 <script lang="ts">
 import Hendelse from '../objects/Hendelse';
 import SelectProgramStyle from './utils/SelectProgramStyle.vue';
-
+import HendelseContentComponent from './utils/HendelseContent.vue';
 
 export default {
     props: {
@@ -166,7 +164,8 @@ export default {
         this.fetchProgramData();
     },
     components: {
-        SelectProgramStyle : SelectProgramStyle
+        SelectProgramStyle : SelectProgramStyle,
+        HendelseContentComponent : HendelseContentComponent,
     },
     data() {
         return {
