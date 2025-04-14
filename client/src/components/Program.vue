@@ -485,5 +485,8 @@ export default {
     .hendelse-bilde {
         display: none;
     }
+    .hendelse-title {
+        font-size: 6vw !important;
+    }
 }
 </style>
