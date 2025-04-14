@@ -37,7 +37,7 @@ export default defineComponent({
     },
     emits: ['update:selectedItems'], // Declare the event
     methods: {
-        updateSelectedItems(newItems: string[]) {
+        updateSelectedItems(newItems: any[]) : any {
             this.$emit('update:selectedItems', newItems); // Emit the updated value
         }
     }
