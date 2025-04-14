@@ -482,11 +482,17 @@ export default {
     }
 }
 @media (max-width: 520px) {
+    .hendelse-content {
+        width: 100%;
+    }
     .hendelse-bilde {
         display: none;
     }
     .hendelse-title {
         font-size: 5vw !important;
+    }
+    .hendelse-sted .sted {
+        font-size: 14px;
     }
 }
 @media (max-width: 400px) {
@@ -494,7 +500,7 @@ export default {
         display: none;
     }
     .hendelse-title {
-        font-size: 15px !important;
+        font-size: 18px !important;
     }
 }
 </style>
