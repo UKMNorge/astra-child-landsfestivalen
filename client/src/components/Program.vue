@@ -481,4 +481,9 @@ export default {
         padding-right: 8px;
     }
 }
+@media (max-width: 500px) {
+    .hendelse-bilde {
+        display: none;
+    }
+}
 </style>
