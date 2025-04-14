@@ -5,12 +5,13 @@
 export abstract class HendelseContent {
     public id: string;
     public title: string;
-    public description?: string;
+    public beskrivelse?: string|undefined;
+    public isOpen: boolean = false;
 
-    constructor(id: string, title: string, description?: string) {
+    constructor(id: string, title: string, beskrivelse?: string) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.beskrivelse = beskrivelse;
     }
 
     /**
@@ -30,8 +31,8 @@ export abstract class HendelseContent {
     /**
      * Henter innholdets beskrivelse
      */
-    getDescription(): string | undefined {
-        return this.description;
+    public getBeskrivelse(): string | undefined {
+        return this.beskrivelse;
     }
 }
 
