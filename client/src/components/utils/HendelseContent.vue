@@ -36,6 +36,9 @@
                                 <template v-if="isAkivitetInstance(hendelseItem)">
                                     <AktivitetContentComponent :aktivitetItem="getItemAktivitet(hendelseItem)" />
                                 </template>
+                                <template v-else>
+                                    <InnslagContentComponent :innslagItem="getItemInnslag(hendelseItem)" />
+                                </template>
                                 
                             </div>
 
@@ -67,13 +70,15 @@
 <script lang="ts">
 import Hendelse from '../../objects/Hendelse';
 import AktivitetContentComponent from './AktivitetContent.vue';
+import InnslagContentComponent from './InnslagContent.vue';
 import type HendelseContent from '../../objects/HendelseContent';
 import Aktivitet from '../../objects/Aktivitet';
+import Innslag from '../../objects/Innslag';
 
 export default {
     props: {
-        hendelseId: {
-            type: [String, Number],
+        hendelse: {
+            type: Hendelse,
             required: true
         },
     },
@@ -82,6 +87,7 @@ export default {
     },
     components: {
         AktivitetContentComponent : AktivitetContentComponent,
+        InnslagContentComponent : InnslagContentComponent,
     },
     data() {
         return {
@@ -103,37 +109,21 @@ export default {
             return null;
 
         },
+        getItemInnslag(item : HendelseContent) {
+            if(item instanceof Innslag) {
+                return item;
+            }
+            return null;
+        },
         getFilteredContentItems() : HendelseContent[] {
             return this.contentItems;
-            
-            let retArr : HendelseContent[] = [];
-            // if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
-            //     return this.hendelser;
-            // }
-
-            // return this.hendelser.filter(h => {
-            //     if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
-            //         return false;
-            //     }
-            //     if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) {
-            //         return false;
-            //     }
-
-            //     if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
-            //         return false;
-            //     }
-
-            //     return true;
-            // });
-
-            return retArr;
         },
         async fetchHendelseItems() {
             this.fetchingStarted = true;
             this.dataFetched = false;
 
             var data = {
-                hendelseId: this.hendelseId,
+                hendelseId: this.hendelse.id,
             };
 
             var results = await this.spaInteraction.runAjaxCall('getHendelseContent.ajax.php', 'POST', data);
@@ -150,7 +140,22 @@ export default {
                         ak.beskrivelseLeder,
                         ak.tidspunkter,
                         ak.tags,
-                        this.hendelseId,
+                        this.hendelse.id,
+                    )
+                )
+            }
+
+            for (let key in results.innslagPersoner) {
+                let innPerson = results.innslagPersoner[key];
+                let innslag = innPerson.innslag;
+                this.contentItems.push(
+                    new Innslag(
+                        innslag.id, 
+                        innslag.navn,
+                        innslag.type ? innslag.type.name : '',
+                        innslag.beskrivelse,
+                        innslag.type && innslag.type.type == 'person' ? true : false,
+                        innPerson.personer
                     )
                 )
             }

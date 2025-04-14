@@ -2,13 +2,23 @@ import HendelseContent from "./HendelseContent";
 
 class Innslag extends HendelseContent {
     key : string;
-    isPerson: boolean;
+    isSinglePerson: boolean;
     loading: boolean = false;
 
-    constructor(id : string, key : string, title : string, beskrivelse : string, isPerson: boolean) {
+    personer : any[] = [];
+
+    constructor(
+        id : string, 
+        title : string, 
+        key : string, 
+        beskrivelse: string,
+        isSinglePerson: boolean,
+        personer : any[] = []
+    ) {
         super(id, title, beskrivelse);
         this.key = key;
-        this.isPerson = isPerson;
+        this.isSinglePerson = isSinglePerson;
+        this.personer = personer;
     }
 }
 

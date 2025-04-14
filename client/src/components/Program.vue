@@ -103,8 +103,7 @@
 
                                         <template v-slot:default="{ isActive }">
                                             <v-card :title="hendelse.title">
-                                           <HendelseContentComponent :hendelseId="hendelse.id" />
-                                                
+                                           <HendelseContentComponent :hendelse="hendelse" />
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
 
