@@ -481,12 +481,20 @@ export default {
         padding-right: 8px;
     }
 }
-@media (max-width: 500px) {
+@media (max-width: 520px) {
     .hendelse-bilde {
         display: none;
     }
     .hendelse-title {
-        font-size: 6vw !important;
+        font-size: 5vw !important;
+    }
+}
+@media (max-width: 400px) {
+    .hendelse-bilde {
+        display: none;
+    }
+    .hendelse-title {
+        font-size: 15px !important;
     }
 }
 </style>
