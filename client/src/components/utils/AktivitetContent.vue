@@ -1,6 +1,6 @@
 <template>
     <div v-if="aktivitetItem != null">
-        <div class="tags">
+        <div class="tags as-margin-top-space-4">
             <v-chip-group>
                 <v-chip variant="outlined" v-for="tag in aktivitetItem.tags">
                     {{ tag.navn }}

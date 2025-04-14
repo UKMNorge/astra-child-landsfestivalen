@@ -10,8 +10,14 @@
             <div class="hendelse">
                 <div @click="hendelseItem.isOpen = !hendelseItem.isOpen" class="first-width">
                     <div class="inner-content">
-                        <div class="hendelse-content">
+                        <div class="hendelse-content-item">
                             <h2 class="hendelse-title">{{ hendelseItem.title }}</h2>
+                            <v-chip 
+                                class="type-chip blue-chip"
+                                size="small"
+                                >
+                                {{ isAkivitetInstance(hendelseItem) ? 'Aktivitet' : 'Innslag' }}
+                            </v-chip>
                         </div>
                         <div class="hendelse-sted">
                             <!-- <span class="sted">{{ hendelse.sted }}</span> -->
@@ -224,14 +230,14 @@ export default {
 
 <style>
 
-.v-autocomplete-arr-sys div .v-field,
+/* .v-autocomplete-arr-sys div .v-field,
 .v-text-field-arr-sys div .v-field {
     border-radius: var(--radius-normal) !important;
 }
 .v-field__input input {
     background: transparent !important;
     border: none !important;
-}
+} */
 </style>
 <style scoped>
 .ls-program-meny {
@@ -247,7 +253,7 @@ export default {
     min-width: 110px;
 }
 .item-container * {
-    color: #333 !important;
+    color: #00004c !important;
 }
 .hendelse {
     border-top: solid 1px #fff;
@@ -287,9 +293,14 @@ export default {
 .hendelse-item-bilde img {
     border-radius: 22px;
 }
-.hendelse-content {
+.hendelse-content-item {
     width: 50%;
     margin-right: 12px;
+    display: flex;
+}
+.hendelse-content-item .type-chip {
+    margin: auto;
+    margin-left: 16px;
 }
 .hendelse-title {
     overflow: hidden;
@@ -395,4 +406,21 @@ export default {
 .collapsible-content {
     overflow: hidden;
 }
+
+.blue-chip {
+    border: solid 1px #00004c;
+    background: #fff !important;
+    color: #fff !important;
+}
+.blue-chip >>> .v-chip__underlay {
+    background: #fff !important;
+}
+
+@media (max-width: 767px) {
+    .hendelse-title {
+        margin: 0;
+        font-size: 24px;
+    }
+}
+
 </style>

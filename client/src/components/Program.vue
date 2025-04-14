@@ -3,7 +3,8 @@
         <div class="ls-program-meny">
             <div class="ls-inner-meny-beholder">
                 <div class="ls-meny-item">                 
-                    <SelectProgramStyle 
+                    <SelectProgramStyle
+                        background="#fff"
                         :label="'Dag'"
                         :availableItems="availableTider" 
                         v-model:selectedItems="selectedTider" 
@@ -38,7 +39,7 @@
                         </div>
                         <div class="hendelse-sted">
                             <span class="sted">{{ hendelse.sted }}</span>
-                            <span class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</span>
+                            <v-chip class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</v-chip>
                         </div>
                         <div class="open-indicator">
                             <div :class="{'open': hendelse.isOpen}" class="svg">
@@ -87,17 +88,16 @@
             
                                 </div>
                                 <div class="as-margin-top-space-2">
-                                    <v-dialog width="100%" max-width="800px">
+                                    <v-dialog width="95%" max-width="800px">
                                         <template v-slot:activator="{ props: activatorProps }">
                                             <v-btn
                                                 class="v-btn-as v-btn-hvit"
                                                 v-bind="activatorProps"
-                                                prepend-icon="mdi-dock-window"
                                                 color="#000"
                                                 size="x-large"
                                                 rounded="large"
                                                 variant="outlined" >
-                                                Mer om forestilling
+                                                Vis mer
                                             </v-btn>
                                         </template>
 
@@ -363,10 +363,12 @@ export default {
 .hendelse-sted .sted {
     font-size: 20px;
     font-weight: 700;
+    margin: auto;
 }
 .hendelse-sted .tid {
     font-size: 20px;
     font-weight: 400;
+    margin-top: 8px;
 }
 .program-container {
     background: #00004C;
@@ -407,7 +409,7 @@ export default {
 }
 /* .v-select-program-meny.v-select--active-menu .v-input__control { */
 .v-select-program-meny.v-select--active-menu :deep(.v-input__control) {
-    background: #fff !important;
+    background: red !important;
 }
 .v-select-program-meny :deep(.mdi-menu-down) {
     color: #fff !important;
@@ -416,8 +418,10 @@ export default {
 .v-select-program-meny.v-select--active-menu :deep(.mdi-menu-down) {
     color: #000 !important;
 }
+.v-select-program-meny :deep(.v-field__append-inner) {
+    display: none !important;
+}
 .v-select-program-meny :deep(.v-input__control) {
-    border: solid 2px;
     border-radius: 10px !important;
     overflow: hidden;
 }
@@ -449,5 +453,32 @@ export default {
 /* Collapsible content styling */
 .collapsible-content {
     overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    .hendelse-title {
+        font-size: 30px !important;
+    }
+    .hendelse-sted {
+        text-align: right;
+        padding-right: 16px !important;
+        min-width: 115px;
+    }
+    .hendelse-sted .sted {
+        font-size: 16px;
+    }
+    .hendelse-sted .tid {
+        font-size: 11px;
+        text-align: center;
+    }
+    .hendelse-bilde {
+        margin-right: 24px;
+        min-width: 120px;
+        max-width: 120px;
+    }
+    .dialog-program-popup {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 }
 </style>
