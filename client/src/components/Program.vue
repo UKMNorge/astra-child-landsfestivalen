@@ -543,7 +543,7 @@ export default {
         font-size: 14px;
     }
     .v-select-program-meny {
-        width: 80px;
+        width: 90px;
         height: 70px;
     }
     .ls-meny-item {
