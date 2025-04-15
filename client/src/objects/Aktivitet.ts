@@ -34,7 +34,7 @@ class Aktivitet extends HendelseContent {
         // add tidspunkter
         for(let tidspunkt of tidspunkter) {
             // Legg til kun tidspunkter som er tilknyttet hendelsen
-            if(tidspunkt.hendelseId == this.hendelseId) {
+            if(this.hendelseId = -1 || tidspunkt.hendelseId == this.hendelseId) {
                 this.tidspunkter.push(
                     new Tidspunkt(
                         tidspunkt.id,
