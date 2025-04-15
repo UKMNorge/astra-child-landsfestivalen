@@ -67,6 +67,22 @@ class Aktivitet extends HendelseContent {
         );
     }
 
+    public hasSted(stedNavn : string) : boolean {
+        if(this.sted.toLocaleLowerCase() === stedNavn.toLocaleLowerCase()) {
+            return true;
+        }
+        
+        // sjekk alle tidspunkter for annet sted
+        for(let tidspunkt of this.tidspunkter) {
+            if(!tidspunkt.erSammeStedSomAktivitet) {
+                if(tidspunkt.sted.toLocaleLowerCase() === stedNavn.toLocaleLowerCase()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // Override of super class method
     public getBeskrivelse(): string | undefined {
         if(!this.beskrivelse) return '';

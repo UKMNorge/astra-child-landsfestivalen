@@ -10,14 +10,14 @@
                         v-model:selectedItems="selectedTags" 
                     />
                 </div>
-                <!-- <div class="ls-meny-item">                 
+                <div class="ls-meny-item">                 
                     <SelectProgramStyle 
                         :label="'Sted'" 
                         :availableItems="availableSteder" 
                         v-model:selectedItems="selectedSteder" 
                     />
                 </div>
-                <div class="ls-meny-item">                 
+                <!-- <div class="ls-meny-item">                 
                     <SelectProgramStyle 
                         :label="'Type'"
                         :availableItems="availableTyper" 
@@ -141,9 +141,10 @@ export default {
             }
 
             return this.aktiviteter.filter(aktivitet => {
-                // if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
-                //     return false;
-                // }
+                if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => aktivitet.hasSted(sted))) {
+                    return false;
+                }
+
                 
                 if(this.selectedTags.length > 0 && !this.selectedTags.find(tagId => aktivitet.hasTag(tagId))) {
                     return false;
@@ -165,6 +166,7 @@ export default {
             var results = await this.spaInteraction.runAjaxCall('getAlleAktiviteter.ajax.php', 'POST', data);
             
             let availableTags : any = {};
+            let availableSteder : any = {};
 
             for (let key in results.aktiviteter) {
                 let ak = results.aktiviteter[key];
@@ -186,14 +188,32 @@ export default {
                         availableTags[t.id] = {id : t.id, title : t.navn};
                     }
                 }
+
+                if(availableSteder[newAktivitet.sted] == undefined) {
+                    availableSteder[newAktivitet.sted] = {id : newAktivitet.sted, title : newAktivitet.sted};
+                }
+
+                // Tidspunkter kan ha andre steder
+                for(let t of ak.tidspunkter) {
+                    if(availableSteder[t.sted] == undefined) {
+                        availableSteder[t.sted] = {id : t.sted, title : t.sted};
+                    }
+                }
                 
             }
             
             for(let key in availableTags) {
                 let tag = availableTags[key];
-                console.log('tag');
-                console.log(tag);
-                this.availableTags.push({'id' : tag.id, 'title' : tag.title});
+                if(tag.title.length > 0) {
+                    this.availableTags.push({'id' : tag.id, 'title' : tag.title});
+                }
+            }
+
+            for(let key in availableSteder) {
+                let sted = availableSteder[key];
+                if(sted.title.length > 0) {
+                    this.availableSteder.push({'id' : sted.id, 'title' : sted.title});
+                }
             }
 
 
