@@ -5,6 +5,8 @@ use UKMNorge\Geografi\Kommune;
 use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Arrangement\Program\Hendelser;
 use UKMNorge\Arrangement\UKMFestival;
+use UKMNorge\Arrangement\Aktivitet\AktivitetTidspunkt;
+
 
 require_once('UKM/Autoloader.php');
 
@@ -19,6 +21,8 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 
 $retHendelser = [];
 $innslagPersoner = [];
+$hendelseMedAktiviteter = [];
+
 
 $hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
@@ -30,11 +34,19 @@ foreach( $hendelser as $hendelse ) {
             }
         }
         $retHendelser[] = $hendelse;
+
+        // Sjekk om det er aktiviteter tilknyttet denne hendelsen
+        if(count(AktivitetTidspunkt::getAllByHendelse($hendelse->getId())) > 0) {
+            $hendelseMedAktiviteter[$hendelse->getId()] = true;
+        }
     }
 }
 
 
+
+
 $handleCall->sendToClient([
     'hendelser' => $retHendelser,
-    'innslagPersoner' => $innslagPersoner
+    'innslagPersoner' => $innslagPersoner,
+    'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
 ]);

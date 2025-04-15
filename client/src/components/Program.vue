@@ -92,7 +92,7 @@
                                 <div class="hendelse-bilde">
             
                                 </div>
-                                <div class="as-margin-top-space-2">
+                                <div v-if="hasShowMore(hendelse)" class="as-margin-top-space-2">
                                     <v-dialog width="95%" max-width="800px">
                                         <template v-slot:activator="{ props: activatorProps }">
                                             <v-btn
@@ -186,9 +186,23 @@ export default {
             selectedTider : [] as {id: number|string, title: string}[],
             selectedTyper : [] as {id: number|string, title: string}[],
 
+            hendelseMedAktiviteter : {} as any,
+
         };
     },
     methods: {
+        // Sjekker om hendelsen har aktiviteter eller innslag for å vise "Vis mer" knappen
+        hasShowMore(hendelse : Hendelse) : boolean {
+            if(this.hendelseMedAktiviteter[hendelse.id] && this.hendelseMedAktiviteter[hendelse.id] == true) {
+                return true;
+            }
+
+            if(hendelse.innslag && hendelse.innslag.length > 0) {
+                return true;
+            }
+
+            return false;
+        },
         getFilteredHendelser() : Hendelse[] {
             if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
                 return this.hendelser;
@@ -219,6 +233,8 @@ export default {
 
             var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'POST', data);
             
+            this.hendelseMedAktiviteter = results.hendelseMedAktiviteter;
+
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
                 let dataInnslag = h.innslag && h.innslag.innslag ? h.innslag.innslag[0] : null;
