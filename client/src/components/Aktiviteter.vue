@@ -1,16 +1,16 @@
 <template>
     <div v-if="dataFetched == true" class="aktiviteter-container">
-        <!-- <div class="ls-program-meny">
+        <div class="ls-program-meny">
             <div class="ls-inner-meny-beholder">
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle
                         background="#fff"
-                        :label="'Dag'"
-                        :availableItems="availableTider" 
-                        v-model:selectedItems="selectedTider" 
+                        :label="'Tagger'"
+                        :availableItems="availableTags" 
+                        v-model:selectedItems="selectedTags" 
                     />
                 </div>
-                <div class="ls-meny-item">                 
+                <!-- <div class="ls-meny-item">                 
                     <SelectProgramStyle 
                         :label="'Sted'" 
                         :availableItems="availableSteder" 
@@ -23,9 +23,9 @@
                         :availableItems="availableTyper" 
                         v-model:selectedItems="selectedTyper" 
                     />
-                </div>
+                </div> -->
             </div>
-        </div> -->
+        </div>
 
         <template v-for="hendelse in getFilteredHendelser()" :key="hendelse.id">
             <div class="hendelse">
@@ -108,11 +108,11 @@ export default {
             dataFetched: false,
             fetchingStarted: false,
             availableSteder: [] as {id: number|string, title: string}[],
-            availableTider: [] as {id: number|string, title: string}[],
+            availableTags: [] as {id: number|string, title: string}[],
             availableTyper: [] as {id: number|string, title: string}[],
 
             selectedSteder : [] as {id: number|string, title: string}[],
-            selectedTider : [] as {id: number|string, title: string}[],
+            selectedTags : [] as {id: number|string, title: string}[],
             selectedTyper : [] as {id: number|string, title: string}[],
             
             aktiviteter: [] as Aktivitet[],
@@ -136,17 +136,18 @@ export default {
         //     return false;
         // },
         getFilteredHendelser() : Aktivitet[] {
-            if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
+            if(this.selectedSteder.length == 0 && this.selectedTags.length == 0 && this.selectedTyper.length == 0) {
                 return this.aktiviteter;
             }
 
-            return this.aktiviteter.filter(h => {
+            return this.aktiviteter.filter(aktivitet => {
                 // if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
                 //     return false;
                 // }
-                // if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) {
-                //     return false;
-                // }
+                
+                if(this.selectedTags.length > 0 && !this.selectedTags.find(tagId => aktivitet.hasTag(tagId))) {
+                    return false;
+                }
 
                 // if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
                 //     return false;
@@ -163,27 +164,39 @@ export default {
 
             var results = await this.spaInteraction.runAjaxCall('getAlleAktiviteter.ajax.php', 'POST', data);
             
-            console.log(results.aktiviteter);
+            let availableTags : any = {};
 
             for (let key in results.aktiviteter) {
                 let ak = results.aktiviteter[key];
-                this.aktiviteter.push(
-                    new Aktivitet(
-                        ak.id, 
-                        ak.navn,
-                        ak.image,
-                        ak.sted,
-                        ak.beskrivelse,
-                        ak.beskrivelseLeder,
-                        ak.tidspunkter,
-                        ak.tags,
-                        -1,
-                    )
-                );
+                let newAktivitet = new Aktivitet(
+                    ak.id, 
+                    ak.navn,
+                    ak.image,
+                    ak.sted,
+                    ak.beskrivelse,
+                    ak.beskrivelseLeder,
+                    ak.tidspunkter,
+                    ak.tags,
+                    -1,
+                )
+                this.aktiviteter.push(newAktivitet);
+
+                for(let t of ak.tags) {
+                    if(availableTags[t.id] == undefined) {
+                        availableTags[t.id] = {id : t.id, title : t.navn};
+                    }
+                }
+                
+            }
+            
+            for(let key in availableTags) {
+                let tag = availableTags[key];
+                console.log('tag');
+                console.log(tag);
+                this.availableTags.push({'id' : tag.id, 'title' : tag.title});
             }
 
-            console.log('this.aktiviteter');
-            console.log(this.aktiviteter);
+
             this.dataFetched = true;
 
             

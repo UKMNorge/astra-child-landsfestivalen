@@ -56,6 +56,17 @@ class Aktivitet extends HendelseContent {
         return this.image;
     }
 
+    public hasTag(tagId: number): boolean {
+        if (!this.tags || this.tags.length === 0) {
+            return false;
+        }
+
+        // Search for a tag with matching id or title
+        return this.tags.some(tag => 
+            tag.id == tagId
+        );
+    }
+
     // Override of super class method
     public getBeskrivelse(): string | undefined {
         if(!this.beskrivelse) return '';
