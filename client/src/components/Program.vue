@@ -38,8 +38,8 @@
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>
                         </div>
                         <div class="hendelse-sted">
-                            <span class="sted">{{ hendelse.sted }}</span>
-                            <v-chip class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</v-chip>
+                            <span v-show="!hendelse.isOpen" class="sted">{{ hendelse.sted }}</span>
+                            <!-- <v-chip class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</v-chip> -->
                         </div>
                         <div class="open-indicator">
                             <div :class="{'open': hendelse.isOpen}" class="svg">
@@ -61,6 +61,11 @@
             
                                 </div>
                                 <div class="under-content">
+                                    <div class="sted-tid-after-open as-margin-bottom-space-2">
+                                        <!-- <h5 class="sted-after-open">Sted: <b>{{ hendelse.sted }}</b></h5> -->
+                                        <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.sted }}</v-chip>
+                                        <v-chip class="tid-after-open">Tid: {{ hendelse.getStart() }}</v-chip>
+                                    </div>
                                     <!-- <div class="deltakere">
                                         <div v-for="innslag in hendelse.innslag" class="deltaker">
                                             <div class="svg">
@@ -457,6 +462,13 @@ export default {
 .collapsible-content {
     overflow: hidden;
 }
+.sted-tid-after-open {
+    display: flex;
+}
+.sted-after-open {
+    margin: 0;
+    color: #fff !important;
+}
 
 @media (max-width: 767px) {
     .hendelse-title {
@@ -499,6 +511,9 @@ export default {
     }
     .hendelse-title {
         font-size: 5vw !important;
+    }
+    .hendelse-beskrivelse .beskrivelse {
+        font-size: 18px;
     }
     .hendelse-sted .sted {
         font-size: 14px;
