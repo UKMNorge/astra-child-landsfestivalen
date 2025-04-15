@@ -61,7 +61,7 @@
             
                                 </div>
                                 <div class="under-content">
-                                    <div class="deltakere">
+                                    <!-- <div class="deltakere">
                                         <div v-for="innslag in hendelse.innslag" class="deltaker">
                                             <div class="svg">
                                                 <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
     
-                                    </div>
+                                    </div> -->
                                     <div class="hendelse-beskrivelse">
                                         <span class="beskrivelse">{{ hendelse.beskrivelse }}</span>
                                     </div>
@@ -94,7 +94,7 @@
                                                 class="v-btn-as v-btn-hvit"
                                                 v-bind="activatorProps"
                                                 color="#000"
-                                                size="x-large"
+                                                size="large"
                                                 rounded="large"
                                                 variant="outlined" >
                                                 Vis mer
@@ -493,6 +493,9 @@ export default {
     }
     .hendelse-bilde {
         display: none;
+    }
+    .under-content { 
+        width: 100%;
     }
     .hendelse-title {
         font-size: 5vw !important;
