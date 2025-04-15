@@ -426,10 +426,13 @@ export default {
     opacity: 1;
 }
 .v-select-program-meny :deep(.v-label.v-field-label.v-field-label--floating) {
-    color: #000 !important;
+    color: #fff !important;
 }
 .v-select-program-meny.v-select--active-menu :deep(.v-label) {
-    color: #000 !important;
+    color: #fff !important;
+}
+.v-select-program-meny :deep(.v-input__control .v-field) {
+    background: #00004c !important;
 }
 /* .v-select-program-meny.v-select--active-menu .v-input__control { */
 .v-select-program-meny.v-select--active-menu :deep(.v-input__control) {
@@ -446,6 +449,7 @@ export default {
     display: none !important;
 }
 .v-select-program-meny :deep(.v-input__control) {
+    border: solid 2px #fff;
     border-radius: 10px !important;
     overflow: hidden;
 }
