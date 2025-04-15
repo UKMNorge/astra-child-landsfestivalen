@@ -498,6 +498,14 @@ export default {
     .v-select-program-meny :deep(.v-label) {
         font-size: 16px;
     }
+    .sted-tid-after-open {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    .sted-tid-after-open .v-chip {
+        flex-shrink: 0;
+    }
 }
 @media (max-width: 520px) {
     .hendelse-content {
