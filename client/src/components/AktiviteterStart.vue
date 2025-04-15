@@ -1,8 +1,5 @@
 <template>
-    <div>
-        <h1>AKTIVITETER START</h1>
-        <Aktiviteter />
-    </div>
+    <Aktiviteter />
 </template>
 <script lang="ts">
 
@@ -14,7 +11,7 @@ components: {
 },
 data() {
     return {
-        
+
     }
 },
 methods : {

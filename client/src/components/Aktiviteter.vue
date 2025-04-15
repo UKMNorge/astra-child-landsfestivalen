@@ -389,6 +389,9 @@ export default {
 .aktiviteter-container :deep(.tags) {
     margin-top: 0 !important;
 }
+.aktiviteter-container :deep(.v-btn-success) {
+    background-color: #fff !important;
+}
 
 @media (max-width: 767px) {
     .hendelse-title {
