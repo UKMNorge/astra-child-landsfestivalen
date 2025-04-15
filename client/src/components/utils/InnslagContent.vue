@@ -5,11 +5,11 @@
         </div> -->
 
         <div class="as-margin-top-space-2">
-            <v-chip-group>
-                <v-chip v-for="person in innslagItem.personer">
+            <div class="chip-group-innslag-personer">
+                <v-chip class="as-margin-right-space-1 as-margin-bottom-space-1" v-for="person in innslagItem.personer">
                     {{ person.fornavn }} {{ person.etternavn }}
                 </v-chip>
-            </v-chip-group>
+            </div>
         </div>
         
         <div class="beskrivelser as-margin-top-space-4">

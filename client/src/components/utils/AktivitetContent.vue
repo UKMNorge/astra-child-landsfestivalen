@@ -12,11 +12,9 @@
         </div>
 
         <div class="as-margin-top-space-4">
-            <v-chip-group>
-                <v-chip v-for="tidspunkt in aktivitetItem.tidspunkter" :key="tidspunkt.id">
+                <v-chip class="as-margin-right-space-1 as-margin-bottom-space-1" v-for="tidspunkt in aktivitetItem.tidspunkter" :key="tidspunkt.id">
                     {{ tidspunkt.getHumanFormat() }}
                 </v-chip>
-            </v-chip-group>
         </div>
 
         <div v-show="aktivitetItem.sted.length > 0" class="as-margin-top-space-4">
