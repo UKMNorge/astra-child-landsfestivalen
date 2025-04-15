@@ -83,6 +83,15 @@ class Aktivitet extends HendelseContent {
         return false;
     }
 
+    public hasDay(day : string) : boolean {
+        for(let tidspunkt of this.tidspunkter) {
+            if(tidspunkt.getStartDag() === day) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Override of super class method
     public getBeskrivelse(): string | undefined {
         if(!this.beskrivelse) return '';

@@ -43,6 +43,15 @@ class Tidspunkt {
         return this.erSammeStedSomAktivitet ? '' : (' (STED: ' + this.sted +')');
     }
 
+    public getStartDag() : string {        
+        // Days of the week array
+        const daysOfWeek = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+    
+        // Format the date to the desired format "Mandag hh:mm"
+        return `${daysOfWeek[this.start.getDay()]}`;
+
+    }
+
     private getHumanDates(): string {
         let dates = [this.start, this.slutt];
         if (!dates || dates.length !== 2) return "";

@@ -2,13 +2,12 @@
     <div v-if="dataFetched == true" class="aktiviteter-container">
         <div class="ls-program-meny">
             <div class="ls-inner-meny-beholder">
-                <div class="ls-meny-item">                 
-                    <SelectProgramStyle
-                        background="#fff"
-                        :label="'Tagger'"
-                        :availableItems="availableTags" 
-                        v-model:selectedItems="selectedTags" 
-                    />
+                <div class="ls-meny-item">
+                    <SelectProgramStyle 
+                        :label="'Dag'"
+                        :availableItems="availableDager" 
+                        v-model:selectedItems="selectedDager" 
+                    />             
                 </div>
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle 
@@ -17,13 +16,14 @@
                         v-model:selectedItems="selectedSteder" 
                     />
                 </div>
-                <!-- <div class="ls-meny-item">                 
-                    <SelectProgramStyle 
-                        :label="'Type'"
-                        :availableItems="availableTyper" 
-                        v-model:selectedItems="selectedTyper" 
+                <div class="ls-meny-item">                 
+                    <SelectProgramStyle
+                        background="#fff"
+                        :label="'Tagg'"
+                        :availableItems="availableTags" 
+                        v-model:selectedItems="selectedTags" 
                     />
-                </div> -->
+                </div>
             </div>
         </div>
 
@@ -109,11 +109,11 @@ export default {
             fetchingStarted: false,
             availableSteder: [] as {id: number|string, title: string}[],
             availableTags: [] as {id: number|string, title: string}[],
-            availableTyper: [] as {id: number|string, title: string}[],
+            availableDager: [] as {id: number|string, title: string}[],
 
             selectedSteder : [] as {id: number|string, title: string}[],
             selectedTags : [] as {id: number|string, title: string}[],
-            selectedTyper : [] as {id: number|string, title: string}[],
+            selectedDager : [] as {id: number|string, title: string}[],
             
             aktiviteter: [] as Aktivitet[],
 
@@ -136,7 +136,7 @@ export default {
         //     return false;
         // },
         getFilteredHendelser() : Aktivitet[] {
-            if(this.selectedSteder.length == 0 && this.selectedTags.length == 0 && this.selectedTyper.length == 0) {
+            if(this.selectedSteder.length == 0 && this.selectedTags.length == 0 && this.selectedDager.length == 0) {
                 return this.aktiviteter;
             }
 
@@ -150,7 +150,11 @@ export default {
                     return false;
                 }
 
-                // if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
+                if(this.selectedDager.length > 0 && !this.selectedDager.find(day => aktivitet.hasDay(day))) {
+                    return false;
+                }
+
+                // if(this.selectedDager.length > 0 && !this.selectedDager.find(t => String(t) == h.type)) {
                 //     return false;
                 // }
 
@@ -167,6 +171,7 @@ export default {
             
             let availableTags : any = {};
             let availableSteder : any = {};
+            let availableDager : any = {};
 
             for (let key in results.aktiviteter) {
                 let ak = results.aktiviteter[key];
@@ -194,11 +199,14 @@ export default {
                 }
 
                 // Tidspunkter kan ha andre steder
-                for(let t of ak.tidspunkter) {
+                for(let t of newAktivitet.tidspunkter) {
                     if(availableSteder[t.sted] == undefined) {
                         availableSteder[t.sted] = {id : t.sted, title : t.sted};
                     }
+
+                    availableDager[t.getStartDag()] = {id : t.getStartDag(), title : t.getStartDag()};
                 }
+                
                 
             }
             
@@ -213,6 +221,13 @@ export default {
                 let sted = availableSteder[key];
                 if(sted.title.length > 0) {
                     this.availableSteder.push({'id' : sted.id, 'title' : sted.title});
+                }
+            }
+
+            for(let key in availableDager) {
+                let dag = availableDager[key];
+                if(dag.title.length > 0) {
+                    this.availableDager.push({'id' : dag.id, 'title' : dag.title});
                 }
             }
 
@@ -483,7 +498,7 @@ export default {
         font-size: 14px;
     }
     .v-select-program-meny {
-        width: 80px;
+        width: 90px;
         height: 70px;
     }
     .ls-meny-item {
