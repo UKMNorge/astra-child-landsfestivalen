@@ -418,6 +418,9 @@ export default {
         margin: 0;
         font-size: 24px;
     }
+    .hendelse-content-item {
+        width: 100%;
+    }
 }
 
 </style>
