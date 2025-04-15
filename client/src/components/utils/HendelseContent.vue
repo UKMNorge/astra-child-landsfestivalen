@@ -11,13 +11,17 @@
                 <div @click="hendelseItem.isOpen = !hendelseItem.isOpen" class="first-width">
                     <div class="inner-content">
                         <div class="hendelse-content-item">
-                            <h2 class="hendelse-title">{{ hendelseItem.title }}</h2>
-                            <v-chip 
-                                class="type-chip blue-chip"
-                                size="small"
-                                >
-                                {{ isAkivitetInstance(hendelseItem) ? 'Aktivitet' : 'Innslag' }}
-                            </v-chip>
+                            <div class="hendelse-title-div">
+                                <h2 class="hendelse-title">{{ hendelseItem.title }}</h2>
+                            </div>
+                            <div class="content-type">
+                                <v-chip 
+                                    class="type-chip blue-chip"
+                                    size="small"
+                                    >
+                                    {{ isAkivitetInstance(hendelseItem) ? 'Aktivitet' : 'Innslag' }}
+                                </v-chip>
+                            </div>
                         </div>
                         <div class="hendelse-sted">
                             <!-- <span class="sted">{{ hendelse.sted }}</span> -->
@@ -412,11 +416,18 @@ export default {
 .blue-chip >>> .v-chip__underlay {
     background: #fff !important;
 }
+.hendelse-title-div {
+    width: 100%;
+}
 
 @media (max-width: 767px) {
+    .item-container {
+        padding: calc(var(--initial-space-box)*2) !important;
+    }
     .hendelse-title {
         margin: 0;
         font-size: 24px;
+        word-break: break-word;
     }
     .hendelse-content-item {
         width: 100%;
