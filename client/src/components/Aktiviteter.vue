@@ -386,6 +386,9 @@ export default {
 .aktiviteter-container :deep(h6) {
     color: #fff !important;
 }
+.aktiviteter-container :deep(.tags) {
+    margin-top: 0 !important;
+}
 
 @media (max-width: 767px) {
     .hendelse-title {
