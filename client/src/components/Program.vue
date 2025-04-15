@@ -404,8 +404,11 @@ export default {
     color: #fff;
     opacity: 1;
 }
+.v-select-program-meny :deep(.v-label.v-field-label.v-field-label--floating) {
+    color: #000 !important;
+}
 .v-select-program-meny.v-select--active-menu :deep(.v-label) {
-    color: #000;
+    color: #000 !important;
 }
 /* .v-select-program-meny.v-select--active-menu .v-input__control { */
 .v-select-program-meny.v-select--active-menu :deep(.v-input__control) {
@@ -480,6 +483,9 @@ export default {
         padding-left: 8px;
         padding-right: 8px;
     }
+    .v-select-program-meny :deep(.v-label) {
+        font-size: 16px;
+    }
 }
 @media (max-width: 520px) {
     .hendelse-content {
@@ -494,6 +500,17 @@ export default {
     .hendelse-sted .sted {
         font-size: 14px;
     }
+    .v-select-program-meny {
+        width: 80px;
+        height: 70px;
+    }
+    .ls-meny-item {
+        min-width: 50px;
+    }
+    .v-select-program-meny :deep(.v-label) {
+        top: 3px !important;
+    }
+
 }
 @media (max-width: 400px) {
     .hendelse-bilde {

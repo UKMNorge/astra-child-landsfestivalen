@@ -351,11 +351,8 @@ export default {
     font-size: 20px;
     font-weight: 400;
     margin-top: 10px;
-    color: #fff;
+    color: #fff !important;
     opacity: 1;
-}
-.v-select-program-meny.v-select--active-menu :deep(.v-label) {
-    color: #000;
 }
 /* .v-select-program-meny.v-select--active-menu .v-input__control { */
 .v-select-program-meny.v-select--active-menu :deep(.v-input__control) {
