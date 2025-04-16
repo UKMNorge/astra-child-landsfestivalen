@@ -432,6 +432,15 @@ export default {
     .hendelse-content-item {
         width: 100%;
     }
+    .hendelse {
+        min-height: 90px;
+    }
+    .hendelse .first-width {
+        min-height: 45px;
+    }
+    .content-type {
+        display: flex;
+    }
 }
 
 </style>

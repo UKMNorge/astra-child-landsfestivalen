@@ -34,7 +34,7 @@
 
         <div v-if="aktivitetItem.harMeldPaa()" class="as-margin-top-space-4">
             <v-btn
-                class="v-btn-as v-btn-success"
+                class="v-btn-as v-btn-success landsfestivalen-btn-green"
                 color="#000"
                 size="x-large"
                 rounded="large"
@@ -69,5 +69,8 @@ export default defineComponent({
 .hendelse-item-bilde {
     border-radius: var(--radius-high);
     overflow: hidden;
+}
+.landsfestivalen-btn-green {
+    background: #00ff89 !important;
 }
 </style>
