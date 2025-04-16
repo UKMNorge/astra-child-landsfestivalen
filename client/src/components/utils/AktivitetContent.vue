@@ -34,7 +34,7 @@
 
         <div v-if="aktivitetItem.harMeldPaa()" class="as-margin-top-space-4">
             <v-btn
-                class="v-btn-as v-btn-success landsfestivalen-btn-green"
+                class="v-btn-as as-btn-default landsfestivalen-btn-green"
                 color="#000"
                 size="x-large"
                 rounded="large"
