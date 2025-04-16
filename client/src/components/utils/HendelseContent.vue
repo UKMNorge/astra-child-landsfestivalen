@@ -305,6 +305,7 @@ export default {
 .hendelse-content-item .type-chip {
     margin: auto;
     margin-left: 16px;
+    margin-top: 10px !important;
 }
 .hendelse-title {
     overflow: hidden;
