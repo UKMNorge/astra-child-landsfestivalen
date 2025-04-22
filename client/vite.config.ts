@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
         output: {
+            format: 'iife',
             dir: './dist/assets/',
             entryFileNames: 'build.js',
             assetFileNames: 'build.css',

@@ -4,9 +4,9 @@
   "compilerOptions": {
     "sourceMap": true,
     "strict": true,
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
-    "target": "es2017",
+    "target": "es2020",
     "lib": ["es2017", "dom"],  // Include 'es2017' or a later version
     "skipLibCheck": true,
     "esModuleInterop": true,
