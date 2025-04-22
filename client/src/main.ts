@@ -65,37 +65,43 @@ var director = new Director();
 app.use(hljsVuePlugin);
 // app.use(vuetify);
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const { createVuetify } = await import('vuetify');
+    const components = await import('vuetify/components');
+    const directives = await import('vuetify/directives');
+
+    const vuetify = createVuetify({
+        components,
+        directives
+    });
+
     document.querySelectorAll("[data-vue-component]").forEach(el => {
         const componentName = el.getAttribute("data-vue-component");
         let component = null;
         
-        if(componentName == 'liveprogram') {
-            component = Liveprogram;
+        switch (componentName) {
+            case 'liveprogram':
+                component = Liveprogram;
+                break;
+            case 'deltakere':
+                component = Deltakere;
+                break;
+            case 'program-publikum':
+                component = ProgramPublikum;
+                break;
+            case 'program-deltakere':
+                component = ProgramDeltakere;
+                break;
+            case 'aktiviteter':
+                component = AktiviteterStart;
+                break;
+            default:
+                throw new Error('Unknown component: ' + componentName);
         }
-        else if(componentName == 'deltakere') {
-            component = Deltakere;
-        }
-        else if(componentName == 'program-publikum') {
-            component = ProgramPublikum;
-        }
-        else if(componentName == 'program-deltakere') {
-            component = ProgramDeltakere;
-        }
-        else if(componentName == 'aktiviteter') {
-            component = AktiviteterStart;
-        }
-        else {
-            throw new Error('Unknown component: ' + componentName);
-        }
-        
-        const vuetify = createVuetify({
-            components,
-        });
-        
+
         const instance = createApp(component);
         instance.use(hljsVuePlugin);
-        instance.use(vuetify);
+        instance.use(vuetify); // Safe because shared instance
         instance.mount(el);
     });
 });
