@@ -427,6 +427,7 @@ export default {
 }
 .v-select-program-meny :deep(.v-label.v-field-label.v-field-label--floating) {
     color: #fff !important;
+    padding-bottom: 5px;
 }
 .v-select-program-meny.v-select--active-menu :deep(.v-label) {
     color: #fff !important;
