@@ -113,8 +113,17 @@
                                                 <v-spacer></v-spacer>
 
                                                 <v-btn
-                                                text="Lukk"
-                                                @click="isActive.value = false"
+                                                    icon
+                                                    class="close-btn"
+                                                    @click="isActive.value = false"
+                                                    size="40"
+                                                >
+                                                    <v-icon style="color: #fff;">mdi-close</v-icon>
+                                                </v-btn>
+                                                <v-btn
+                                                    class="close-btn-down"
+                                                    text="Lukk"
+                                                    @click="isActive.value = false"
                                                 ></v-btn>
                                             </v-card-actions>
                                             </v-card>
@@ -489,6 +498,22 @@ export default {
 .sted-after-open {
     margin: 0;
     color: #fff !important;
+}
+.close-btn {
+    background: #00004c;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    min-width: 0; /* remove Vuetify default min-width */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+.close-btn-down {
+    background: #00004c;
+    color: #fff;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 767px) {

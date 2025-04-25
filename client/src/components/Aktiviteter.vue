@@ -315,7 +315,7 @@ export default {
     overflow: hidden;
     color: #fff;
     letter-spacing: -0.45px;
-    font-size: 45px;
+    font-size: 24px;
 }
 .hendelse-sted {
     display: grid;
@@ -451,7 +451,7 @@ export default {
 
 @media (max-width: 767px) {
     .hendelse-title {
-        font-size: 30px !important;
+        font-size: 22px !important;
     }
     .hendelse-sted {
         text-align: right;

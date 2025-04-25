@@ -319,7 +319,7 @@ export default {
     overflow: hidden;
     color: #fff;
     letter-spacing: -0.45px;
-    font-size: 45px;
+    font-size: 24px;
 }
 .hendelse-sted {
     display: grid;
@@ -435,7 +435,7 @@ export default {
     }
     .hendelse-title {
         margin: 0;
-        font-size: 24px;
+        font-size: 22px;
         word-break: break-word;
     }
     .hendelse-content-item {
