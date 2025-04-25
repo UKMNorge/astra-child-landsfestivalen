@@ -7,13 +7,16 @@ export abstract class HendelseContent {
     public title: string;
     public beskrivelse?: string|undefined;
     public isOpen: boolean = false;
+    protected bilde : string|null = null;
 
-    constructor(id: string, title: string, beskrivelse?: string) {
+    constructor(id: string, title: string, bilde : string|null, beskrivelse?: string) {
         this.id = id;
         this.title = title;
+        this.bilde = bilde;
         this.beskrivelse = beskrivelse;
     }
 
+    
     /**
      * Henter innholdets unike identifikator
      */
@@ -34,6 +37,11 @@ export abstract class HendelseContent {
     public getBeskrivelse(): string | undefined {
         return this.beskrivelse;
     }
+
+    public getBilde(): string {
+        return this.bilde ? this.bilde : '';
+    }
+    
 }
 
 
