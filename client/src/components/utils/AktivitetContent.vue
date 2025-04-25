@@ -27,6 +27,9 @@
             </div>
 
             <div class="beskrivelse beskrivelse as-margin-top-space-4">
+                <div class="as-margin-bottom-space-4">
+                    <hr>
+                </div>
                 <h5>Beskrivelse av den som leder aktiviteten</h5>
                 <span class="beskrivelse" v-html="aktivitetItem.getLederBeskrivelse()"></span>
             </div>
