@@ -43,9 +43,14 @@ foreach( $hendelser as $hendelse ) {
             if(!isset($innslagPersoner[$innslag->getId()])) {
                 $innslagPersoner[$innslag->getId()] = [];
             }
+
+            // Bilder
+            $innslagPersoner[$innslag->getId()]['bilder'] = [];
             if(count($innslag->getBilder()->getAll()) > 0) {
                 $innslagPersoner[$innslag->getId()]['bilder'] = $innslag->getBilder()->getAll();
             }
+
+            // Personer
             $innslagPersoner[$innslag->getId()]['innslag'] = $innslag;
             $innslag->getPlayback()->getAll();
             foreach($innslag->getPersoner()->getAll() as $person) {
