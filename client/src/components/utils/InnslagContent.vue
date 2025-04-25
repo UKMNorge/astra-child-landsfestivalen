@@ -4,7 +4,7 @@
             <img :src="innslagItem.getImage() ?? ''" alt="Bilde av aktivitet">
         </div> -->
 
-        <div class="as-margin-top-space-2">
+        <div class="as-margin-top-space-4">
             <div class="chip-group-innslag-personer">
                 <v-chip class="as-margin-right-space-1 as-margin-bottom-space-1" v-for="person in innslagItem.personer">
                     {{ person.fornavn }} {{ person.etternavn }}
