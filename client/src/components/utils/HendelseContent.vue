@@ -152,9 +152,19 @@ export default {
                 )
             }
 
+
             for (let key in results.innslagPersoner) {
                 let innPerson = results.innslagPersoner[key];
                 let innslag = innPerson.innslag;
+
+                let innslagBilde = null;
+                for(let bilde of innPerson.bilder) {
+                    if(bilde.sizes && bilde.sizes.original) {
+                        innslagBilde = bilde.sizes.original.path_external+bilde.sizes.original.path_external;
+                        break;
+                    }
+                }
+
                 this.contentItems.push(
                     new Innslag(
                         innslag.id, 
@@ -162,7 +172,8 @@ export default {
                         innslag.type ? innslag.type.name : '',
                         innslag.beskrivelse,
                         innslag.type && innslag.type.type == 'person' ? true : false,
-                        innPerson.personer
+                        innPerson.personer,
+                        innslagBilde,
                     )
                 )
             }
