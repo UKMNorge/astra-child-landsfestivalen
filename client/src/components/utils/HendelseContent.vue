@@ -299,9 +299,13 @@ export default {
 .hendelse-item-bilde {
     margin-right: 24px;
     width: 150px;
+    height: 112px;
 }
 .hendelse-item-bilde img {
     border-radius: 22px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .hendelse-content-item {
     width: 50%;
