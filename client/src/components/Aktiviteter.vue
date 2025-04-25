@@ -310,7 +310,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background: #ffffff21;
+    background: #fff;
 }
 .hendelse-content {
     width: 50%;

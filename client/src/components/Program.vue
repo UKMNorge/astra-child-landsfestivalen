@@ -272,7 +272,7 @@ export default {
                 var newHendelse = new Hendelse(
                     h.id, 
                     h.navn, 
-                    'http://ukm.no/wp-content/uploads/2025/04/UKM_40_Gronn.png', 
+                    'http://ukm.no/wp-content/uploads/2025/04/40ukm.png', 
                     h.start, 
                     0, 
                     h.sted, 
@@ -376,7 +376,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background: #ffffff21;
+    background: #fff;
 }
 .hendelse-content {
     width: 50%;
