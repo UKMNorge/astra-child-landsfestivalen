@@ -12,7 +12,7 @@
             </div>
         </div>
         
-        <div class="beskrivelser as-margin-top-space-4">
+        <div class="beskrivelser as-margin-top-space-2">
             <div class="beskrivelse">
                 <span class="beskrivelse" v-html="innslagItem.getBeskrivelse()"></span>
             </div>
