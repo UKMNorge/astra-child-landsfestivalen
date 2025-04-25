@@ -11,16 +11,13 @@
                 <div @click="hendelseItem.isOpen = !hendelseItem.isOpen" class="first-width">
                     <div class="inner-content">
                         <div class="hendelse-content-item">
+                            <div class="hendelse-bilde-div">
+                                <div class="hendelse-item-bilde">
+                                    <img :src="hendelseItem.getBilde()" alt="Bilde av hendelse" />
+                                </div>
+                            </div>
                             <div class="hendelse-title-div">
                                 <h2 class="hendelse-title">{{ hendelseItem.title }}</h2>
-                            </div>
-                            <div class="content-type">
-                                <v-chip 
-                                    class="type-chip blue-chip"
-                                    size="small"
-                                    >
-                                    {{ isAkivitetInstance(hendelseItem) ? 'Aktivitet' : 'Innslag' }}
-                                </v-chip>
                             </div>
                         </div>
                         <div class="hendelse-sted">

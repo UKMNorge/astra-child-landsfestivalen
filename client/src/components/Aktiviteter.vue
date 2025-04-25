@@ -490,7 +490,10 @@ export default {
     .hendelse-content {
         width: 100%;
     }
-    .hendelse-bilde {
+    .hendelse-info-extendable .hendelse-bilde {
+        display: none;
+    }
+    .hendelse-sted {
         display: none;
     }
     .under-content { 
@@ -518,9 +521,6 @@ export default {
 
 }
 @media (max-width: 400px) {
-    .hendelse-bilde {
-        display: none;
-    }
     .hendelse-title {
         font-size: 18px !important;
     }
