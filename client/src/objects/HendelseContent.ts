@@ -46,7 +46,7 @@ export abstract class HendelseContent {
     }
 
     public getBilde(): string {
-        return this.bilde ? this.bilde : '';
+        return this.bilde ? this.bilde : 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png';
     }
     
 }

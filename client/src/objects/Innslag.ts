@@ -26,7 +26,7 @@ class Innslag extends HendelseContent {
     }
 
     public getBilde(): string {
-        return this.bilde ? this.bilde : 'https://grafikk.ukm.no/profil/logoer/jubileum/PNG/UKM_40_Liggende_Bl%C3%A5.png';
+        return this.bilde ? this.bilde : super.getBilde();
     }
 
     // Override

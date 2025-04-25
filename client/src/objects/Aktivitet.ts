@@ -112,7 +112,7 @@ class Aktivitet extends HendelseContent {
     }
 
     public getBilde(): string {
-        return this.bilde ? this.bilde : this.sted;
+        return this.bilde ? this.bilde : super.getBilde();
     }
 }
 
