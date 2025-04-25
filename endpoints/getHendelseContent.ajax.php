@@ -44,6 +44,9 @@ foreach( $hendelser as $hendelse ) {
                 $innslagPersoner[$innslag->getId()] = [];
             }
 
+            // Hent fylke
+            $innslag->getFylke();
+
             // Bilder
             $innslagPersoner[$innslag->getId()]['bilder'] = [];
             if(count($innslag->getBilder()->getAll()) > 0) {

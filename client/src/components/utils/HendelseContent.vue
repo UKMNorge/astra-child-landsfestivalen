@@ -18,11 +18,8 @@
                             </div>
                             <div class="hendelse-title-div">
                                 <h2 class="hendelse-title">{{ hendelseItem.title }}</h2>
+                                <h6 class="hc-undertittel">{{ hendelseItem.getUnderTitle() }}</h6>
                             </div>
-                        </div>
-                        <div class="hendelse-sted">
-                            <!-- <span class="sted">{{ hendelse.sted }}</span> -->
-                            <!-- <span class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</span> -->
                         </div>
                         <div class="open-indicator">
                             <div :class="{'open': hendelseItem.isOpen}" class="svg">
@@ -174,6 +171,7 @@ export default {
                         innslag.type && innslag.type.type == 'person' ? true : false,
                         innPerson.personer,
                         innslagBilde,
+                        innslag.fylke ? innslag.fylke.navn : '',
                     )
                 )
             }

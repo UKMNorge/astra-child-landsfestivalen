@@ -32,6 +32,13 @@ export abstract class HendelseContent {
     }
 
     /**
+     * Henter undertittel
+     */
+    getUnderTitle(): string|null {
+        return null;
+    }
+
+    /**
      * Henter innholdets beskrivelse
      */
     public getBeskrivelse(): string | undefined {
