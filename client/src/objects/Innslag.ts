@@ -13,12 +13,17 @@ class Innslag extends HendelseContent {
         key : string, 
         beskrivelse: string,
         isSinglePerson: boolean,
-        personer : any[] = []
+        personer : any[] = [],
+        image : string|null,
     ) {
-        super(id, title, beskrivelse);
+        super(id, title, image, beskrivelse);
         this.key = key;
         this.isSinglePerson = isSinglePerson;
         this.personer = personer;
+    }
+
+    public getBilde(): string {
+        return this.bilde ? this.bilde : this.key;
     }
 }
 

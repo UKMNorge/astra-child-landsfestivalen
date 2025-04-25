@@ -21,7 +21,7 @@ class Aktivitet extends HendelseContent {
         tags : any[],
         hendelseId : string|number,
     ) {
-        super(id, navn, beskrivelse);
+        super(id, navn, image, beskrivelse);
         this.image = image;
         this.sted = sted;
         this.beskrivelseLeder = beskrivelseLeder;
@@ -29,8 +29,6 @@ class Aktivitet extends HendelseContent {
 
         this.tags = tags;
         
-        console.log('tidspunkter');
-        console.log(tidspunkter);
         // add tidspunkter
         for(let tidspunkt of tidspunkter) {
             // Legg til kun tidspunkter som er tilknyttet hendelsen
@@ -113,6 +111,9 @@ class Aktivitet extends HendelseContent {
         return false;
     }
 
+    public getBilde(): string {
+        return this.bilde ? this.bilde : this.sted;
+    }
 }
 
 export default Aktivitet;
