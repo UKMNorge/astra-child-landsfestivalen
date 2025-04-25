@@ -160,7 +160,7 @@ export default {
                 let innslagBilde = null;
                 for(let bilde of innPerson.bilder) {
                     if(bilde.sizes && bilde.sizes.original) {
-                        innslagBilde = bilde.sizes.original.path_external+bilde.sizes.original.path_external;
+                        innslagBilde = bilde.sizes.original.path_external+bilde.sizes.original.file;
                         break;
                     }
                 }
