@@ -272,7 +272,7 @@ export default {
                 var newHendelse = new Hendelse(
                     h.id, 
                     h.navn, 
-                    'https://placehold.co/155', 
+                    'http://ukm.no/wp-content/uploads/2025/04/UKM_40_Gronn.png', 
                     h.start, 
                     0, 
                     h.sted, 
@@ -373,6 +373,10 @@ export default {
 }
 .hendelse-bilde img {
     border-radius: 22px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #ffffff21;
 }
 .hendelse-content {
     width: 50%;
@@ -534,8 +538,9 @@ export default {
     }
     .hendelse-bilde {
         margin-right: 24px;
-        min-width: 120px;
-        max-width: 120px;
+        width: 120px;
+        height: 90px;
+
     }
     .dialog-program-popup {
         padding-left: 8px;

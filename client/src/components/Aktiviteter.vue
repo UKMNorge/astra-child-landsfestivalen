@@ -303,9 +303,14 @@ export default {
 .hendelse-bilde {
     margin-right: 24px;
     width: 150px;
+    height: 112px;
 }
 .hendelse-bilde img {
     border-radius: 22px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #ffffff21;
 }
 .hendelse-content {
     width: 50%;
@@ -467,8 +472,8 @@ export default {
     }
     .hendelse-bilde {
         margin-right: 24px;
-        min-width: 120px;
-        max-width: 120px;
+        width: 100px;
+        height: 75px;
     }
     .dialog-program-popup {
         padding-left: 8px;
