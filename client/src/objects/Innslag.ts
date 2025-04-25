@@ -23,7 +23,7 @@ class Innslag extends HendelseContent {
     }
 
     public getBilde(): string {
-        return this.bilde ? this.bilde : this.key;
+        return this.bilde ? this.bilde : 'https://bak.ukm.no/files/2018/10/boble-bla-300-1.png';
     }
 }
 
