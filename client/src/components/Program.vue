@@ -369,8 +369,9 @@ export default {
 }
 .hendelse-bilde {
     margin-right: 24px;
-    min-width: 150px;
-    max-width: 250px;
+    width: 150px;
+    min-width: 120px;
+    height: 112px;
     background: transparent;
 }
 .hendelse-bilde img {
