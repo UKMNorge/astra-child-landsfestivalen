@@ -272,7 +272,7 @@ export default {
                 var newHendelse = new Hendelse(
                     h.id, 
                     h.navn, 
-                    'http://ukm.no/wp-content/uploads/2025/04/40ukm.png', 
+                    h.bilde ?? 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png', 
                     h.start, 
                     0, 
                     h.sted, 
@@ -370,6 +370,8 @@ export default {
 .hendelse-bilde {
     margin-right: 24px;
     min-width: 150px;
+    max-width: 250px;
+    background: transparent;
 }
 .hendelse-bilde img {
     border-radius: 22px;
