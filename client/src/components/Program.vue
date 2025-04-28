@@ -390,6 +390,7 @@ export default {
     color: #fff;
     letter-spacing: -0.45px;
     font-size: 45px;
+    word-break: break-word;
 }
 .hendelse-sted {
     display: grid;
