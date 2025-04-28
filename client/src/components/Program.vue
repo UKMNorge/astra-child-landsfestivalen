@@ -370,7 +370,7 @@ export default {
 .hendelse-bilde {
     margin-right: 24px;
     width: 200px;
-    min-width: 150px;
+    min-width: 200px;
     height: 150px;
     background: transparent;
 }
@@ -527,7 +527,7 @@ export default {
     .hendelse-bilde {
         margin-right: 24px;
         width: 150px;
-        min-width: 120px;
+        min-width: 150px;
         height: 112px;
         background: transparent;
     }
