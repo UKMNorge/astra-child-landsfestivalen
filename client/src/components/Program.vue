@@ -369,9 +369,9 @@ export default {
 }
 .hendelse-bilde {
     margin-right: 24px;
-    width: 150px;
-    min-width: 120px;
-    height: 112px;
+    width: 200px;
+    min-width: 150px;
+    height: 150px;
     background: transparent;
 }
 .hendelse-bilde img {
@@ -524,6 +524,13 @@ export default {
 }
 
 @media (max-width: 767px) {
+    .hendelse-bilde {
+        margin-right: 24px;
+        width: 150px;
+        min-width: 120px;
+        height: 112px;
+        background: transparent;
+    }
     .hendelse-title {
         font-size: 30px !important;
     }
