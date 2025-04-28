@@ -19,7 +19,7 @@
                 </div>
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle 
-                        :label="'Type'"
+                        :label="'Tagger'"
                         :availableItems="availableTyper" 
                         v-model:selectedItems="selectedTyper" 
                     />
@@ -276,7 +276,7 @@ export default {
                     h.start, 
                     0, 
                     h.sted, 
-                    h.context.type, 
+                    h.tag, 
                     h.beskrivelse,
                     innslag
                 );
@@ -289,9 +289,9 @@ export default {
                 if(this.availableSteder.find(s => s.id == h.sted) == undefined && h.sted && h.sted.trim() != '') {
                     this.availableSteder.push({'id' : h.sted, 'title' : h.sted});
                 }
-
-                if(this.availableTyper.find(t => t.id == h.context.type) == undefined && h.context && h.context.type.trim() != '') {
-                    this.availableTyper.push({'id' : h.context.type, 'title' : h.context.type});
+                let tag = h.tag ?? '';
+                if(this.availableTyper.find(t => t.id == tag) == undefined && h.context && tag.trim() != '') {
+                    this.availableTyper.push({'id' : tag, 'title' : tag});
                 }
             }
 
