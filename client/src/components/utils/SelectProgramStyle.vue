@@ -4,18 +4,32 @@
         :model-value="selectedItems"
         @update:model-value="updateSelectedItems"
         :items="availableItems"
-        :label="selectedItems.length > 0 ? label + ' filtrering er aktiv' : label"
+        :label="label"
         item-title="title"
         item-value="id"
         multiple
         persistent-placeholder
         class="v-select-program-meny"
     >
-        <template v-slot:selection="{ item }">
-            <!-- This prevents displaying selected items -->
-        </template>
+      <!-- Hide selected items display -->
+      <template v-slot:selection="{ item }"></template>
+  
+      <!-- Add a button to the right side -->
+      <template v-slot:append-inner>
+        <v-btn 
+            v-show="selectedItems.length > 0"
+            @mousedown.stop
+            @click="handleButtonClick"
+            icon
+            class="ml-2 btn-close"
+            size="x-small"
+            variant="text"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </template>
     </v-select>
-</template>
+  </template>
 
 <script lang="ts">
 import type { PropType } from 'vue';  
@@ -40,6 +54,9 @@ export default defineComponent({
     methods: {
         updateSelectedItems(newItems: any[]) : any {
             this.$emit('update:selectedItems', newItems); // Emit the updated value
+        },
+        handleButtonClick() {
+            this.$emit('update:selectedItems', []); // Emit the updated value
         }
     }
 });
@@ -50,10 +67,20 @@ export default defineComponent({
     border-color: #00ff89 !important;
 }
 .program-meny-selected :deep(.v-label) {
-    font-size: 14px !important;
-    margin-left: 9px;
+
 }
-.v-select-program-meny :deep(.v-field__field) {
-    display: contents;
+.v-select-program-meny :deep(.mdi-menu-down) {
+    display: none !important;
+}
+.btn-close {
+    position: absolute;
+    top: 13px;
+    right: 7px;
+}
+@media (max-width: 520px) {
+    .btn-close {
+        top: 7px;
+        right: 0px;
+    }
 }
 </style>

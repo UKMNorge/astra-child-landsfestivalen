@@ -263,7 +263,7 @@ export default {
 .ls-meny-item {
     width: auto;
     margin: auto 10px;
-    min-width: 110px;
+    min-width: 120px;
 }
 .aktiviteter-container {
     color: #fff;
@@ -388,9 +388,6 @@ export default {
 .v-select-program-meny.v-select--active-menu :deep(.mdi-menu-down) {
     color: #000 !important;
 }
-.v-select-program-meny :deep(.v-field__append-inner) {
-    display: none !important;
-}
 .v-select-program-meny :deep(.v-input__control .v-field) {
     background: #00004c;
 }
@@ -514,11 +511,11 @@ export default {
         font-size: 14px;
     }
     .v-select-program-meny {
-        width: 90px;
+        width: 80px;
         height: 70px;
     }
     .ls-meny-item {
-        min-width: 50px;
+        min-width: 60px;
     }
     .v-select-program-meny :deep(.v-label) {
         top: 3px !important;
@@ -528,6 +525,9 @@ export default {
 @media (max-width: 400px) {
     .hendelse-title {
         font-size: 18px !important;
+    }
+    .ls-meny-item {
+        margin: auto 5px;
     }
 }
 </style>

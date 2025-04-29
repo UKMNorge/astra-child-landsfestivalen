@@ -260,7 +260,7 @@ export default {
 .ls-meny-item {
     width: auto;
     margin: auto 10px;
-    min-width: 110px;
+    min-width: 120px;
 }
 .item-container * {
     color: #00004c !important;
@@ -452,6 +452,13 @@ export default {
     .content-type {
         display: flex;
     }
+    .ls-meny-item {
+        min-width: 60px;
+    }
 }
-
+@media (max-width: 400px) {
+    .ls-meny-item {
+        margin: auto 5px;
+    }
+}
 </style>
