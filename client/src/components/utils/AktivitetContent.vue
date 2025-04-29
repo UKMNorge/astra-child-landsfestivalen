@@ -41,6 +41,7 @@
                 color="#000"
                 size="x-large"
                 rounded="large"
+                @click="meldPaa(aktivitetItem)"
                 variant="outlined" >
                 Meld på
             </v-btn>
@@ -63,7 +64,9 @@ export default defineComponent({
         },
     },
     methods: {
-
+        meldPaa(aktivitetItem : Aktivitet) {
+            window.location.href = 'https://aktiviteter.ukm.no/' + aktivitetItem.id;
+        }
     }
 });
 </script>
