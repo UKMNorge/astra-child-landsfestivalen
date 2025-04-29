@@ -19,7 +19,7 @@
                 </div>
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle 
-                        :label="'Tagger'"
+                        :label="'Type'"
                         :availableItems="availableTyper" 
                         v-model:selectedItems="selectedTyper" 
                     />
