@@ -53,6 +53,14 @@ class Aktivitet extends HendelseContent {
     public getImage() : string {
         return this.image;
     }
+    
+    // Returnerer tidspunkter sortert etter starttidspunkt
+    public getTidspunkterSortert() : Tidspunkt[] {
+        // Kopierer array for å ikke redigere originalen
+        return [...this.tidspunkter].sort((a, b) => {
+            return a.start.getTime() - b.start.getTime();
+        })
+    }
 
     public hasTag(tagId: number): boolean {
         if (!this.tags || this.tags.length === 0) {
