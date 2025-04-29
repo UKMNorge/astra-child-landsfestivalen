@@ -450,7 +450,7 @@ export default {
     color: #fff !important;
 }
 .v-select-program-meny :deep(.v-input__control .v-field) {
-    background: #00004c !important;
+    background: #00004c;
 }
 /* .v-select-program-meny.v-select--active-menu .v-input__control { */
 .v-select-program-meny.v-select--active-menu :deep(.v-input__control) {

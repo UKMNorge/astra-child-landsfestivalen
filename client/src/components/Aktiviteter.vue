@@ -392,7 +392,7 @@ export default {
     display: none !important;
 }
 .v-select-program-meny :deep(.v-input__control .v-field) {
-    background: #00004c !important;
+    background: #00004c;
 }
 .v-select-program-meny :deep(.v-input__control) {
     border: solid 2px #fff;

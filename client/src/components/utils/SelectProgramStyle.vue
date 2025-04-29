@@ -1,9 +1,10 @@
 <template>
-    <v-select
+    <v-select 
+        :class="selectedItems.length > 0 ? 'program-meny-selected' : ''"
         :model-value="selectedItems"
         @update:model-value="updateSelectedItems"
         :items="availableItems"
-        :label="label"
+        :label="selectedItems.length > 0 ? label + ' filtrering er aktiv' : label"
         item-title="title"
         item-value="id"
         multiple
@@ -43,3 +44,16 @@ export default defineComponent({
     }
 });
 </script>
+
+<style scoped>
+.program-meny-selected :deep(.v-input__control) {
+    border-color: #00ff89 !important;
+}
+.program-meny-selected :deep(.v-label) {
+    font-size: 14px !important;
+    margin-left: 9px;
+}
+.v-select-program-meny :deep(.v-field__field) {
+    display: contents;
+}
+</style>
