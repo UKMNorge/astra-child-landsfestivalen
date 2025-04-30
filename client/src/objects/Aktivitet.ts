@@ -8,6 +8,7 @@ class Aktivitet extends HendelseContent {
     beskrivelseLeder: string;
     hendelseId: string|number;
     tidspunkter: Tidspunkt[] = [];
+    kursholder : string;
     tags : any[] = [];
 
     constructor(
@@ -20,12 +21,14 @@ class Aktivitet extends HendelseContent {
         tidspunkter : any[],
         tags : any[],
         hendelseId : string|number,
+        kursholder : string
     ) {
         super(id, navn, image, beskrivelse);
         this.image = image;
         this.sted = sted;
         this.beskrivelseLeder = beskrivelseLeder;
         this.hendelseId = hendelseId;
+        this.kursholder = kursholder;
 
         this.tags = tags;
         

@@ -20,6 +20,10 @@
         <div v-show="aktivitetItem.sted.length > 0" class="as-margin-top-space-4">
             <h5>Sted: {{ aktivitetItem.sted }}</h5>
         </div>
+
+        <div v-show="aktivitetItem.kursholder && aktivitetItem.kursholder.length > 0" class="as-margin-top-space-2">
+            <h5>Med: {{ aktivitetItem.kursholder }}</h5>
+        </div>
         
         <div class="beskrivelser as-margin-top-space-4">
             <div class="beskrivelse">

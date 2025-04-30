@@ -185,6 +185,7 @@ export default {
                     ak.tidspunkter,
                     ak.tags,
                     -1,
+                    ak.kursholder,
                 )
                 this.aktiviteter.push(newAktivitet);
 

@@ -145,6 +145,7 @@ export default {
                         ak.tidspunkter,
                         ak.tags,
                         this.hendelse.id,
+                        ak.kursholder,
                     )
                 )
             }
