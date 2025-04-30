@@ -36,6 +36,9 @@
         </div>
 
         <div v-if="aktivitetItem.harMeldPaa()" class="as-margin-top-space-4">
+            <div>
+                <h6>Antall ledige plasser <b>{{ getAntallLedige() }}</b></h6>
+            </div>
             <v-btn
                 class="v-btn-as as-btn-default landsfestivalen-btn-green"
                 color="#000"
@@ -43,7 +46,7 @@
                 rounded="large"
                 @click="meldPaa(aktivitetItem)"
                 variant="outlined" >
-                Meld på
+                Meld deg på
             </v-btn>
         </div>
 
@@ -64,6 +67,12 @@ export default defineComponent({
         },
     },
     methods: {
+        getAntallLedige() {
+            if (this.aktivitetItem != null && this.aktivitetItem.harMeldPaa()) {
+                return this.aktivitetItem.getAlleLedigePlasser();
+            }
+            return 0;
+        },
         meldPaa(aktivitetItem : Aktivitet) {
             window.location.href = 'https://aktiviteter.ukm.no/' + aktivitetItem.id;
         }

@@ -6,6 +6,8 @@ class Tidspunkt {
     erKunInterne : boolean;
     erSammeStedSomAktivitet : boolean;
     harPaamelding : boolean;
+    maksAntallDeltakere : number;
+    antallDeltakere : number;
     sted : string;
     start : Date;
     slutt : Date;
@@ -18,6 +20,8 @@ class Tidspunkt {
         erKunInterne : boolean,
         erSammeStedSomAktivitet : boolean,
         harPaamelding : boolean,
+        maksAntallDeltakere : number,
+        antallDeltakere : number,
         sted : string,
         start : string,
         slutt : string,
@@ -28,6 +32,8 @@ class Tidspunkt {
         this.erKunInterne = erKunInterne;
         this.erSammeStedSomAktivitet = erSammeStedSomAktivitet;
         this.harPaamelding = harPaamelding;
+        this.maksAntallDeltakere = maksAntallDeltakere;
+        this.antallDeltakere = antallDeltakere;
         this.sted = sted;
         this.start = new Date(start.replace(" ", "T"));
         this.slutt = new Date(slutt.replace(" ", "T"));

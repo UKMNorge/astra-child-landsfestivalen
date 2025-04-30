@@ -40,6 +40,8 @@ class Aktivitet extends HendelseContent {
                         tidspunkt.erKunInterne,
                         tidspunkt.erSammeStedSomAktivitet,
                         tidspunkt.harPaamelding,
+                        tidspunkt.maksAntall ?? 99999,
+                        tidspunkt.antallDeltakere,
                         tidspunkt.sted,
                         tidspunkt.start,
                         tidspunkt.slutt,
@@ -117,6 +119,15 @@ class Aktivitet extends HendelseContent {
             if(tidspunkt.harPaamelding) return true;
         }
         return false;
+    }
+
+    // Get antall ledige plasser fra alle tidspunkter
+    public getAlleLedigePlasser() {
+        let ledigePlasser = 0;
+        for(let tidspunkt of this.tidspunkter) {
+            ledigePlasser += tidspunkt.maksAntallDeltakere - tidspunkt.antallDeltakere;
+        }
+        return ledigePlasser;
     }
 
     public getBilde(): string {

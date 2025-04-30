@@ -15,9 +15,10 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 
 // Aktiviteter
 $aktiviteter = [];
+$tilPublikum = true;
 foreach(Aktivitet::getAllByArrangement($arrangement->getId()) as $aktivitet ) {
     if(!isset($aktiviteter[$aktivitet->getId()])) {
-        $aktiviteter[$aktivitet->getId()] = $aktivitet->getArrObj();
+        $aktiviteter[$aktivitet->getId()] = $aktivitet->getArrObj($tilPublikum);
     }
 }
 
