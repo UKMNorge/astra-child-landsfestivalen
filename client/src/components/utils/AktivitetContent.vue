@@ -41,7 +41,7 @@
 
         <div v-if="aktivitetItem.harMeldPaa()" class="as-margin-top-space-4">
             <div>
-                <h6>Antall ledige plasser <b>{{ getAntallLedige() }}</b></h6>
+                <h6>Antall ledige plasser: <b>{{ getAntallLedige() }}</b></h6>
             </div>
             <v-btn
                 class="v-btn-as as-btn-default landsfestivalen-btn-green"

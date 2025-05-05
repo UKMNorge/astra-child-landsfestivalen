@@ -128,7 +128,9 @@ class Aktivitet extends HendelseContent {
     public getAlleLedigePlasser() {
         let ledigePlasser = 0;
         for(let tidspunkt of this.tidspunkter) {
-            ledigePlasser += tidspunkt.maksAntallDeltakere - tidspunkt.antallDeltakere;
+            if(tidspunkt.harPaamelding) {
+                ledigePlasser += tidspunkt.maksAntallDeltakere - tidspunkt.antallDeltakere;
+            }
         }
         return ledigePlasser;
     }
