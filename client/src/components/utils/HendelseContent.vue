@@ -38,7 +38,7 @@
                         <div v-if="hendelseItem.isOpen" class="content-under collapsible-content">
                             <div class="hendelse-info-extendable">
                                 <template v-if="isAkivitetInstance(hendelseItem)">
-                                    <AktivitetContentComponent :aktivitetItem="getItemAktivitet(hendelseItem)" />
+                                    <AktivitetContentComponent :hendelseId="hendelse.id" :aktivitetItem="getItemAktivitet(hendelseItem)" />
                                 </template>
                                 <template v-else>
                                     <InnslagContentComponent :innslagItem="getItemInnslag(hendelseItem)" />

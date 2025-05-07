@@ -29,8 +29,6 @@ class Aktivitet extends HendelseContent {
         this.beskrivelseLeder = beskrivelseLeder;
         this.hendelseId = hendelseId;
         this.kursholder = kursholder;
-
-        this.tags = tags;
         
         // add tidspunkter
         for(let tidspunkt of tidspunkter) {
@@ -48,7 +46,8 @@ class Aktivitet extends HendelseContent {
                         tidspunkt.sted,
                         tidspunkt.start,
                         tidspunkt.slutt,
-                        this
+                        this,
+                        tidspunkt.hendelseId
                     )
                 );
             }
@@ -120,6 +119,19 @@ class Aktivitet extends HendelseContent {
     public harMeldPaa() : boolean {
         for(let tidspunkt of this.tidspunkter) {
             if(tidspunkt.harPaamelding) return true;
+        }
+        return false;
+    }
+
+    // Sjekker harPaamelding på alle tidspunkt som tilhører denne hendelsen. Hvis en av dem har harPaamelding=true, skal det være mulig å melde seg på denne aktiviteten (i hendelseId)
+    // Hvis hendelseId = -1, er aktiviteten utenfor programmet og sjekkes derfor alle tidspunkter
+    public harMeldPaaIHendelse(hendelseId : number) : boolean {
+        for(let tidspunkt of this.tidspunkter) {
+            if(tidspunkt.harPaamelding) {
+                if(hendelseId == -1 || hendelseId == tidspunkt.hendelseId) {
+                    return true;
+                } 
+            } 
         }
         return false;
     }

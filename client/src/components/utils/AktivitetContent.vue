@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div v-if="aktivitetItem.harMeldPaa()" class="as-margin-top-space-4">
+        <div v-if="aktivitetItem.harMeldPaaIHendelse(hendelseId)" class="as-margin-top-space-4">
             <div>
                 <h6>Antall ledige plasser: <b>{{ getAntallLedige() }}</b></h6>
             </div>
@@ -59,12 +59,18 @@
 </template>
 
 <script lang="ts">
+import Hendelse from '../../objects/Hendelse';
 import Aktivitet from '../../objects/Aktivitet';
 import type { PropType } from 'vue';  
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     props: {
+        hendelseId: {
+            type: Number,
+            required: false,
+            default: -1
+        },
         aktivitetItem: {
             type: [Aktivitet, null],
             required: true

@@ -11,6 +11,7 @@ class Tidspunkt {
     sted : string;
     start : Date;
     slutt : Date;
+    hendelseId : number;
 
     aktivitet : Aktivitet;
 
@@ -26,6 +27,7 @@ class Tidspunkt {
         start : string,
         slutt : string,
         aktivitet : Aktivitet,
+        hendelseId : number,
     ) {
         this.id = id;
         this.title = title;
@@ -39,6 +41,7 @@ class Tidspunkt {
         this.slutt = new Date(slutt.replace(" ", "T"));
 
         this.aktivitet = aktivitet;
+        this.hendelseId = hendelseId;
     }
     
     public getHumanFormat() : string {
