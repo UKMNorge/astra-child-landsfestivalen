@@ -24,6 +24,12 @@
                         v-model:selectedItems="selectedTags" 
                     />
                 </div>
+                <div class="ls-meny-item">
+                    <SearchProgram
+                        searchLabel="Søk etter aktivitetsnavn eller kursholder"
+                        v-model:searchWords="searchWords"
+                    />
+                </div>
             </div>
         </div>
 
@@ -88,6 +94,8 @@
 import Aktivitet from '../objects/Aktivitet';
 import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 import AktivitetContentComponent from './utils/AktivitetContent.vue';
+import SearchProgram from './utils/SearchProgram.vue';
+import Fuse from 'fuse.js';
 
 
 export default {
@@ -100,6 +108,7 @@ export default {
     components: {
         SelectProgramStyle : SelectProgramStyle,
         AktivitetContentComponent : AktivitetContentComponent,
+        SearchProgram : SearchProgram,
     },
     data() {
         return {
@@ -110,6 +119,7 @@ export default {
             availableSteder: [] as {id: number|string, title: string}[],
             availableTags: [] as {id: number|string, title: string}[],
             availableDager: [] as {id: number|string, title: string}[],
+            searchWords: '' as string,
 
             selectedSteder : [] as {id: number|string, title: string}[],
             selectedTags : [] as {id: number|string, title: string}[],
@@ -135,32 +145,35 @@ export default {
 
         //     return false;
         // },
-        getFilteredHendelser() : Aktivitet[] {
-            if(this.selectedSteder.length == 0 && this.selectedTags.length == 0 && this.selectedDager.length == 0) {
-                return this.aktiviteter;
+        getFilteredHendelser(): Aktivitet[] {
+            let filtered = this.aktiviteter;
+
+            if (
+                this.selectedSteder.length > 0 ||
+                this.selectedTags.length > 0 ||
+                this.selectedDager.length > 0
+            ) {
+                filtered = filtered.filter(aktivitet => {
+                    if (this.selectedSteder.length > 0 && !this.selectedSteder.find((sted : any) => aktivitet.hasSted(sted))) return false;
+                    if (this.selectedTags.length > 0 && !this.selectedTags.find((tag : any) => aktivitet.hasTag(tag))) return false;
+                    if (this.selectedDager.length > 0 && !this.selectedDager.find((dag : any) => aktivitet.hasDay(dag))) return false;
+                    return true;
+                });
             }
 
-            return this.aktiviteter.filter(aktivitet => {
-                if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => aktivitet.hasSted(sted))) {
-                    return false;
-                }
+            if (this.searchWords && this.searchWords.length > 0) {
+                const fuse = new Fuse(filtered, {
+                    keys: ['title', 'kursholder'],
+                    threshold: 0.3, // Tweak this for fuzziness
+                });
 
-                
-                if(this.selectedTags.length > 0 && !this.selectedTags.find(tagId => aktivitet.hasTag(tagId))) {
-                    return false;
-                }
+                const results = fuse.search(this.searchWords);
+                return results.map(r => r.item);
+            }
 
-                if(this.selectedDager.length > 0 && !this.selectedDager.find(day => aktivitet.hasDay(day))) {
-                    return false;
-                }
-
-                // if(this.selectedDager.length > 0 && !this.selectedDager.find(t => String(t) == h.type)) {
-                //     return false;
-                // }
-
-                return true;
-            });
+            return filtered;
         },
+
         async fetchAktiviteter() {
             this.fetchingStarted = true;
             this.dataFetched = false;
@@ -260,6 +273,7 @@ export default {
 .ls-inner-meny-beholder {
     margin: auto;
     display: flex;
+    position: relative;
 }
 .ls-meny-item {
     width: auto;
