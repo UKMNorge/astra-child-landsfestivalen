@@ -24,7 +24,7 @@
                         v-model:selectedItems="selectedTags" 
                     />
                 </div>
-                <div class="ls-meny-item">
+                <div class="ls-meny-item search">
                     <SearchProgram
                         searchLabel="Søk etter aktivitetsnavn eller kursholder"
                         v-model:searchWords="searchWords"
@@ -278,7 +278,10 @@ export default {
 .ls-meny-item {
     width: auto;
     margin: auto 10px;
-    min-width: 120px;
+    min-width: 95px;
+}
+.ls-meny-item.search {
+    min-width: auto;;
 }
 .aktiviteter-container {
     color: #fff;

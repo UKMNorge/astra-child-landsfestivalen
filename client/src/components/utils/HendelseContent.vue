@@ -261,7 +261,10 @@ export default {
 .ls-meny-item {
     width: auto;
     margin: auto 10px;
-    min-width: 120px;
+    min-width: 95px;
+}
+.ls-meny-item.search {
+    min-width: auto;;
 }
 .item-container * {
     color: #00004c !important;

@@ -84,5 +84,16 @@ export default defineComponent({
         top: 7px;
         right: 0px;
     }
+    .search-program :deep(.v-field),
+    .search-program :deep(.v-field__prepend-inner) {
+        height: 48px;
+    }
+    .search-program.full-width :deep(.v-field),
+    .search-program.full-width :deep(.v-field__prepend-inner) {
+        height: 60px;
+    }
+    .search-program.full-width :deep(.v-input__control) {
+        top: -8px;
+    }
 }
 </style>
