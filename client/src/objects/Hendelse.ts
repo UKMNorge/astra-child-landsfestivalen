@@ -9,6 +9,8 @@ class Hendelse {
     beskrivelse: string;
     isOpen: boolean = false;
     innslag: {name : string, antallDeltakere : number, url : string}[] = [];
+    fylker : string[] = [];
+    deltakereNavn : string[] = [];
 
     constructor(id : number, 
                 title : string, 
@@ -18,7 +20,9 @@ class Hendelse {
                 sted : string, 
                 type : string, 
                 beskrivelse : string,
-                innslag : {name : string, antallDeltakere : number, url : string}[] = []
+                innslag : {name : string, antallDeltakere : number, url : string}[] = [],
+                fylker : string[],
+                deltakereNavn : string[],
     ) {
         this.id = id;
         this.title = title;
@@ -29,6 +33,30 @@ class Hendelse {
         this.type = type;
         this.beskrivelse = beskrivelse;
         this.innslag = innslag;
+        this.fylker = fylker;
+        this.deltakereNavn = deltakereNavn;
+
+        console.log('Hendelse: ', this.title);
+        console.log('deltakereNavn: ', this.deltakereNavn);
+    }
+    
+    getTitle(): string {
+        return this.title;
+    }
+
+    getAlleDeltakereNavn() : string[] {
+        console.log(this.deltakereNavn);
+        return this.deltakereNavn;
+    }
+
+    getAlleFylkerString() : string {
+        let fylker : string[] = [];
+        for(let i = 0; i < this.fylker.length; i++) {
+            if(this.fylker[i] != null) {
+                fylker.push(this.fylker[i]);
+            }
+        }
+        return fylker.join(', ');
     }
 
     getStartDag() : string {

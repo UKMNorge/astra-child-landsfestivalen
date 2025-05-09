@@ -24,6 +24,12 @@
                         v-model:selectedItems="selectedTyper" 
                     />
                 </div>
+                <div class="ls-meny-item search">
+                    <SearchProgram
+                        searchLabel="Søk etter deltaker eller fylke"
+                        v-model:searchWords="searchWords"
+                    />
+                </div>
             </div>
         </div>
 
@@ -162,6 +168,8 @@
 import Hendelse from '../objects/Hendelse';
 import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 import HendelseContentComponent from './utils/HendelseContent.vue';
+import SearchProgram from './utils/SearchProgram.vue';
+import Fuse from 'fuse.js';
 
 export default {
     props: {
@@ -179,6 +187,7 @@ export default {
     components: {
         SelectProgramStyle : SelectProgramStyle,
         HendelseContentComponent : HendelseContentComponent,
+        SearchProgram : SearchProgram,
     },
     data() {
         return {
@@ -190,6 +199,7 @@ export default {
             availableSteder: [] as {id: number|string, title: string}[],
             availableTider: [] as {id: number|string, title: string}[],
             availableTyper: [] as {id: number|string, title: string}[],
+            searchWords: '' as string,
 
             selectedSteder : [] as {id: number|string, title: string}[],
             selectedTider : [] as {id: number|string, title: string}[],
@@ -212,25 +222,69 @@ export default {
 
             return false;
         },
-        getFilteredHendelser() : Hendelse[] {
-            if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
-                return this.hendelser;
+        // getFilteredHendelser() : Hendelse[] {
+        //     if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
+        //         return this.hendelser;
+        //     }
+
+        //     return this.hendelser.filter(h => {
+        //         if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
+        //             return false;
+        //         }
+        //         if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) {
+        //             return false;
+        //         }
+
+        //         if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
+        //             return false;
+        //         }
+
+        //         return true;
+        //     });
+        // },
+        getFilteredHendelser(): Hendelse[] {
+            let filtered = this.hendelser;
+
+            if (
+                this.selectedSteder.length > 0 ||
+                this.selectedTider.length > 0 ||
+                this.selectedTyper.length > 0
+            ) {
+                filtered = filtered.filter(h => {
+                    if (this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) return false;
+                    if (this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) return false;
+                    if (this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) return false;
+                    return true;
+                });
             }
 
-            return this.hendelser.filter(h => {
-                if(this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) {
-                    return false;
-                }
-                if(this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) {
-                    return false;
-                }
+            console.log('Filtered hendelser:', filtered);
+            if (this.searchWords && this.searchWords.length > 0) {
+                const fuse = new Fuse(filtered, {
+                    threshold: 0.3,
+                    getFn: (hendelse: Hendelse, path: string | string[]) => {
+                        const key = Array.isArray(path) ? path[0] : path;
 
-                if(this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) {
-                    return false;
-                }
+                        console.log('hendelse:', hendelse.title);
+                        switch (key) {
+                            case 'title':
+                                return hendelse.getTitle();
+                            case 'deltakere':
+                                return hendelse.getAlleDeltakereNavn(); // returns string[]
+                            case 'fylker':
+                                return hendelse.getAlleFylkerString(); // returns string or string[]
+                            default:
+                                return '';
+                        }
+                    },
+                    keys: ['title', 'deltakere', 'fylker'], // keys still act as identifiers for `getFn`
+                });
 
-                return true;
-            });
+                const results = fuse.search(this.searchWords);
+                return results.map(r => r.item);
+            }
+
+            return filtered;
         },
         async fetchProgramData() {
             this.fetchingStarted = true;
@@ -258,6 +312,18 @@ export default {
                 let innslag : {name : string, antallDeltakere : number, url : string}[] = [];
                 let antallDeltakere = 0;
 
+                let fylker : string[] = [];
+                let deltakereNavn : string[] = [];
+
+                if(h.innslag && h.innslag.innslag) {
+                    for(let innslag of h.innslag.innslag) {
+                        if(innslag.fylke) {
+                            fylker.push(innslag.fylke.navn);
+                        }
+                    }
+                }
+
+
                 if(dataInnslag != null) {
                     antallDeltakere += results.innslagPersoner[dataInnslag.id].length;
     
@@ -266,6 +332,13 @@ export default {
                         antallDeltakere: antallDeltakere,
                         url: 'inPerson.url'
                     });
+
+                    if(results.innslagPersoner[dataInnslag.id]) {
+                        console.log(results.innslagPersoner[dataInnslag.id]);
+                        for(let person of results.innslagPersoner[dataInnslag.id]) {
+                            deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
+                        }
+                    }
                     
                 }
 
@@ -278,7 +351,9 @@ export default {
                     h.sted, 
                     h.tag, 
                     h.beskrivelse,
-                    innslag
+                    innslag,
+                    fylker,
+                    deltakereNavn
                 );
                 this.hendelser.push(newHendelse);
                 
@@ -326,6 +401,7 @@ export default {
 .ls-inner-meny-beholder {
     margin: auto;
     display: flex;
+    position: relative;
 }
 .ls-meny-item {
     width: auto;

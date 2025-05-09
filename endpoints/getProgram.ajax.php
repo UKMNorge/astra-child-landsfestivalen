@@ -29,6 +29,7 @@ foreach( $hendelser as $hendelse ) {
     // var_dump($hendelse);
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
+            $innslag->getFylke();
             foreach($innslag->getPersoner()->getAll() as $person) {
                 $innslagPersoner[$innslag->getId()][] = $person;
             }
