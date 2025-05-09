@@ -36,8 +36,6 @@ class Hendelse {
         this.fylker = fylker;
         this.deltakereNavn = deltakereNavn;
 
-        console.log('Hendelse: ', this.title);
-        console.log('deltakereNavn: ', this.deltakereNavn);
     }
     
     getTitle(): string {
@@ -57,6 +55,16 @@ class Hendelse {
             }
         }
         return fylker.join(', ');
+    }
+
+    getInnslagNavn() : string[] {
+        let innslagNavn : string[] = [];
+        for(let i = 0; i < this.innslag.length; i++) {
+            if(this.innslag[i].name != null) {
+                innslagNavn.push(this.innslag[i].name);
+            }
+        }
+        return innslagNavn;
     }
 
     getStartDag() : string {

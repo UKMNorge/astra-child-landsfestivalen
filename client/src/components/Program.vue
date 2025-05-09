@@ -26,7 +26,7 @@
                 </div>
                 <div class="ls-meny-item search">
                     <SearchProgram
-                        searchLabel="Søk etter deltaker eller fylke"
+                        searchLabel="Søk etter deltaker, sang, innslag eller fylke"
                         v-model:searchWords="searchWords"
                     />
                 </div>
@@ -273,11 +273,13 @@ export default {
                                 return hendelse.getAlleDeltakereNavn(); // returns string[]
                             case 'fylker':
                                 return hendelse.getAlleFylkerString(); // returns string or string[]
+                            case 'innslag':
+                                return hendelse.getInnslagNavn(); // returns string or string[]
                             default:
                                 return '';
                         }
                     },
-                    keys: ['title', 'deltakere', 'fylker'], // keys still act as identifiers for `getFn`
+                    keys: ['title', 'deltakere', 'fylker', 'innslag'], // keys still act as identifiers for `getFn`
                 });
 
                 const results = fuse.search(this.searchWords);
@@ -300,42 +302,31 @@ export default {
 
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
-                let dataInnslag = h.innslag && h.innslag.innslag ? h.innslag.innslag[0] : null;
-
-                console.log(h);
-                console.log(h.innslag);
-                console.log(h.innslag.innslag);
-                
-                console.warn(results.innslagPersoner);
+                let alleInnslag = h.innslag;
 
                 // Innslag og deltakere
-                let innslag : {name : string, antallDeltakere : number, url : string}[] = [];
+                let innslagArrObj : {name : string, antallDeltakere : number, url : string}[] = [];
                 let antallDeltakere = 0;
 
                 let fylker : string[] = [];
                 let deltakereNavn : string[] = [];
 
-                if(h.innslag && h.innslag.innslag) {
-                    for(let innslag of h.innslag.innslag) {
-                        if(innslag.fylke) {
-                            fylker.push(innslag.fylke.navn);
-                        }
+                for(let innslag of alleInnslag.innslag) {
+                    antallDeltakere += results.innslagPersoner[innslag.id].length;
+
+                    if(innslag.fylke) {
+                        fylker.push(innslag.fylke.navn);
                     }
-                }
 
-
-                if(dataInnslag != null) {
-                    antallDeltakere += results.innslagPersoner[dataInnslag.id].length;
-    
-                    innslag.push({
-                        name: dataInnslag.navn,
+                    innslagArrObj.push({
+                        name: innslag.navn,
                         antallDeltakere: antallDeltakere,
                         url: 'inPerson.url'
                     });
 
-                    if(results.innslagPersoner[dataInnslag.id]) {
-                        console.log(results.innslagPersoner[dataInnslag.id]);
-                        for(let person of results.innslagPersoner[dataInnslag.id]) {
+                    if(results.innslagPersoner[innslag.id]) {
+                        console.log(results.innslagPersoner[innslag.id]);
+                        for(let person of results.innslagPersoner[innslag.id]) {
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
@@ -351,7 +342,7 @@ export default {
                     h.sted, 
                     h.tag, 
                     h.beskrivelse,
-                    innslag,
+                    innslagArrObj,
                     fylker,
                     deltakereNavn
                 );
