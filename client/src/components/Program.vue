@@ -26,7 +26,7 @@
                 </div>
                 <div class="ls-meny-item search">
                     <SearchProgram
-                        searchLabel="Søk etter deltaker, sang, innslag eller fylke"
+                        searchLabel="Søk etter deltaker, gruppe, innslag eller fylke"
                         v-model:searchWords="searchWords"
                     />
                 </div>
