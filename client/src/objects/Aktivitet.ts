@@ -29,6 +29,7 @@ class Aktivitet extends HendelseContent {
         this.beskrivelseLeder = beskrivelseLeder;
         this.hendelseId = hendelseId;
         this.kursholder = kursholder;
+        this.tags = tags;
         
         // add tidspunkter
         for(let tidspunkt of tidspunkter) {
