@@ -312,7 +312,7 @@ export default {
                 let deltakereNavn : string[] = [];
 
                 for(let innslag of alleInnslag.innslag) {
-                    antallDeltakere += results.innslagPersoner[innslag.id].length;
+                    antallDeltakere += results.innslagPersoner[innslag.id] ? results.innslagPersoner[innslag.id].length : 0;
 
                     if(innslag.fylke) {
                         fylker.push(innslag.fylke.navn);
@@ -325,7 +325,6 @@ export default {
                     });
 
                     if(results.innslagPersoner[innslag.id]) {
-                        console.log(results.innslagPersoner[innslag.id]);
                         for(let person of results.innslagPersoner[innslag.id]) {
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
