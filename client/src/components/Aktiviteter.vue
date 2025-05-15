@@ -19,7 +19,7 @@
                 <div class="ls-meny-item">                 
                     <SelectProgramStyle
                         background="#fff"
-                        :label="'Tagg'"
+                        :label="'Tema'"
                         :availableItems="availableTags" 
                         v-model:selectedItems="selectedTags" 
                     />
