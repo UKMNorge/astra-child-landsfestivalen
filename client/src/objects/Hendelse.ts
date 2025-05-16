@@ -38,10 +38,28 @@ class Hendelse {
 
     }
 
-    getSmallerBilde() : string {
-        const lastDotIndex = this.img.lastIndexOf('.');
-        const smallerImg = this.img.substring(0, lastDotIndex) + '-600x400' + this.img.substring(lastDotIndex);
-        return smallerImg;
+    async getSmallerBilde(): Promise<string> {
+        const originalUrl = this.img; 
+        // Split off extension
+        const lastDot = originalUrl.lastIndexOf('.');
+        if (lastDot === -1) {
+            // no extension? just return original
+            return originalUrl;
+        }
+
+        const base = originalUrl.slice(0, lastDot);
+        const ext  = originalUrl.slice(lastDot); // includes “.”
+        const thumbUrl = `${base}-400x600${ext}`;
+
+        try {
+            const resp = await fetch(thumbUrl, { method: 'HEAD' });
+            if (resp.ok) {
+            return thumbUrl;
+            }
+        } catch (e) {
+            console.warn('Could not fetch thumbnail', e);
+        }
+        return originalUrl;
     }
     
     getTitle(): string {
