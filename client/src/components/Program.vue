@@ -308,9 +308,6 @@ export default {
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
                 let alleInnslag = h.innslag;
-
-                this.thumbUrls[ h.id ] = await h.getSmallerBilde();
-
                 // Innslag og deltakere
                 let innslagArrObj : {name : string, antallDeltakere : number, url : string}[] = [];
                 let antallDeltakere = 0;
@@ -354,6 +351,9 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
+                this.thumbUrls[ newHendelse.id ] = await newHendelse.getSmallerBilde();
+
+
                 if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
