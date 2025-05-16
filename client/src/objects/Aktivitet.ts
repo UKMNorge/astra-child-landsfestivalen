@@ -32,6 +32,7 @@ class Aktivitet extends HendelseContent {
         this.tags = tags;
         
         // add tidspunkter
+        console.log('Tidspunkter: ', tidspunkter);
         for(let tidspunkt of tidspunkter) {
             // Legg til kun tidspunkter som er tilknyttet hendelsen
             if(this.hendelseId = -1 || tidspunkt.hendelseId == this.hendelseId) {
