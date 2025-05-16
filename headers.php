@@ -29,7 +29,7 @@ if ( apply_filters( 'astra_header_profile_gmpg_link', true ) ) {
 		// Default OG values; customize or replace with dynamic logic
 		$og_title       = get_bloginfo( 'name' );
 		$og_description = get_bloginfo( 'description' );
-		$og_image       = 'https://grafikk.ukm.no/profil/logoer/jubileum/PNG/UKM_40_Bl%C3%A5.png';
+		$og_image       = 'http://ukm.no/festivalen/files/2025/05/UKM_40_Bla.png';
 	?>
 	<meta property="og:title" content="<?php echo esc_attr( $og_title ); ?>" />
 	<meta property="og:description" content="<?php echo esc_attr( $og_description ); ?>" />
