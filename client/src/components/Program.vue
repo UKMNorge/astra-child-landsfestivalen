@@ -40,6 +40,10 @@
                         <div class="hendelse-bilde">
                             <picture>
                                 <source :srcset="hendelse.getSmallerBilde()" type="image/jpeg">
+                                <source 
+                                    :srcset="hendelse.getSmallerBilde() + ' 600w'"
+                                    sizes="(max-width: 600px) 100vw, 600px"
+                                    type="image/jpeg">
                                 <img :src="hendelse.img" alt="Hendelse bilde">
                             </picture>
                             <!-- <img :src="hendelse.img" alt="Bilde av hendelse"> -->
