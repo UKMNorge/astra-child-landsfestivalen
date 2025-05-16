@@ -306,7 +306,6 @@ export default {
     height: 112px;
 }
 .hendelse-item-bilde.is-open {
-    width: 100%;
     height: 100%;
 }
 .hendelse-item-bilde img {
