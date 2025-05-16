@@ -38,7 +38,11 @@
                 <div @click="hendelse.isOpen = !hendelse.isOpen" class="first-width">
                     <div class="inner-content">
                         <div class="hendelse-bilde">
-                            <img :src="hendelse.img" alt="Bilde av hendelse">
+                            <picture>
+                                <source :srcset="hendelse.getSmallerBilde()" type="image/jpeg">
+                                <img :src="hendelse.img" alt="Hendelse bilde">
+                            </picture>
+                            <!-- <img :src="hendelse.img" alt="Bilde av hendelse"> -->
                         </div>
                         <div class="hendelse-content">
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>

@@ -37,6 +37,12 @@ class Hendelse {
         this.deltakereNavn = deltakereNavn;
 
     }
+
+    getSmallerBilde() : string {
+        const lastDotIndex = this.img.lastIndexOf('.');
+        const smallerImg = this.img.substring(0, lastDotIndex) + '-600x400' + this.img.substring(lastDotIndex);
+        return smallerImg;
+    }
     
     getTitle(): string {
         return this.title;
