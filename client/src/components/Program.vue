@@ -39,7 +39,6 @@
                     <div class="inner-content">
                         <div class="hendelse-bilde">
                             <picture>
-                                <source :srcset="hendelse.getSmallerBilde()" type="image/jpeg">
                                 <source 
                                     :srcset="hendelse.getSmallerBilde() + ' 600w'"
                                     sizes="(max-width: 600px) 100vw, 600px"
