@@ -304,6 +304,7 @@ export default {
     margin-right: 24px;
     width: 150px;
     height: 112px;
+    transition: .2s all;
 }
 .hendelse-item-bilde.is-open {
     height: 100%;
