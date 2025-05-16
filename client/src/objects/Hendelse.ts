@@ -39,28 +39,16 @@ class Hendelse {
     }
 
     async getSmallerBilde(): Promise<string> {
-        const originalUrl = this.img; 
-        // Split off extension
-        const lastDot = originalUrl.lastIndexOf('.');
-        if (lastDot === -1) {
-            // no extension? just return original
-            return originalUrl;
-        }
-
-        const base = originalUrl.slice(0, lastDot);
-        const ext  = originalUrl.slice(lastDot); // includes “.”
-        const thumbUrl = `${base}-400x600${ext}`;
-
-        try {
-            const resp = await fetch(thumbUrl, { method: 'HEAD' });
-            if (resp.ok) {
-            return thumbUrl;
-            }
-        } catch (e) {
-            console.warn('Could not fetch thumbnail', e);
-        }
-        return originalUrl;
-    }
+        const original = this.img;
+        const thumb = original.replace(/(\.[^.]+)$/, '-400x600$1');
+      
+        return new Promise(resolve => {
+          const tester = new Image();
+          tester.onload = () => resolve(thumb);
+          tester.onerror = () => resolve(original);
+          tester.src = thumb;
+        });
+      }
     
     getTitle(): string {
         return this.title;
