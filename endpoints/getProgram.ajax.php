@@ -1,9 +1,6 @@
 <?php
 
 use UKMNorge\OAuth2\HandleAPICall;
-use UKMNorge\Geografi\Kommune;
-use UKMNorge\Arrangement\Arrangement;
-use UKMNorge\Arrangement\Program\Hendelser;
 use UKMNorge\Arrangement\UKMFestival;
 use UKMNorge\Arrangement\Aktivitet\AktivitetTidspunkt;
 
@@ -31,7 +28,15 @@ foreach( $hendelser as $hendelse ) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
             $innslag->getFylke();
             foreach($innslag->getPersoner()->getAll() as $person) {
-                $innslagPersoner[$innslag->getId()][] = $person;
+                $personObj = [];
+                $personObj['id'] = $person->getId();
+                $personObj['fornavn'] = $person->getFornavn();
+                $personObj['etternavn'] = $person->getEtternavn();
+                $personObj['navn'] = $person->getNavn();
+                $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
+                $personObj['context'] = $innslag->getContext();
+
+                $innslagPersoner[$innslag->getId()][] = $personObj;
             }
         }
         $retHendelser[] = $hendelse;

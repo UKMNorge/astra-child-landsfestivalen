@@ -57,7 +57,15 @@ foreach( $hendelser as $hendelse ) {
             $innslagPersoner[$innslag->getId()]['innslag'] = $innslag;
             $innslag->getPlayback()->getAll();
             foreach($innslag->getPersoner()->getAll() as $person) {
-                $innslagPersoner[$innslag->getId()]['personer'][] = $person;
+                $personObj = [];
+                $personObj['id'] = $person->getId();
+                $personObj['fornavn'] = $person->getFornavn();
+                $personObj['etternavn'] = $person->getEtternavn();
+                $personObj['navn'] = $person->getNavn();
+                $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
+                $personObj['context'] = $innslag->getContext();
+
+                $innslagPersoner[$innslag->getId()]['personer'][] = $personObj;
             }
         }
     }
