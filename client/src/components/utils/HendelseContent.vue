@@ -12,7 +12,7 @@
                     <div class="inner-content">
                         <div class="hendelse-content-item">
                             <div class="hendelse-bilde-div">
-                                <div class="hendelse-item-bilde">
+                                <div class="hendelse-item-bilde" :class="hendelseItem.isOpen ? 'is-open' : ''">
                                     <img :src="hendelseItem.getBilde()" alt="Bilde av hendelse" />
                                 </div>
                             </div>
@@ -304,6 +304,10 @@ export default {
     margin-right: 24px;
     width: 150px;
     height: 112px;
+}
+.hendelse-item-bilde.is-open {
+    width: 100%;
+    height: 100%;
 }
 .hendelse-item-bilde img {
     border-radius: 22px;
