@@ -38,11 +38,7 @@
                 <div @click="hendelse.isOpen = !hendelse.isOpen" class="first-width">
                     <div class="inner-content">
                         <div class="hendelse-bilde">
-                            <!-- <img :src="hendelse.getSmallerBilde()" alt="Bilde av hendelse"> -->
-                            <img 
-                                :src=" thumbUrls[ hendelse.id ] || hendelse.img " 
-                                alt="Bilde av hendelse" 
-                            />
+                            <img :src="hendelse.img" alt="Bilde av hendelse">
                         </div>
                         <div class="hendelse-content">
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>
@@ -210,7 +206,6 @@ export default {
             selectedTyper : [] as {id: number|string, title: string}[],
 
             hendelseMedAktiviteter : {} as any,
-            thumbUrls: {} as Record<number,string>,  // map hendelse.id → url
 
         };
     },
@@ -308,6 +303,7 @@ export default {
             for (let h of results.hendelser) {
                 const startDate = new Date(h.start * 1000);
                 let alleInnslag = h.innslag;
+
                 // Innslag og deltakere
                 let innslagArrObj : {name : string, antallDeltakere : number, url : string}[] = [];
                 let antallDeltakere = 0;
@@ -351,9 +347,6 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                this.thumbUrls[ newHendelse.id ] = await newHendelse.getSmallerBilde();
-
-
                 if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
