@@ -40,7 +40,7 @@ class Hendelse {
 
     async getSmallerBilde(): Promise<string> {
         const original = this.img;
-        const thumb = original.replace(/(\.[^.]+)$/, '-400x600$1');
+        const thumb = original.replace(/(\.[^.]+)$/, '-150x150$1');
       
         return new Promise(resolve => {
           const tester = new Image();
