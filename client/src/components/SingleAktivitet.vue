@@ -6,6 +6,7 @@
             </div>
         </div>
         <div v-else>
+            <h1>{{ aktivitet.getTitle() }}</h1>
             <AktivitetContent :aktivitetItem="aktivitet"  />
         </div>
     </div>
