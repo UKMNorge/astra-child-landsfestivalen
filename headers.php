@@ -35,7 +35,6 @@ if ( apply_filters( 'astra_header_profile_gmpg_link', true ) ) {
 	<meta property="og:title" content="<?php echo esc_attr( $og_title ); ?>" />
 	<meta property="og:description" content="<?php echo esc_attr( $og_description ); ?>" />
 	<meta property="og:image" content="<?php echo esc_url( $og_image ); ?>" />
-	<meta property="og:url" content="<?php echo esc_url( $og_url ); ?>" />
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:image" content="<?php echo esc_url( $og_image ); ?>" />
