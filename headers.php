@@ -30,7 +30,6 @@ if ( apply_filters( 'astra_header_profile_gmpg_link', true ) ) {
 		$og_title       = get_bloginfo( 'name' );
 		$og_description = get_bloginfo( 'description' );
 		$og_image       = 'http://ukm.no/festivalen/files/2025/05/UKM_40_Bla.png';
-		$og_url         = 'http://ukm.no/festivalen/';
 	?>
 	<meta property="og:title" content="<?php echo esc_attr( $og_title ); ?>" />
 	<meta property="og:description" content="<?php echo esc_attr( $og_description ); ?>" />
