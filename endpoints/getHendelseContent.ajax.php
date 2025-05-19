@@ -62,6 +62,7 @@ foreach( $hendelser as $hendelse ) {
                 $personObj['fornavn'] = $person->getFornavn();
                 $personObj['etternavn'] = $person->getEtternavn();
                 $personObj['navn'] = $person->getNavn();
+                $personObj['rolle'] = $person->getRolle();
                 $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
                 $personObj['context'] = $innslag->getContext();
 

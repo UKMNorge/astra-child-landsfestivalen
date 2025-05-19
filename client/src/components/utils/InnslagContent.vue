@@ -7,7 +7,7 @@
         <div class="as-margin-top-space-4">
             <div class="chip-group-innslag-personer">
                 <v-chip class="as-margin-right-space-1 as-margin-bottom-space-1" v-for="person in innslagItem.personer">
-                    {{ person.fornavn }} {{ person.etternavn }}
+                    <span><b>{{ person.fornavn }} {{ person.etternavn }}</b> ({{ person.rolle }})</span>
                 </v-chip>
             </div>
         </div>
