@@ -40,7 +40,12 @@ if ( apply_filters( 'astra_header_profile_gmpg_link', true ) ) {
 	<?php
 } 
 ?>
-<link rel="canonical" href="<?php echo esc_url( home_url( '/festivalen/' ) ); ?>" />
+
+<?php if ( is_page( 'festivalen' ) ) : ?>
+    <link rel="canonical" href="<?php echo esc_url( home_url( '/festivalen/' ) ); ?>" />
+    <meta property="og:url" content="<?php echo esc_url( home_url( '/festivalen/' ) ); ?>" />
+<?php endif; ?>
+
 <?php wp_head(); ?>
 <?php astra_head_bottom(); ?>
 </head>
