@@ -85,6 +85,10 @@ export default {
             type: Hendelse,
             required: true
         },
+        openInnslag: {
+            type: Number,
+            required: false,
+        },
     },
     mounted() {
         this.fetchHendelseItems();
@@ -163,8 +167,7 @@ export default {
                     }
                 }
 
-                this.contentItems.push(
-                    new Innslag(
+                let innslagObj = new Innslag(
                         innslag.id, 
                         innslag.navn,
                         innslag.type ? innslag.type.name : '',
@@ -174,7 +177,11 @@ export default {
                         innslagBilde,
                         innslag.fylke ? innslag.fylke.navn : '',
                     )
-                )
+                this.contentItems.push(innslagObj);
+
+                if(this.openInnslag != null && this.openInnslag == innslag.id) {
+                    innslagObj.isOpen = true;
+                }
             }
 
             // for (let h of results.hendelser) {

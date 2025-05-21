@@ -7,7 +7,8 @@ import Deltakere from "./components/Deltakere.vue";
 import ProgramPublikum from "./components/ProgramPublikum.vue";
 import ProgramDeltakere from "./components/ProgramDeltakere.vue";
 import AktiviteterStart from "./components/AktiviteterStart.vue";
-import SignleAktivitet from "./components/SingleAktivitet.vue";
+import SingleAktivitet from "./components/SingleAktivitet.vue";
+import SingleHendelse from "./components/SingleHendelse.vue";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -97,7 +98,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 component = AktiviteterStart;
                 break;
             case 'single-aktivitet':
-                component = SignleAktivitet;
+                component = SingleAktivitet;
+                break;
+            case 'single-hendelse':
+                component = SingleHendelse;
                 break;
             default:
                 throw new Error('Unknown component: ' + componentName);
