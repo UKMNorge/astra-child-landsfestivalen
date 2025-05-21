@@ -181,6 +181,13 @@ export default {
 
                 if(this.openInnslag != null && this.openInnslag == innslag.id) {
                     innslagObj.isOpen = true;
+                    setTimeout(() => {
+                        innslagObj.isOpen = false;
+                        const element = document.querySelector(`[data-id="${innslag.id}"]`);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 1000);
                 }
             }
 

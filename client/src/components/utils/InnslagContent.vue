@@ -1,5 +1,5 @@
 <template>
-    <div v-if="innslagItem != null">
+    <div v-if="innslagItem != null" :data-id="innslagItem.getId()">
         <!-- <div v-show="innslagItem.getImage() != null && innslagItem.getImage().length > 0" class="hendelse-item-bilde as-margin-top-space-4">
             <img :src="innslagItem.getImage() ?? ''" alt="Bilde av aktivitet">
         </div> -->
