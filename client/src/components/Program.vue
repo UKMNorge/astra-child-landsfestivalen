@@ -36,7 +36,7 @@
         <div v-show="getFoundDeltakere().length > 0" class="deltakere-found">
             <h4 class="title">Deltakere</h4>
             <div class="as-margin-bottom-space-2">
-                <v-chip v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="as-margin-right-space-1">
+                <v-chip @click="openSingleHendelse(deltaker)" v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="as-margin-right-space-1">
                     <span class="found-deltaker-inside-chip"><b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
                 </v-chip>
             </div>
@@ -220,6 +220,17 @@ export default {
         };
     },
     methods: {
+        openSingleHendelse(deltaker : any) {
+            // Retdirect
+            if (deltaker.hendelse && deltaker.hendelse.id) {
+                const url = new URL('/festivalen/single-hendelse', window.location.origin);
+                url.searchParams.append('hendelse-id', deltaker.hendelse.id);
+                if (deltaker.context && deltaker.context.innslag && deltaker.context.innslag.id) {
+                    url.searchParams.append('innslag', deltaker.context.innslag.id);
+                }
+                window.open(url.toString(), '_blank');
+            }
+        },
         // Sjekker om hendelsen har aktiviteter eller innslag for å vise "Vis mer" knappen
         hasShowMore(hendelse : Hendelse) : boolean {
             if(this.hendelseMedAktiviteter[hendelse.id] && this.hendelseMedAktiviteter[hendelse.id] == true) {
