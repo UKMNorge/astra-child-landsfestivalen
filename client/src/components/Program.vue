@@ -33,6 +33,15 @@
             </div>
         </div>
 
+        <div v-show="getFoundDeltakere().length > 0" class="deltakere-found">
+            <h4 class="title">Deltakere</h4>
+            <div class="as-margin-bottom-space-2">
+                <v-chip v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="as-margin-right-space-1">
+                    <span class="found-deltaker-inside-chip"><b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
+                </v-chip>
+            </div>
+        </div>
+
         <template v-for="hendelse in getFilteredHendelser()" :key="hendelse.id">
             <div class="hendelse">
                 <div @click="hendelse.isOpen = !hendelse.isOpen" class="first-width">
@@ -206,6 +215,7 @@ export default {
             selectedTyper : [] as {id: number|string, title: string}[],
 
             hendelseMedAktiviteter : {} as any,
+            deltakere : [] as any[],
 
         };
     },
@@ -221,6 +231,34 @@ export default {
             }
 
             return false;
+        },
+        getFoundDeltakere() : any[] {
+            let filtered = this.deltakere;
+
+            if (this.searchWords && this.searchWords.length > 2) {
+                const fuse = new Fuse(filtered, {
+                    threshold: 0.5,
+                    getFn: (deltaker: any, path: string | string[]) => {
+                        const key = Array.isArray(path) ? path[0] : path;
+
+                        switch (key) {
+                            case 'navn':
+                                return deltaker.navn;
+                            default:
+                                return '';
+                        }
+                    },
+                    keys: ['navn'],
+                });
+
+                const results = fuse.search(this.searchWords);
+                return results.map(r => r.item);
+            }
+            else {
+                return [];
+            }
+
+            return filtered;
         },
         // getFilteredHendelser() : Hendelse[] {
         //     if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
@@ -258,7 +296,6 @@ export default {
                 });
             }
 
-            console.log('Filtered hendelser:', filtered);
             if (this.searchWords && this.searchWords.length > 0) {
                 const fuse = new Fuse(filtered, {
                     threshold: 0.3,
@@ -326,6 +363,8 @@ export default {
 
                     if(results.innslagPersoner[innslag.id]) {
                         for(let person of results.innslagPersoner[innslag.id]) {
+                            person.hendelse = h;
+                            this.deltakere.push(person);
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
@@ -363,7 +402,8 @@ export default {
             
             this.dataFetched = true;
 
-            
+            console.log('1708');
+            console.log(this.deltakere);
             return results;
         },
     },
@@ -588,6 +628,14 @@ export default {
     color: #fff;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+.deltakere-found .title {
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 16px;
+}
+.found-deltaker-inside-chip {
+    margin-right: 5px;
 }
 
 @media (max-width: 767px) {
