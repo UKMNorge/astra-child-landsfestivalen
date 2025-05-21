@@ -248,7 +248,7 @@ export default {
 
             if (this.searchWords && this.searchWords.length > 2) {
                 const fuse = new Fuse(filtered, {
-                    threshold: 0.5,
+                    threshold: 0.3,
                     getFn: (deltaker: any, path: string | string[]) => {
                         const key = Array.isArray(path) ? path[0] : path;
 
