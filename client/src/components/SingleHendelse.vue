@@ -7,6 +7,7 @@
         </div>
         <div v-if="fetched && !noHendelseId">
             <div class="single-hendelse">
+                <h1 v-if="hendelse != null">{{ hendelse.getTitle() }}</h1>
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
             </div>
         </div>
