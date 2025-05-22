@@ -6,8 +6,10 @@
             </div>
         </div>
         <div v-if="fetched && !noHendelseId">
+            <div class="as-margin-bottom-space-4 as-margin-top-space-4">
+                <h1 class="title-hendelse" v-if="hendelse != null">{{ hendelse.getTitle() }}</h1>
+            </div>
             <div class="single-hendelse">
-                <h1 v-if="hendelse != null">{{ hendelse.getTitle() }}</h1>
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
             </div>
         </div>
@@ -87,5 +89,9 @@ export default {
 .single-hendelse {
     background-color: #fff;
     border-radius: var(--radius-high);
+}
+.title-hendelse {
+    color: #fff;
+    text-align: center;
 }
 </style>
