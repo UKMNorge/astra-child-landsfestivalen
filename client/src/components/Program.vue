@@ -226,7 +226,7 @@ export default {
                 const url = new URL('/festivalen/single-hendelse', window.location.origin);
                 url.searchParams.append('hendelse-id', deltaker.hendelse.id);
                 if (deltaker.context && deltaker.context.innslag && deltaker.context.innslag.id) {
-                    url.searchParams.append('innslag', deltaker.context.innslag.id);
+                    url.searchParams.append('innslag', deltaker.innslagId);
                 }
                 window.open(url.toString(), '_blank');
             }
@@ -373,8 +373,8 @@ export default {
                     if(results.innslagPersoner[innslag.id]) {
                         for(let person of results.innslagPersoner[innslag.id]) {
                             person.hendelse = h;
+                            person.innslagId = innslag.id;
                             this.deltakere.push(person);
-                            console.log('person:', person);
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
