@@ -34,9 +34,9 @@
         </div>
 
         <div v-show="getFoundDeltakere().length > 0" class="deltakere-found">
-            <h4 class="title">Deltakere</h4>
+            <h5 class="title">Deltakere: </h5>
             <div class="as-margin-bottom-space-2">
-                <v-chip @click="openSingleHendelse(deltaker)" v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="as-margin-right-space-1">
+                <v-chip @click="openSingleHendelse(deltaker)" v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="deltaker-result-chip as-margin-right-space-1">
                     <span class="found-deltaker-inside-chip"><b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
                 </v-chip>
             </div>
@@ -244,6 +244,7 @@ export default {
             return false;
         },
         getFoundDeltakere() : any[] {
+            this.deltakere = [];
             let filtered = this.deltakere;
 
             if (this.searchWords && this.searchWords.length > 2) {
@@ -645,6 +646,10 @@ export default {
 }
 .found-deltaker-inside-chip {
     margin-right: 5px;
+}
+.deltaker-result-chip {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 @media (max-width: 767px) {
