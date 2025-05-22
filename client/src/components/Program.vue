@@ -374,6 +374,7 @@ export default {
                         for(let person of results.innslagPersoner[innslag.id]) {
                             person.hendelse = h;
                             this.deltakere.push(person);
+                            console.log('person:', person);
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
