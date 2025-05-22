@@ -311,7 +311,6 @@ export default {
                     getFn: (hendelse: Hendelse, path: string | string[]) => {
                         const key = Array.isArray(path) ? path[0] : path;
 
-                        console.log('hendelse:', hendelse.title);
                         switch (key) {
                             case 'title':
                                 return hendelse.getTitle();
@@ -412,9 +411,6 @@ export default {
 
             
             this.dataFetched = true;
-
-            console.log('1708');
-            console.log(this.deltakere);
             return results;
         },
     },
