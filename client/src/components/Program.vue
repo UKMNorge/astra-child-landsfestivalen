@@ -264,7 +264,7 @@ export default {
 
                 // Use exact match operator with '
                 const results = fuse.search(`'${this.searchWords}`);
-                return results.map(r => r.item);
+                return results.slice(0, 5).map(r => r.item);
             } else {
                 return [];
             }
