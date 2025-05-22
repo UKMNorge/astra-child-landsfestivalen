@@ -34,10 +34,17 @@
         </div>
 
         <div v-show="getFoundDeltakere().length > 0" class="deltakere-found">
-            <h5 class="title">Deltakere: </h5>
+            <h6 class="title">Deltakere: </h6>
             <div class="as-margin-bottom-space-2">
                 <v-chip @click="openSingleHendelse(deltaker)" v-for="deltaker in getFoundDeltakere()" :key="deltaker.id" class="deltaker-result-chip as-margin-right-space-1">
-                    <span class="found-deltaker-inside-chip"><b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
+                    <span class="found-deltaker-inside-chip">
+                        <span>
+                            <svg class="deltaker-icon" width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.99963 8.63672C8.05213 8.63672 9.39608 8.77662 10.5309 9.22949L10.7545 9.32422C11.9393 9.85533 12.8638 10.7701 12.8639 12.2725V12.9092C12.8638 13.5038 12.3818 13.9998 11.7848 14H2.21545C1.61829 13.9999 1.1364 13.5039 1.13635 12.9092V12.2725C1.13645 10.8642 1.94844 9.97233 3.026 9.42871L3.24573 9.32422C4.42391 8.79618 5.8772 8.63675 6.99963 8.63672ZM6.99963 1C8.4807 1 9.68216 2.2006 9.68225 3.68164C9.68225 5.16277 8.48076 6.36328 6.99963 6.36328C5.51867 6.36309 4.31799 5.16265 4.31799 3.68164C4.31809 2.20072 5.51873 1.00019 6.99963 1Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+
+                        </span>
+                        <b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
                 </v-chip>
             </div>
         </div>
@@ -638,7 +645,7 @@ export default {
 }
 .deltakere-found .title {
     color: #fff;
-    font-size: 30px;
+    font-size: 20px;
     margin-bottom: 16px;
 }
 .found-deltaker-inside-chip {
@@ -647,6 +654,10 @@ export default {
 .deltaker-result-chip {
     margin-top: 4px;
     margin-bottom: 4px;
+}
+.deltaker-icon {
+    margin-right: 5px;
+    margin-top: -3px;
 }
 
 @media (max-width: 767px) {
