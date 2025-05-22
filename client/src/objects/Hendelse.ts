@@ -55,7 +55,6 @@ class Hendelse {
     }
 
     getAlleDeltakereNavn() : string[] {
-        console.log(this.deltakereNavn);
         return this.deltakereNavn;
     }
 
