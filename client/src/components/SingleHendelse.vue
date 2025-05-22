@@ -85,5 +85,6 @@ export default {
 
 .single-hendelse {
     background-color: #fff;
+    border-radius: var(--radius-high);
 }
 </style>
