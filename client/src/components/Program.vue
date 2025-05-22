@@ -373,6 +373,7 @@ export default {
                     if(results.innslagPersoner[innslag.id]) {
                         for(let person of results.innslagPersoner[innslag.id]) {
                             person.hendelse = h;
+                            // Legger til innslagId i deltakeren
                             person.innslagId = innslag.id;
                             this.deltakere.push(person);
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
