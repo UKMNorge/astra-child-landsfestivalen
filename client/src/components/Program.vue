@@ -244,7 +244,7 @@ export default {
             return false;
         },
         getFoundDeltakere() : any[] {
-            let filtered : any = [];
+            let filtered = this.deltakere
 
             if (this.searchWords && this.searchWords.length > 2) {
                 const fuse = new Fuse(filtered, {
