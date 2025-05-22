@@ -248,28 +248,26 @@ export default {
 
             if (this.searchWords && this.searchWords.length > 2) {
                 const fuse = new Fuse(filtered, {
-                    threshold: 0.3,
+                    threshold: 0.0, // exact match only
+                    keys: ['navn'],
+                    useExtendedSearch: true,
                     getFn: (deltaker: any, path: string | string[]) => {
                         const key = Array.isArray(path) ? path[0] : path;
-
                         switch (key) {
                             case 'navn':
                                 return deltaker.navn;
                             default:
                                 return '';
                         }
-                    },
-                    keys: ['navn'],
+                    }
                 });
 
-                const results = fuse.search(this.searchWords);
+                // Use exact match operator with '
+                const results = fuse.search(`'${this.searchWords}`);
                 return results.map(r => r.item);
-            }
-            else {
+            } else {
                 return [];
             }
-
-            return filtered;
         },
         // getFilteredHendelser() : Hendelse[] {
         //     if(this.selectedSteder.length == 0 && this.selectedTider.length == 0 && this.selectedTyper.length == 0) {
