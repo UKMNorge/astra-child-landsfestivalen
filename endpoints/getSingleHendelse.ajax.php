@@ -18,7 +18,7 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 $retHendelse = null;
 
 
-$hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
+$hendelser = $arrangement->getProgram()->getAbsoluteAll();
 foreach( $hendelser as $hendelse ) {
     // var_dump($hendelse);
     if($hendelse->erSynligRammeprogram()) {
