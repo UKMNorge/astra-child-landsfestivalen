@@ -59,11 +59,33 @@ export default defineComponent({
         console.log(this.label)
         let filterId = 'filter-'+this.label.toLowerCase();
         let selectedItem = this.director.getParam(filterId) ?? null;
-        if(selectedItem != null) {
+
+        // Check for array
+        if(selectedItem != null && selectedItem.length > 0) {
+            selectedItem = selectedItem.split(',');
+        } else {
+            selectedItem = [];
+        }
+
+        // Check if selectedItem is an array
+        if(Array.isArray(selectedItem)) {
+            for(let item of selectedItem) {
+                for(let availableItem of this.availableItems) {
+                    if((<string>availableItem.title).toLowerCase() == item.toLowerCase()) {
+                        this.selectedItems.push((<any>availableItem.id));
+                        break;
+                    }
+                }
+            }
+        }
+        // If selectedItem is not an array, check if it exists in availableItems
+        // and push it to selectedItems if found
+        else
+        if(typeof selectedItem === 'string') {
             for(let item of this.availableItems) {
-                if((<string>item.title).toLowerCase() == selectedItem) {
+                if((<string>item.title).toLowerCase() == selectedItem.toLowerCase()) {
                     this.selectedItems.push((<any>item.id));
-                    return;
+                    break;
                 }
             }
         }
@@ -72,9 +94,27 @@ export default defineComponent({
     methods: {
         updateSelectedItems(newItems: any[]) : any {
             this.$emit('update:selectedItems', newItems); // Emit the updated value
+            this.updateUrlArgs(newItems);
         },
         handleButtonClick() {
             this.$emit('update:selectedItems', []); // Emit the updated value
+            this.updateUrlArgs(null);
+        },
+        updateUrlArgs(newItem : any) {
+            if(newItem == null) {
+                this.director.addParam('filter-'+this.label.toLowerCase(), '');
+                return;
+            }
+            
+            let currentItems = this.selectedItems;
+            currentItems.push(newItem);
+
+            this.director.addParam('filter-'+this.label.toLowerCase(), '');
+            
+            let value = currentItems[currentItems.length-1].join(',');
+            
+            let filterId = 'filter-'+this.label.toLowerCase();
+            this.director.addParam(filterId, value);
         }
     }
 });
