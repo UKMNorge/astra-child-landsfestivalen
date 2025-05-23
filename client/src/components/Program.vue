@@ -52,7 +52,7 @@
         <div v-show="getFoundInnslag().length > 0" class="deltakere-found">
             <h6 class="title">Innslag: </h6>
             <div class="as-margin-bottom-space-2">
-                <v-chip @click="openSingleHendelse(innslag)" v-for="innslag in getFoundInnslag()" :key="innslag.id" class="deltaker-result-chip as-margin-right-space-1">
+                <v-chip @click="openSingleInnslag(innslag)" v-for="innslag in getFoundInnslag()" :key="innslag.id" class="deltaker-result-chip as-margin-right-space-1">
                     <span class="found-deltaker-inside-chip">
                         <span>
                             <svg class="deltaker-icon" width="14" height="15" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
@@ -243,16 +243,21 @@ export default {
         };
     },
     methods: {
-        openSingleHendelse(deltaker : any) {
-            // Redirect
-            if (deltaker.hendelse && deltaker.hendelse.id) {
-                const url = new URL('/festivalen/single-hendelse', window.location.origin);
-                url.searchParams.append('hendelse-id', deltaker.hendelse.id);
-                if (deltaker.context && deltaker.context.innslag && deltaker.context.innslag.id) {
-                    url.searchParams.append('innslag', deltaker.innslagId);
-                }
-                window.open(url.toString(), '_blank');
+        openSingleInnslag(innslag : any) {
+            if (innslag.hendelseId) {
+                this._redirectToInnslag(innslag.hendelseId, innslag.id);
             }
+        },
+        openSingleHendelse(deltaker : any) {
+            if (deltaker.hendelse && deltaker.hendelse.id) {
+                this._redirectToInnslag(deltaker.hendelse.id, deltaker.innslagId);
+            }
+        },
+        _redirectToInnslag(hendelseId : number, innslagId : number) {
+            const url = new URL('/festivalen/single-hendelse', window.location.origin);
+            url.searchParams.append('hendelse-id', String(hendelseId));
+            url.searchParams.append('innslag', String(innslagId));
+            window.open(url.toString(), '_blank');
         },
         // Sjekker om hendelsen har aktiviteter eller innslag for å vise "Vis mer" knappen
         hasShowMore(hendelse : Hendelse) : boolean {
@@ -430,6 +435,7 @@ export default {
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
+                    innslag.hendelseId = h.id;
                     this.alleInnslag[innslag.id] = innslag;
                 }
 
