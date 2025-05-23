@@ -75,7 +75,7 @@ class Aktivitet extends HendelseContent {
 
         // Search for a tag with matching id or title
         return this.tags.some(tag => 
-            tag.title == tagId
+            tag.id == tagId
         );
     }
 

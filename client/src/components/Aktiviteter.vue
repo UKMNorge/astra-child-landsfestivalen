@@ -155,7 +155,7 @@ export default {
             ) {
                 filtered = filtered.filter(aktivitet => {
                     if (this.selectedSteder.length > 0 && !this.selectedSteder.find((sted : any) => aktivitet.hasSted(sted))) return false;
-                    if (this.selectedTags.length > 0 && !this.selectedTags.find((tag : any) => aktivitet.hasTag(tag.title))) return false;
+                    if (this.selectedTags.length > 0 && !this.selectedTags.find((tag : any) => aktivitet.hasTag(tag))) return false;
                     if (this.selectedDager.length > 0 && !this.selectedDager.find((dag : any) => aktivitet.hasDay(dag))) return false;
                     return true;
                 });
@@ -204,7 +204,7 @@ export default {
 
                 for(let t of ak.tags) {
                     if(availableTags[t.id] == undefined) {
-                        availableTags[t.id] = {id : t.navn, title : t.navn};
+                        availableTags[t.id] = {id : t.id, title : t.navn};
                     }
                 }
 
@@ -227,7 +227,7 @@ export default {
             for(let key in availableTags) {
                 let tag = availableTags[key];
                 if(tag.title.length > 0) {
-                    this.availableTags.push({'id' : tag.title, 'title' : tag.title});
+                    this.availableTags.push({'id' : tag.id, 'title' : tag.title});
                 }
             }
 
