@@ -222,7 +222,7 @@ export default {
             selectedTyper : [] as {id: number|string, title: string}[],
 
             hendelseMedAktiviteter : {} as any,
-            deltakere : [] as any[],
+            deltakere : {} as any,
 
         };
     },
@@ -251,7 +251,7 @@ export default {
             return false;
         },
         getFoundDeltakere() : any[] {
-            let filtered = this.deltakere
+            let filtered = Object.values(this.deltakere);
 
             if (this.searchWords && this.searchWords.length > 2) {
                 const fuse = new Fuse(filtered, {
@@ -381,7 +381,7 @@ export default {
                             person.hendelse = h;
                             // Legger til innslagId i deltakeren
                             person.innslagId = innslag.id;
-                            this.deltakere.push(person);
+                            this.deltakere[person.id +'_'+ person.hendelse.id+ '_' + person.innslagId] = person;
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
                     }
