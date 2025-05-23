@@ -155,7 +155,7 @@ export default {
             ) {
                 filtered = filtered.filter(aktivitet => {
                     if (this.selectedSteder.length > 0 && !this.selectedSteder.find((sted : any) => aktivitet.hasSted(sted))) return false;
-                    if (this.selectedTags.length > 0 && !this.selectedTags.find((tag : any) => aktivitet.hasTag(tag))) return false;
+                    if (this.selectedTags.length > 0 && !this.selectedTags.find((tag : any) => aktivitet.hasTag(tag.title))) return false;
                     if (this.selectedDager.length > 0 && !this.selectedDager.find((dag : any) => aktivitet.hasDay(dag))) return false;
                     return true;
                 });
