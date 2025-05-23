@@ -50,6 +50,24 @@ export default defineComponent({
             required: true
         },
     },
+    data() {
+        return {
+            director : (<any>window).director, // Definert i main.ts
+        };
+    },
+    mounted() {
+        console.log(this.label)
+        let filterId = 'filter-'+this.label.toLowerCase();
+        let selectedItem = this.director.getParam(filterId) ?? null;
+        if(selectedItem != null) {
+            for(let item of this.availableItems) {
+                if((<string>item.title).toLowerCase() == selectedItem) {
+                    this.selectedItems.push((<any>item.id));
+                    return;
+                }
+            }
+        }
+    },
     emits: ['update:selectedItems'], // Declare the event
     methods: {
         updateSelectedItems(newItems: any[]) : any {
