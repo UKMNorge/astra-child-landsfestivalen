@@ -227,7 +227,7 @@ export default {
             for(let key in availableTags) {
                 let tag = availableTags[key];
                 if(tag.title.length > 0) {
-                    this.availableTags.push({'id' : tag.id, 'title' : tag.title});
+                    this.availableTags.push({'id' : tag.title, 'title' : tag.title});
                 }
             }
 
