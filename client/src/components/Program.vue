@@ -44,7 +44,7 @@
                             </svg>
 
                         </span>
-                        <b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.navn+')' : '' }}</span>
+                        <b>{{ deltaker.navn }}</b></span> <span>{{ deltaker.hendelse ? '('+deltaker.hendelse.title+')' : '' }}</span>
                 </v-chip>
             </div>
         </div>
@@ -228,7 +228,7 @@ export default {
     },
     methods: {
         openSingleHendelse(deltaker : any) {
-            // Retdirect
+            // Redirect
             if (deltaker.hendelse && deltaker.hendelse.id) {
                 const url = new URL('/festivalen/single-hendelse', window.location.origin);
                 url.searchParams.append('hendelse-id', deltaker.hendelse.id);
@@ -381,11 +381,10 @@ export default {
                             person.hendelse = h;
                             // Legger til innslagId i deltakeren
                             person.innslagId = innslag.id;
-                            this.deltakere[person.id +'_'+ person.hendelse.id+ '_' + person.innslagId] = person;
+                            this.deltakere[person.id +'_'+ person.context.forestilling.id+ '_' + person.innslagId] = person;
                             deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
                         }
-                    }
-                    
+                    }   
                 }
 
                 var newHendelse = new Hendelse(
@@ -403,6 +402,9 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
+                console.log('alle deltakere');
+                console.log(this.deltakere);
+
                 if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
@@ -416,10 +418,27 @@ export default {
                 }
             }
 
+            // Add correct hendelse object to each deltakere
+            for(let d of Object.values(this.deltakere)) {
+                let deltaker = (<any>d);
+                let hendelse = this.getHendelse(deltaker.context.forestilling.id);
+                if(hendelse != null) {
+                    deltaker.hendelse = hendelse;
+                }
+            }
+
             
             this.dataFetched = true;
             return results;
         },
+        getHendelse(hendelseId : number) : Hendelse | null {
+            for(let h of this.hendelser) {
+                if(h.id == hendelseId) {
+                    return h;
+                }
+            }
+            return null;
+        }
     },
 };
 </script>
