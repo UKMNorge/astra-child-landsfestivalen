@@ -71,7 +71,7 @@ export default defineComponent({
         if(Array.isArray(selectedItem)) {
             for(let item of selectedItem) {
                 for(let availableItem of this.availableItems) {
-                    if((<string>availableItem.title).toLowerCase() == item.toLowerCase() || (<string>availableItem.id).toLowerCase() == item.toLowerCase()) {
+                    if((<string>availableItem.title).toLowerCase() == item.toLowerCase()) {
                         this.selectedItems.push((<any>availableItem.id));
                         break;
                     }
@@ -83,7 +83,7 @@ export default defineComponent({
         else
         if(typeof selectedItem === 'string') {
             for(let item of this.availableItems) {
-                if((<string>item.title).toLowerCase() == selectedItem.toLowerCase() || (<string>item.id).toLowerCase() == selectedItem.toLowerCase()) {
+                if((<string>item.title).toLowerCase() == selectedItem.toLowerCase()) {
                     this.selectedItems.push((<any>item.id));
                     break;
                 }

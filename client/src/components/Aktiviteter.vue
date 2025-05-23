@@ -204,7 +204,7 @@ export default {
 
                 for(let t of ak.tags) {
                     if(availableTags[t.id] == undefined) {
-                        availableTags[t.id] = {id : t.id, title : t.navn};
+                        availableTags[t.id] = {id : t.navn, title : t.navn};
                     }
                 }
 
