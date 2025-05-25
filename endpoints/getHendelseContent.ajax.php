@@ -40,21 +40,19 @@ foreach( $hendelser as $hendelse ) {
 
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
-            if(!isset($innslagPersoner[$innslag->getId()])) {
-                $innslagPersoner[$innslag->getId()] = [];
-            }
-
+            $objInnslag = null;
+            
             // Hent fylke
             $innslag->getFylke();
 
             // Bilder
-            $innslagPersoner[$innslag->getId()]['bilder'] = [];
+            $objInnslag['bilder'] = [];
             if(count($innslag->getBilder()->getAll()) > 0) {
-                $innslagPersoner[$innslag->getId()]['bilder'] = $innslag->getBilder()->getAll();
+                $objInnslag['bilder'] = $innslag->getBilder()->getAll();
             }
 
             // Personer
-            $innslagPersoner[$innslag->getId()]['innslag'] = $innslag;
+            $objInnslag['innslag'] = $innslag;
             $innslag->getPlayback()->getAll();
             foreach($innslag->getPersoner()->getAll() as $person) {
                 $personObj = [];
@@ -66,8 +64,10 @@ foreach( $hendelser as $hendelse ) {
                 $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
                 $personObj['context'] = $innslag->getContext();
 
-                $innslagPersoner[$innslag->getId()]['personer'][] = $personObj;
+                $objInnslag['personer'][] = $personObj;
             }
+
+            $innslagPersoner[] = $objInnslag;
         }
     }
 }

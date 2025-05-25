@@ -155,8 +155,9 @@ export default {
             }
 
 
-            for (let key in results.innslagPersoner) {
-                let innPerson = results.innslagPersoner[key];
+            for (let innPerson of results.innslagPersoner) {
+
+                // let innPerson = results.innslagPersoner[key];
                 let innslag = innPerson.innslag;
 
                 let innslagBilde = null;
