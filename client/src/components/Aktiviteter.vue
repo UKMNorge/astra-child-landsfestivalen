@@ -191,7 +191,7 @@ export default {
                 let newAktivitet = new Aktivitet(
                     ak.id, 
                     ak.navn,
-                    ak.image,
+                    [ak.image],
                     ak.sted,
                     ak.beskrivelse,
                     ak.beskrivelseLeder,

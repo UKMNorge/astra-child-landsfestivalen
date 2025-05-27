@@ -7,12 +7,12 @@ export abstract class HendelseContent {
     public title: string;
     public beskrivelse?: string|undefined;
     public isOpen: boolean = false;
-    protected bilde : string|null = null;
+    protected bilder : string[] = [];
 
-    constructor(id: string, title: string, bilde : string|null, beskrivelse?: string) {
+    constructor(id: string, title: string, bilder : string[], beskrivelse?: string) {
         this.id = id;
         this.title = title;
-        this.bilde = bilde;
+        this.bilder = bilder ? bilder : [];
         this.beskrivelse = beskrivelse;
     }
 
@@ -46,9 +46,12 @@ export abstract class HendelseContent {
     }
 
     public getBilde(): string {
-        return this.bilde ? this.bilde : 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png';
+        return this.bilder && this.bilder.length > 0 && this.bilder[0] ? this.bilder[0] : 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png';
     }
     
+    public getBilder(): string[] {
+        return this.bilder != null ? this.bilder : [];
+    }
 }
 
 

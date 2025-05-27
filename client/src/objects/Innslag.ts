@@ -15,18 +15,14 @@ class Innslag extends HendelseContent {
         beskrivelse: string,
         isSinglePerson: boolean,
         personer : any[] = [],
-        image : string|null,
+        bilder : string[] = [],
         fylke : string|null,
     ) {
-        super(id, title, image, beskrivelse);
+        super(id, title, bilder, beskrivelse);
         this.key = key;
         this.isSinglePerson = isSinglePerson;
         this.personer = personer;
         this.fylke = fylke;
-    }
-
-    public getBilde(): string {
-        return this.bilde ? this.bilde : super.getBilde();
     }
 
     // Override
