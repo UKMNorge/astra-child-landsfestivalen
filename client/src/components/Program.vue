@@ -124,10 +124,41 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="hendelse-info-extendable">
+                            
+                            <div v-if="hendelse.isGruppe == true" class="hendelse-gruppe hendelse-info-extendable">
                                 <div class="hendelse-bilde">
-            
+                                    <!-- Intentional empty div for styling -->
+                                </div>
+                                <v-timeline class="hendelse-gruppe-timeline" side="end">
+                                    <v-timeline-item @click="openHendelse(hendelse)"
+                                        v-for="hendelse in hendelse.getHendelser()"
+                                        :key="hendelse.id"
+                                        hide-dot
+                                        class="custom-timeline-item"
+                                    >
+                                        <v-img
+                                            :src="hendelse.img"
+                                            width="200"
+                                            class="gruppe-hendelse-img as-margin-right-space-2"
+                                            cover
+                                        ></v-img>
+                                    
+
+                                        <div class="group-hendelse-content">
+                                            <h2 class="nom-impt">{{ hendelse.title }}</h2>
+                                            <div>{{ hendelse.getStart() }}</div>
+                                            <div class="text-caption">{{ hendelse.sted }}</div>
+                                        </div>
+                                    </v-timeline-item>
+                                </v-timeline>
+
+
+
+                            </div>
+                            
+                            <div v-else class="hendelse-info-extendable">
+                                <div class="hendelse-bilde">
+                                    <!-- Intentional empty div for styling -->
                                 </div>
                                 <div v-if="hasShowMore(hendelse)" class="as-margin-top-space-2">
                                     <v-dialog width="95%" max-width="800px">
@@ -255,10 +286,17 @@ export default {
                 this._redirectToInnslag(deltaker.hendelse.id, deltaker.innslagId);
             }
         },
+        openHendelse(hendelse : Hendelse) {
+            if (hendelse.id) {
+                this._redirectToInnslag(hendelse.id, -1); // -1 for no specific innslag
+            }
+        },
         _redirectToInnslag(hendelseId : number, innslagId : number) {
             const url = new URL('/festivalen/single-hendelse', window.location.origin);
             url.searchParams.append('hendelse-id', String(hendelseId));
-            url.searchParams.append('innslag', String(innslagId));
+            if(innslagId != -1) {
+                url.searchParams.append('innslag', String(innslagId));
+            }
             window.open(url.toString(), '_blank');
         },
         // Sjekker om hendelsen har aktiviteter eller innslag for å vise "Vis mer" knappen
@@ -778,6 +816,25 @@ export default {
     margin-right: 5px;
     margin-top: -3px;
 }
+.hendelse-gruppe-timeline {
+    float: left;
+    display: block !important;
+    cursor: pointer;
+}
+.custom-timeline-item :deep(.v-timeline-item__body) {
+    display: flex !important;
+    padding-left: 0 !important;
+}
+.group-hendelse-content * {
+    color: #fff;
+}
+.gruppe-hendelse-img :deep(img) {
+    background: #fff;
+    border-radius: 22px;
+}
+.gruppe-hendelse-img :deep(.v-responsive__sizer) {
+    padding: 0;
+}
 
 @media (max-width: 767px) {
     .hendelse-bilde {
@@ -855,6 +912,9 @@ export default {
     }
     .v-select-program-meny :deep(.v-label) {
         top: 3px !important;
+    }
+    .gruppe-hendelse-img {
+        width: 120px !important;
     }
 
 }
