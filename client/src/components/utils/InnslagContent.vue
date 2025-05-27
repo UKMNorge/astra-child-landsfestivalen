@@ -57,7 +57,7 @@ export default defineComponent({
     border-radius: var(--radius-high);
     overflow: hidden;
 }
-.innslag-bilder {
-    width: calc(100vw - 52px);
+.chip-group-innslag-personer {
+    overflow: scroll;
 }
 </style>
