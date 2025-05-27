@@ -51,7 +51,8 @@ class HendelseGruppe extends Hendelse {
     }
 
     public getHendelser(): Hendelse[] {
-        return this.hendelser;
+        // Sort by start date
+        return this.hendelser.sort((a, b) => a.start - b.start);
     }
 
     public hasHendelse(id: string|number): boolean {
