@@ -175,7 +175,7 @@
                                         </template>
 
                                         <template v-slot:default="{ isActive }">
-                                            <v-card :title="hendelse.title">
+                                            <v-card :title="hendelse.title + ' - ' + hendelse.getStart()" class="hendelse-card">
                                            <HendelseContentComponent :hendelse="hendelse" />
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
