@@ -3,7 +3,8 @@
 use UKMNorge\OAuth2\HandleAPICall;
 use UKMNorge\Arrangement\UKMFestival;
 use UKMNorge\Arrangement\Aktivitet\AktivitetTidspunkt;
-
+use UKMNorge\Arrangement\Program\Hendelse;
+use UKMNorge\Arrangement\Program\HendelseGruppe;
 
 require_once('UKM/Autoloader.php');
 
@@ -48,11 +49,24 @@ foreach( $hendelser as $hendelse ) {
     }
 }
 
-
+$hendelseGrupper = [];
+foreach(HendelseGruppe::getAlleByArrangement($arrangement) as $hendelseGruppe) {
+    $hendelseGrupper[$hendelseGruppe->getId()] = [
+        'id' => $hendelseGruppe->getId(),
+        'navn' => $hendelseGruppe->getNavn(),
+        'beskrivelse' => $hendelseGruppe->getBeskrivelse(),
+        'start' => $hendelseGruppe->getStart() ? $hendelseGruppe->getStart()->getTimestamp() : null,
+        'hendelser' => [],
+    ];
+    foreach($hendelseGruppe->getHendelser() as $hendelse) {
+        $hendelseGrupper[$hendelseGruppe->getId()]['hendelser'][] = $hendelse->getId();
+    }
+}
 
 
 $handleCall->sendToClient([
     'hendelser' => $retHendelser,
     'innslagPersoner' => $innslagPersoner,
     'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
+    'hendelseGrupper' => $hendelseGrupper,
 ]);
