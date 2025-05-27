@@ -159,25 +159,29 @@ export default {
 
                 // let innPerson = results.innslagPersoner[key];
                 let innslag = innPerson.innslag;
-
+                let thumbnailBilde = '';
                 let innslagBilder : string[] = [];
                 for(let bilde of innPerson.bilder) {
+                    if(thumbnailBilde == '' && bilde.sizes && bilde.sizes.thumbnail) {
+                        thumbnailBilde = bilde.sizes.thumbnail.path_external+bilde.sizes.thumbnail.file;
+                    }
                     if(bilde.sizes && bilde.sizes.original) {
                         innslagBilder.push(bilde.sizes.original.path_external+bilde.sizes.original.file);
                     }
                 }
 
                 let innslagObj = new Innslag(
-                        innslag.id, 
-                        innslag.navn,
-                        innslag.type ? innslag.type.name : '',
-                        innslag.beskrivelse,
-                        innslag.type && innslag.type.type == 'person' ? true : false,
-                        innPerson.personer,
-                        innslagBilder,
-                        innslag.fylke ? innslag.fylke.navn : '',
-                    )
+                    innslag.id, 
+                    innslag.navn,
+                    innslag.type ? innslag.type.name : '',
+                    innslag.beskrivelse,
+                    innslag.type && innslag.type.type == 'person' ? true : false,
+                    innPerson.personer,
+                    innslagBilder,
+                    innslag.fylke ? innslag.fylke.navn : '',
+                );
                 this.contentItems.push(innslagObj);
+                innslagObj.setThumbnailBilde(thumbnailBilde);
 
                 if(this.openInnslag != null && this.openInnslag == innslag.id) {
                     innslagObj.isOpen = true;

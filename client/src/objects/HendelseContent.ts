@@ -8,6 +8,7 @@ export abstract class HendelseContent {
     public beskrivelse?: string|undefined;
     public isOpen: boolean = false;
     protected bilder : string[] = [];
+    protected thumbnailBilde : string = '';
 
     constructor(id: string, title: string, bilder : string[], beskrivelse?: string) {
         this.id = id;
@@ -46,7 +47,15 @@ export abstract class HendelseContent {
     }
 
     public getBilde(): string {
+        if (this.thumbnailBilde) {
+            return this.thumbnailBilde;
+        }
+        
         return this.bilder && this.bilder.length > 0 && this.bilder[0] ? this.bilder[0] : 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png';
+    }
+
+    setThumbnailBilde(bilde: string): void {
+        this.thumbnailBilde = bilde;
     }
     
     public getBilder(): string[] {
