@@ -14,7 +14,7 @@
         
         <div class="innslag-bilder">
             <div v-for="bilde in innslagItem.getBilder()" class="hendelse-item-bilde as-margin-top-space-4">
-                <img :src="bilde" alt="Bilde av innslag" />
+                <img class="innslag-bilde-item" :src="bilde" alt="Bilde av innslag" />
             </div>
 
         </div>
@@ -56,5 +56,8 @@ export default defineComponent({
 .hendelse-item-bilde {
     border-radius: var(--radius-high);
     overflow: hidden;
+}
+.innslag-bilde-item {
+    width: calc(100vw - 52px);
 }
 </style>
