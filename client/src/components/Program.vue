@@ -197,6 +197,7 @@
 
 <script lang="ts">
 import Hendelse from '../objects/Hendelse';
+import HendelseGruppe from '../objects/HendelseGruppe';
 import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 import HendelseContentComponent from './utils/HendelseContent.vue';
 import SearchProgram from './utils/SearchProgram.vue';
@@ -239,6 +240,7 @@ export default {
             hendelseMedAktiviteter : {} as any,
             deltakere : {} as any,
             alleInnslag : {} as any,
+            hendelseGrupper : [] as HendelseGruppe[],
 
         };
     },
@@ -265,7 +267,7 @@ export default {
                 return true;
             }
 
-            if(hendelse.innslag && hendelse.innslag.length > 0) {
+            if(hendelse.getInnslagNavn() && hendelse.getInnslagNavn().length > 0) {
                 return true;
             }
 
@@ -347,7 +349,19 @@ export default {
         //     });
         // },
         getFilteredHendelser(): Hendelse[] {
-            let filtered = this.hendelser;
+            let filtered = this.hendelser.filter(h => {
+                for(let hendelseGruppe of this.hendelseGrupper) {
+                    if(hendelseGruppe.hasHendelse(h.id)) {
+                        return false; // Håp over hendelseGruppe, de skal vises som grupper
+                    }
+                }
+                return true;
+            });
+
+            // Append hendelser from hendelseGrupper
+            for(let hendelseGruppe of this.hendelseGrupper) {
+                filtered = filtered.concat(hendelseGruppe);
+            }
 
             if (
                 this.selectedSteder.length > 0 ||
@@ -388,6 +402,11 @@ export default {
                 return results.map(r => r.item);
             }
 
+            // Sort by hendele.start
+            filtered.sort((a : Hendelse, b : Hendelse) => {
+                return a.start - b.start;
+            });
+            
             return filtered;
         },
         async fetchProgramData() {
@@ -454,9 +473,6 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                console.log('alle innslag');
-                console.log(this.alleInnslag);
-
                 if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
@@ -479,6 +495,38 @@ export default {
                 }
             }
 
+            // Hendelse gruppering
+            for(let key in results.hendelseGrupper) {
+                let hG = results.hendelseGrupper[key];
+
+                let alleHendelser = [];
+                for(let hId of hG.hendelser) {
+                    let hendelse = this.getHendelse(hId);
+                    if(hendelse) {
+                        alleHendelser.push(hendelse);
+                    }
+                }
+
+                this.hendelseGrupper.push(
+                    new HendelseGruppe(
+                        hG.id, 
+                        hG.navn, 
+                        'http://ukm.no/wp-content/uploads/2025/04/40ukm.png',
+                        hG.start,
+                        -1, // Ingen sluttidspunkt
+                        '',
+                        'Gruppe',
+                        hG.beskrivelse,
+                        [],
+                        [],
+                        [],
+                        alleHendelser,
+                    )
+                );
+            }
+
+            console.log('Grupper fetched:');
+            console.log(this.hendelseGrupper);
             
             this.dataFetched = true;
             return results;
