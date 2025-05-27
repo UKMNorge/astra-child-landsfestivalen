@@ -398,6 +398,7 @@ export default {
 
             // Append hendelser from hendelseGrupper
             for(let hendelseGruppe of this.hendelseGrupper) {
+                if(hendelseGruppe.getHendelser().length == 0) continue; // Skip empty groups
                 filtered = filtered.concat(hendelseGruppe);
             }
 
