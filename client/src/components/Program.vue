@@ -100,7 +100,7 @@
                                 <div class="under-content">
                                     <div class="sted-tid-after-open as-margin-bottom-space-2">
                                         <!-- <h5 class="sted-after-open">Sted: <b>{{ hendelse.sted }}</b></h5> -->
-                                        <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.sted }}</v-chip>
+                                        <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.getSted() }}</v-chip>
                                         <v-chip class="tid-after-open">Tid: {{ hendelse.getStart() }}</v-chip>
                                     </div>
                                     <!-- <div class="deltakere">
@@ -819,11 +819,17 @@ export default {
 .hendelse-gruppe-timeline {
     float: left;
     display: block !important;
-    cursor: pointer;
+}
+.custom-timeline-item :deep(.v-timeline-divider),
+.custom-timeline-item :deep(.v-timeline-item__opposite),
+.custom-timeline-item :deep(.v-timeline-divider__before) {
+    display: none !important;
 }
 .custom-timeline-item :deep(.v-timeline-item__body) {
     display: flex !important;
     padding-left: 0 !important;
+    margin-top: calc(4*var(--initial-space-box));
+    cursor: pointer;
 }
 .group-hendelse-content * {
     color: #fff;
