@@ -142,7 +142,7 @@ export default {
                     new Aktivitet(
                         ak.id, 
                         ak.navn,
-                        ak.image,
+                        [ak.image],
                         ak.sted,
                         ak.beskrivelse,
                         ak.beskrivelseLeder,
@@ -160,11 +160,10 @@ export default {
                 // let innPerson = results.innslagPersoner[key];
                 let innslag = innPerson.innslag;
 
-                let innslagBilde = null;
+                let innslagBilder : string[] = [];
                 for(let bilde of innPerson.bilder) {
                     if(bilde.sizes && bilde.sizes.original) {
-                        innslagBilde = bilde.sizes.original.path_external+bilde.sizes.original.file;
-                        break;
+                        innslagBilder.push(bilde.sizes.original.path_external+bilde.sizes.original.file);
                     }
                 }
 
@@ -175,7 +174,7 @@ export default {
                         innslag.beskrivelse,
                         innslag.type && innslag.type.type == 'person' ? true : false,
                         innPerson.personer,
-                        innslagBilde,
+                        innslagBilder,
                         innslag.fylke ? innslag.fylke.navn : '',
                     )
                 this.contentItems.push(innslagObj);

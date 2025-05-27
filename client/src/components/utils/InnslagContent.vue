@@ -12,6 +12,13 @@
             </div>
         </div>
         
+        <div class="innslag-bilder">
+            <div v-for="bilde in innslagItem.getBilder()" class="hendelse-item-bilde as-margin-top-space-4">
+                <img :src="bilde" alt="Bilde av innslag" />
+            </div>
+
+        </div>
+
         <div class="beskrivelser as-margin-top-space-2">
             <div class="beskrivelse">
                 <span class="beskrivelse" v-html="innslagItem.getBeskrivelse()"></span>

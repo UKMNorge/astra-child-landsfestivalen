@@ -64,7 +64,7 @@ export default {
             this.aktivitet = new Aktivitet(
                 results.aktivitet.id, 
                 results.aktivitet.navn,
-                results.aktivitet.image,
+                [results.aktivitet.image],
                 results.aktivitet.sted,
                 results.aktivitet.beskrivelse,
                 results.aktivitet.beskrivelseLeder,

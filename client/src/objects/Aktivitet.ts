@@ -3,7 +3,6 @@ import Tidspunkt from "./Tidspunkt";
 
 class Aktivitet extends HendelseContent {
     loading: boolean = false;
-    image:  string;
     sted: string;
     beskrivelseLeder: string;
     hendelseId: string|number;
@@ -14,7 +13,7 @@ class Aktivitet extends HendelseContent {
     constructor(
         id : string, 
         navn : string, 
-        image : string,
+        bilder : string[],
         sted : string,
         beskrivelse : string|undefined,
         beskrivelseLeder : string,
@@ -23,8 +22,7 @@ class Aktivitet extends HendelseContent {
         hendelseId : string|number,
         kursholder : string
     ) {
-        super(id, navn, image, beskrivelse);
-        this.image = image;
+        super(id, navn, bilder, beskrivelse);
         this.sted = sted;
         this.beskrivelseLeder = beskrivelseLeder;
         this.hendelseId = hendelseId;
@@ -32,7 +30,6 @@ class Aktivitet extends HendelseContent {
         this.tags = tags;
         
         // add tidspunkter
-        console.log('Tidspunkter: ', tidspunkter);
         for(let tidspunkt of tidspunkter) {
             // Legg til kun tidspunkter som er tilknyttet hendelsen
             if(this.hendelseId = -1 || tidspunkt.hendelseId == this.hendelseId) {
@@ -57,7 +54,7 @@ class Aktivitet extends HendelseContent {
     }
 
     public getImage() : string {
-        return this.image;
+        return this.getBilde();
     }
     
     // Returnerer tidspunkter sortert etter starttidspunkt
@@ -149,9 +146,6 @@ class Aktivitet extends HendelseContent {
         return ledigePlasser;
     }
 
-    public getBilde(): string {
-        return this.bilde ? this.bilde : super.getBilde();
-    }
 }
 
 export default Aktivitet;
