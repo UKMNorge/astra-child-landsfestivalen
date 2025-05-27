@@ -5,8 +5,23 @@
 
             </div>
         </div>
+        <template v-if="hendelse.isPersonerListe()">
+            <div class="hendelse-info-extendable">
+                <div class="deltakere">
+                    <div class="deltaker" v-for="person in getAllePersoner()" :key="person.id">
+                        <div class="svg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="#333" stroke-width="2"/>
+                                <path d="M20.9999 20C20.9999 17.2386 17.7613 15 14.0001 15H9.99988C6.23847 15 2.99988 17.2386 2.99988 20" stroke="#333" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <span><b>{{ person.fornavn }} {{ person.etternavn }}</b> {{ person.rolle ? '(' + person.rolle + ')' : '' }}</span>
+                    </div>
+                </div>
+            </div>
+        </template>
 
-        <template v-for="hendelseItem in getFilteredContentItems()" :key="hendelseItem.id">
+        <template v-else v-for="hendelseItem in getFilteredContentItems()" :key="hendelseItem.id">
             <div class="hendelse">
                 <div @click="hendelseItem.isOpen = !hendelseItem.isOpen" class="first-width">
                     <div class="inner-content">
@@ -107,6 +122,19 @@ export default {
         };
     },
     methods: {
+        getAllePersoner() {
+            let allePersoner : any = [];
+            for(let contentItem of this.contentItems) {
+                console.log(contentItem);
+                console.log(contentItem.personer);
+                if(!contentItem.personer) {
+                    console.warn('Content item has no personer:', contentItem);
+                    continue;
+                }
+                allePersoner = allePersoner.concat(contentItem.personer);
+            }
+            return allePersoner;
+        },
         isAkivitetInstance(item : HendelseContent) {
             return item instanceof Aktivitet;
         },

@@ -507,7 +507,8 @@ export default {
                     h.beskrivelse,
                     innslagArrObj,
                     fylker,
-                    deltakereNavn
+                    deltakereNavn,
+                    h.visning,
                 );
                 this.hendelser.push(newHendelse);
                 

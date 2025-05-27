@@ -11,7 +11,8 @@ class Hendelse {
     innslag: {name : string, antallDeltakere : number, url : string}[] = [];
     fylker : string[] = [];
     deltakereNavn : string[] = [];
-    isGruppe: boolean = false;
+    isGruppe : boolean = false;
+    visning : string;
 
     constructor(id : number, 
                 title : string, 
@@ -24,6 +25,7 @@ class Hendelse {
                 innslag : {name : string, antallDeltakere : number, url : string}[] = [],
                 fylker : string[],
                 deltakereNavn : string[],
+                visning : string = ''
     ) {
         this.id = id;
         this.title = title;
@@ -36,7 +38,7 @@ class Hendelse {
         this.innslag = innslag;
         this.fylker = fylker;
         this.deltakereNavn = deltakereNavn;
-
+        this.visning = visning;
     }
 
     async getSmallerBilde(): Promise<string> {
@@ -53,6 +55,10 @@ class Hendelse {
     
     getTitle(): string {
         return this.title;
+    }
+
+    isPersonerListe() : boolean {
+        return this.visning == 'liste';
     }
 
     getSted(): string {

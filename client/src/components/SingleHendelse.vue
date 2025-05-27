@@ -73,6 +73,7 @@ export default {
                 [],
                 [],
                 [],
+                h.visning
             );
 
             this.fetched = true;
