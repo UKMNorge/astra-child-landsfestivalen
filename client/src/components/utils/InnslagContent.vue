@@ -57,7 +57,7 @@ export default defineComponent({
     border-radius: var(--radius-high);
     overflow: hidden;
 }
-.innslag-bilde-item {
+.innslag-bilder {
     width: calc(100vw - 52px);
 }
 </style>

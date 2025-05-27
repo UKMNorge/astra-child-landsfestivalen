@@ -393,7 +393,7 @@ export default {
 }
 
 .hendelse-info-extendable {
-    display: flex;
+    /* display: flex; */
 }
 .content-under {
     
