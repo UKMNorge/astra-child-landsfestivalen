@@ -841,6 +841,10 @@ export default {
 .gruppe-hendelse-img :deep(.v-responsive__sizer) {
     padding: 0;
 }
+.hendelse-card :deep(.v-card-title) {
+    white-space: normal;
+    margin-right: 40px;
+}
 
 @media (max-width: 767px) {
     .hendelse-bilde {
