@@ -26,6 +26,12 @@ class HendelseGruppe extends Hendelse {
         return titles.join(' ');
     }
 
+    public getSted(): string {
+        // join all unique sted from hendelser
+        const unikeSteder = new Set(this.hendelser.map(hendelse => hendelse.getSted()));
+        return Array.from(unikeSteder).join(', ');
+    }
+
     public getAlleDeltakereNavn(): string[] {
         const alleDeltakere: string[] = [];
         this.hendelser.forEach(hendelse => {
