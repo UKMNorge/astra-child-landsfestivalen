@@ -100,7 +100,7 @@
                                 <div class="under-content">
                                     <div class="sted-tid-after-open as-margin-bottom-space-2">
                                         <!-- <h5 class="sted-after-open">Sted: <b>{{ hendelse.sted }}</b></h5> -->
-                                        <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.sted }}</v-chip>
+                                        <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.getSted() }}</v-chip>
                                         <v-chip class="tid-after-open">Tid: {{ hendelse.getStart() }}</v-chip>
                                     </div>
                                     <!-- <div class="deltakere">
@@ -124,10 +124,41 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="hendelse-info-extendable">
+                            
+                            <div v-if="hendelse.isGruppe == true" class="hendelse-gruppe hendelse-info-extendable">
                                 <div class="hendelse-bilde">
-            
+                                    <!-- Intentional empty div for styling -->
+                                </div>
+                                <v-timeline class="hendelse-gruppe-timeline" side="end">
+                                    <v-timeline-item @click="openHendelse(hendelse)"
+                                        v-for="hendelse in hendelse.getHendelser()"
+                                        :key="hendelse.id"
+                                        hide-dot
+                                        class="custom-timeline-item"
+                                    >
+                                        <v-img
+                                            :src="hendelse.img"
+                                            width="200"
+                                            class="gruppe-hendelse-img as-margin-right-space-2"
+                                            cover
+                                        ></v-img>
+                                    
+
+                                        <div class="group-hendelse-content">
+                                            <h2 class="nom-impt">{{ hendelse.title }}</h2>
+                                            <div>{{ hendelse.getStart() }}</div>
+                                            <div class="text-caption">{{ hendelse.sted }}</div>
+                                        </div>
+                                    </v-timeline-item>
+                                </v-timeline>
+
+
+
+                            </div>
+                            
+                            <div v-else class="hendelse-info-extendable">
+                                <div class="hendelse-bilde">
+                                    <!-- Intentional empty div for styling -->
                                 </div>
                                 <div v-if="hasShowMore(hendelse)" class="as-margin-top-space-2">
                                     <v-dialog width="95%" max-width="800px">
@@ -197,6 +228,7 @@
 
 <script lang="ts">
 import Hendelse from '../objects/Hendelse';
+import HendelseGruppe from '../objects/HendelseGruppe';
 import SelectProgramStyle from './utils/SelectProgramStyle.vue';
 import HendelseContentComponent from './utils/HendelseContent.vue';
 import SearchProgram from './utils/SearchProgram.vue';
@@ -239,6 +271,7 @@ export default {
             hendelseMedAktiviteter : {} as any,
             deltakere : {} as any,
             alleInnslag : {} as any,
+            hendelseGrupper : [] as HendelseGruppe[],
 
         };
     },
@@ -253,10 +286,17 @@ export default {
                 this._redirectToInnslag(deltaker.hendelse.id, deltaker.innslagId);
             }
         },
+        openHendelse(hendelse : Hendelse) {
+            if (hendelse.id) {
+                this._redirectToInnslag(hendelse.id, -1); // -1 for no specific innslag
+            }
+        },
         _redirectToInnslag(hendelseId : number, innslagId : number) {
             const url = new URL('/festivalen/single-hendelse', window.location.origin);
             url.searchParams.append('hendelse-id', String(hendelseId));
-            url.searchParams.append('innslag', String(innslagId));
+            if(innslagId != -1) {
+                url.searchParams.append('innslag', String(innslagId));
+            }
             window.open(url.toString(), '_blank');
         },
         // Sjekker om hendelsen har aktiviteter eller innslag for å vise "Vis mer" knappen
@@ -265,7 +305,7 @@ export default {
                 return true;
             }
 
-            if(hendelse.innslag && hendelse.innslag.length > 0) {
+            if(hendelse.getInnslagNavn() && hendelse.getInnslagNavn().length > 0) {
                 return true;
             }
 
@@ -347,7 +387,19 @@ export default {
         //     });
         // },
         getFilteredHendelser(): Hendelse[] {
-            let filtered = this.hendelser;
+            let filtered = this.hendelser.filter(h => {
+                for(let hendelseGruppe of this.hendelseGrupper) {
+                    if(hendelseGruppe.hasHendelse(h.id)) {
+                        return false; // Håp over hendelseGruppe, de skal vises som grupper
+                    }
+                }
+                return true;
+            });
+
+            // Append hendelser from hendelseGrupper
+            for(let hendelseGruppe of this.hendelseGrupper) {
+                filtered = filtered.concat(hendelseGruppe);
+            }
 
             if (
                 this.selectedSteder.length > 0 ||
@@ -388,6 +440,11 @@ export default {
                 return results.map(r => r.item);
             }
 
+            // Sort by hendele.start
+            filtered.sort((a : Hendelse, b : Hendelse) => {
+                return a.start - b.start;
+            });
+            
             return filtered;
         },
         async fetchProgramData() {
@@ -454,9 +511,6 @@ export default {
                 );
                 this.hendelser.push(newHendelse);
                 
-                console.log('alle innslag');
-                console.log(this.alleInnslag);
-
                 if(this.availableTider.find(t => t.id == newHendelse.getStartDag()) == undefined && h.start && h.start.trim() != '') {
                     this.availableTider.push({'id' : newHendelse.getStartDag(), 'title' : newHendelse.getStartDag()});
                 }
@@ -479,6 +533,38 @@ export default {
                 }
             }
 
+            // Hendelse gruppering
+            for(let key in results.hendelseGrupper) {
+                let hG = results.hendelseGrupper[key];
+
+                let alleHendelser = [];
+                for(let hId of hG.hendelser) {
+                    let hendelse = this.getHendelse(hId);
+                    if(hendelse) {
+                        alleHendelser.push(hendelse);
+                    }
+                }
+
+                this.hendelseGrupper.push(
+                    new HendelseGruppe(
+                        hG.id, 
+                        hG.navn, 
+                        'http://ukm.no/wp-content/uploads/2025/04/40ukm.png',
+                        hG.start,
+                        -1, // Ingen sluttidspunkt
+                        '',
+                        'Gruppe',
+                        hG.beskrivelse,
+                        [],
+                        [],
+                        [],
+                        alleHendelser,
+                    )
+                );
+            }
+
+            console.log('Grupper fetched:');
+            console.log(this.hendelseGrupper);
             
             this.dataFetched = true;
             return results;
@@ -730,6 +816,31 @@ export default {
     margin-right: 5px;
     margin-top: -3px;
 }
+.hendelse-gruppe-timeline {
+    float: left;
+    display: block !important;
+}
+.custom-timeline-item :deep(.v-timeline-divider),
+.custom-timeline-item :deep(.v-timeline-item__opposite),
+.custom-timeline-item :deep(.v-timeline-divider__before) {
+    display: none !important;
+}
+.custom-timeline-item :deep(.v-timeline-item__body) {
+    display: flex !important;
+    padding-left: 0 !important;
+    margin-top: calc(4*var(--initial-space-box));
+    cursor: pointer;
+}
+.group-hendelse-content * {
+    color: #fff;
+}
+.gruppe-hendelse-img :deep(img) {
+    background: #fff;
+    border-radius: 22px;
+}
+.gruppe-hendelse-img :deep(.v-responsive__sizer) {
+    padding: 0;
+}
 
 @media (max-width: 767px) {
     .hendelse-bilde {
@@ -807,6 +918,9 @@ export default {
     }
     .v-select-program-meny :deep(.v-label) {
         top: 3px !important;
+    }
+    .gruppe-hendelse-img {
+        width: 120px !important;
     }
 
 }

@@ -11,6 +11,7 @@ class Hendelse {
     innslag: {name : string, antallDeltakere : number, url : string}[] = [];
     fylker : string[] = [];
     deltakereNavn : string[] = [];
+    isGruppe: boolean = false;
 
     constructor(id : number, 
                 title : string, 
@@ -52,6 +53,10 @@ class Hendelse {
     
     getTitle(): string {
         return this.title;
+    }
+
+    getSted(): string {
+        return this.sted;
     }
 
     getAlleDeltakereNavn() : string[] {
