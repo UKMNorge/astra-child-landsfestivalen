@@ -55,6 +55,10 @@ class Hendelse {
         return this.title;
     }
 
+    getSted(): string {
+        return this.sted;
+    }
+
     getAlleDeltakereNavn() : string[] {
         return this.deltakereNavn;
     }
