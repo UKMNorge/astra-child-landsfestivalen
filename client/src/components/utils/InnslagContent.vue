@@ -57,7 +57,9 @@ export default defineComponent({
     border-radius: var(--radius-high);
     overflow: hidden;
 }
-.chip-group-innslag-personer :deep(.v-chip__content) {
-    overflow: scroll;
+@media (max-width: 767px) {
+    .chip-group-innslag-personer :deep(.v-chip__content) {
+        overflow: scroll;
+    }
 }
 </style>
