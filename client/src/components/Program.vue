@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                             
-                            <div v-if="hendelse.isGruppe == true" class="hendelse-gruppe hendelse-info-extendable">
+                            <div v-if="hendelse.isGruppe == true" class="hendelse-gruppe as-margin-bottom-space-2 hendelse-info-extendable">
                                 <div class="hendelse-bilde">
                                     <!-- Intentional empty div for styling -->
                                 </div>
