@@ -56,6 +56,19 @@ class Aktivitet extends HendelseContent {
     public getImage() : string {
         return this.getBilde();
     }
+
+    public getStartTidspunktTimestamp() : number {
+        let startTimestamp : number = -1; 
+
+        for(let tpunkt of this.tidspunkter) {
+            let nextTimestamp = tpunkt.start.getTime();
+            if(startTimestamp == -1 || nextTimestamp < startTimestamp) {
+                startTimestamp = nextTimestamp;
+            }
+        }
+
+        return startTimestamp
+    }
     
     // Returnerer tidspunkter sortert etter starttidspunkt
     public getTidspunkterSortert() : Tidspunkt[] {

@@ -18,6 +18,10 @@ export abstract class HendelseContent {
     }
 
     
+    getStartTidspunktTimestamp() : number {
+        return -1;
+    }
+
     /**
      * Henter innholdets unike identifikator
      */
@@ -50,7 +54,7 @@ export abstract class HendelseContent {
         if (this.thumbnailBilde) {
             return this.thumbnailBilde;
         }
-        
+
         return this.bilder && this.bilder.length > 0 && this.bilder[0] ? this.bilder[0] : 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png';
     }
 

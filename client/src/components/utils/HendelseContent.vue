@@ -152,6 +152,13 @@ export default {
             return null;
         },
         getFilteredContentItems() : HendelseContent[] {
+            // sort by start tidspunkt
+            this.contentItems.sort((a, b) => {
+                const aTimestamp = a.getStartTidspunktTimestamp() != -1 ? a.getStartTidspunktTimestamp() : 9999999999999; // 13 digit timestamp
+                const bTimestamp = b.getStartTidspunktTimestamp() != -1 ? b.getStartTidspunktTimestamp() : 9999999999999; // 13 digit timestamp
+                return aTimestamp - bTimestamp;
+            });
+
             return this.contentItems;
         },
         async fetchHendelseItems() {
