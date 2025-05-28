@@ -51,7 +51,11 @@ class Hendelse {
           tester.onerror = () => resolve(original);
           tester.src = thumb;
         });
-      }
+    }
+
+    getId(): number {
+        return this.id;
+    }
     
     getTitle(): string {
         return this.title;

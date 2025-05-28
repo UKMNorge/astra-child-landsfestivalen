@@ -98,10 +98,19 @@
             
                                 </div>
                                 <div class="under-content">
+                                    <div v-if="!hendelse.isGruppe" class="share-buttons as-margin-bottom-space-4">
+                                        <v-btn
+                                            icon
+                                            class="rounded-circle"
+                                            @click="onShare(hendelse)"
+                                            color="#1f1f61">
+                                            <v-icon>mdi-share-variant</v-icon>
+                                        </v-btn>
+                                    </div>
                                     <div class="sted-tid-after-open as-margin-bottom-space-2">
                                         <!-- <h5 class="sted-after-open">Sted: <b>{{ hendelse.sted }}</b></h5> -->
                                         <v-chip class="tid-after-open as-margin-right-space-1">Sted: {{ hendelse.getSted() }}</v-chip>
-                                        <v-chip class="tid-after-open">Tid: {{ hendelse.getStart() }}</v-chip>
+                                        <v-chip class="tid-after-open as-margin-right-space-1">Tid: {{ hendelse.getStart() }}</v-chip>
                                     </div>
                                     <!-- <div class="deltakere">
                                         <div v-for="innslag in hendelse.innslag" class="deltaker">
@@ -276,6 +285,26 @@ export default {
         };
     },
     methods: {
+        onShare(hendelse : Hendelse) {
+            if (navigator.share) {
+                console.log(hendelse);
+                console.log('https://ukm.no/festivalen/single-hendelse/?hendelse-id='+hendelse.getId());
+                navigator.share({
+                    title: hendelse.getTitle(),
+                    text: hendelse.beskrivelse,
+                    url: 'https://ukm.no/festivalen/single-hendelse/?hendelse-id='+hendelse.getId(), // or any other URL you'd like to share
+                })
+                .then(() => {
+                    console.log('Shared successfully');
+                })
+                .catch((error) => {
+                    console.error('Error sharing:', error);
+                });
+            } else {
+                // Fallback for browsers that do not support the Web Share API
+                this.openHendelse(hendelse);
+            }
+        },
         openSingleInnslag(innslag : any) {
             if (innslag.hendelseId) {
                 this._redirectToInnslag(innslag.hendelseId, innslag.id);
