@@ -136,6 +136,8 @@ export default defineComponent({
     background: #00ff89 !important;
 }
 .share-button {
+    height: 40px !important;
+    width: 40px !important;
     background: #00004c !important;
     box-shadow: none !important;
 }

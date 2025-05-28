@@ -876,6 +876,8 @@ export default {
     margin-right: 40px;
 }
 .share-button {
+    height: 40px !important;
+    width: 40px !important;
     background: #fff !important;
     box-shadow: none !important;
 }
