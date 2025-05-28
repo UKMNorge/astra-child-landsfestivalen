@@ -68,12 +68,12 @@ export default defineComponent({
             }
             if (navigator.share) {
                 
-                console.log('https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag-id=' + this.innslagItem.getId());
+                console.log('https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag=' + this.innslagItem.getId());
 
                 navigator.share({
                     title: this.innslagItem ? this.innslagItem.getTitle() : 'UKM Innslag',
                     text: this.innslagItem ? this.innslagItem.getBeskrivelse() : 'Se dette innslaget på UKM Festivalen',
-                    url: 'https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag-id=' + this.innslagItem.getId(), // or any other URL you'd like to share
+                    url: 'https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag=' + this.innslagItem.getId(), // or any other URL you'd like to share
                 })
                 .then(() => {
                     console.log('Shared successfully');
@@ -83,7 +83,7 @@ export default defineComponent({
                 });
             } else {
                 // Fallback for browsers that do not support the Web Share API
-                window.open("https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag-id=' + this.innslagItem.getId()", '_blank');
+                window.open("https://ukm.no/festivalen/single-hendelse/?hendelse-id='+this.hendelseId+ '&innslag=' + this.innslagItem.getId()", '_blank');
 
             }
         },
