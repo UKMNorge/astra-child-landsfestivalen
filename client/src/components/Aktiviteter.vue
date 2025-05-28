@@ -38,7 +38,7 @@
                 <div @click="hendelse.isOpen = !hendelse.isOpen" class="first-width">
                     <div class="inner-content">
                         <div class="hendelse-bilde" v-show="!hendelse.isOpen">
-                            <img :src="hendelse.image" alt="Bilde av hendelse">
+                            <img :src="hendelse.getBilde()" alt="Bilde av hendelse">
                         </div>
                         <div class="hendelse-content">
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>
