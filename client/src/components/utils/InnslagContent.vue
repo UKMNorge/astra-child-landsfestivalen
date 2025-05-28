@@ -3,7 +3,7 @@
         <!-- <div v-show="innslagItem.getImage() != null && innslagItem.getImage().length > 0" class="hendelse-item-bilde as-margin-top-space-4">
             <img :src="innslagItem.getImage() ?? ''" alt="Bilde av aktivitet">
         </div> -->
-        <div class="share-buttons as-margin-top-space-1 as-margin-bottom-space-4">
+        <div class="share-buttons as-margin-top-space-3 as-margin-bottom-space-4">
             <v-btn
                 icon
                 class="rounded-circle share-button"
