@@ -61,6 +61,20 @@ class Hendelse {
         return this.visning == 'liste';
     }
 
+    public hasSted(sted: string): boolean {
+        if( !this.sted ) {
+            return false;
+        }
+        return this.sted.toLowerCase() == sted.toLowerCase();
+    }
+    
+    public hasType(type: string) : boolean {
+        if( !this.type ) {
+            return false;
+        }
+        return this.type.toLowerCase() == type.toLowerCase();
+    }
+
     getSted(): string {
         return this.sted;
     }

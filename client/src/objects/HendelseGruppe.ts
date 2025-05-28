@@ -26,6 +26,14 @@ class HendelseGruppe extends Hendelse {
         return titles.join(' ');
     }
 
+    public hasSted(sted : string) : boolean {
+        return this.hendelser.some(hendelse => hendelse.getSted() == sted);
+    }
+
+    public hasType(type: string): boolean {
+        return this.hendelser.some(hendelse => hendelse.hasType(type));
+    }
+
     public getSted(): string {
         // join all unique sted from hendelser
         const unikeSteder = new Set(this.hendelser.map(hendelse => hendelse.getSted()));
