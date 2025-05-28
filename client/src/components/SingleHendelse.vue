@@ -7,7 +7,7 @@
         </div>
         <div v-if="fetched && !noHendelseId">
             <div class="as-margin-bottom-space-4 as-margin-top-space-4">
-                <h1 class="title-hendelse" v-if="hendelse != null">{{ hendelse.getTitle() }}</h1>
+                <h1 class="title-hendelse" v-if="hendelse != null">{{ hendelse.getTitle() }} - {{ hendelse.getStart() }}</h1>
             </div>
             <div class="single-hendelse as-margin-bottom-space-8">
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
