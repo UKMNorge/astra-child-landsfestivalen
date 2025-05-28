@@ -136,7 +136,10 @@ export default defineComponent({
     background: #00ff89 !important;
 }
 .share-button {
-    background: #e0e0ea;
+    background: #00004c !important;
     box-shadow: none !important;
+}
+.share-button :deep(.mdi-share-variant) {
+    color: #fff !important;
 }
 </style>

@@ -97,8 +97,11 @@ export default defineComponent({
     overflow: hidden;
 }
 .share-button {
-    background: #e0e0ea;
+    background: #00004c !important;
     box-shadow: none !important;
+}
+.share-button :deep(.mdi-share-variant) {
+    color: #fff !important;
 }
 @media (max-width: 767px) {
     .chip-group-innslag-personer :deep(.v-chip__content) {

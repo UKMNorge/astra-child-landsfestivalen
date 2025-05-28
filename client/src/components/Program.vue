@@ -101,9 +101,8 @@
                                     <div v-if="!hendelse.isGruppe" class="share-buttons as-margin-bottom-space-4">
                                         <v-btn
                                             icon
-                                            class="rounded-circle"
-                                            @click="onShare(hendelse)"
-                                            color="#1f1f61">
+                                            class="rounded-circle share-button"
+                                            @click="onShare(hendelse)">
                                             <v-icon>mdi-share-variant</v-icon>
                                         </v-btn>
                                     </div>
@@ -875,6 +874,13 @@ export default {
 .hendelse-card :deep(.v-card-title) {
     white-space: normal;
     margin-right: 40px;
+}
+.share-button {
+    background: #fff !important;
+    box-shadow: none !important;
+}
+.share-button :deep(.mdi-share-variant) {
+    color: #00004c !important;
 }
 
 @media (max-width: 767px) {
