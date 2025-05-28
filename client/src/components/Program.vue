@@ -407,10 +407,10 @@ export default {
                 this.selectedTider.length > 0 ||
                 this.selectedTyper.length > 0
             ) {
-                filtered = filtered.filter(h => {
-                    if (this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => String(sted) == h.sted)) return false;
+                filtered = filtered.filter((h : Hendelse) => {
+                    if (this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => h.hasSted(String(sted)))) return false;
                     if (this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) return false;
-                    if (this.selectedTyper.length > 0 && !this.selectedTyper.find(t => String(t) == h.type)) return false;
+                    if (this.selectedTyper.length > 0 && !this.selectedTyper.find(t => h.hasType(String(t)))) return false;
                     return true;
                 });
             }
