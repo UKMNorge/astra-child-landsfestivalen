@@ -56,7 +56,7 @@
                                     <AktivitetContentComponent :hendelseId="hendelse.id" :aktivitetItem="getItemAktivitet(hendelseItem)" />
                                 </template>
                                 <template v-else>
-                                    <InnslagContentComponent :innslagItem="getItemInnslag(hendelseItem)" />
+                                    <InnslagContentComponent :hendelseId="hendelse.id" :innslagItem="getItemInnslag(hendelseItem)" />
                                 </template>
                                 
                             </div>

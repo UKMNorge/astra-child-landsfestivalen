@@ -1,5 +1,6 @@
 <template>
     <div v-if="aktivitetItem != null">
+    
         <div class="tags as-margin-top-space-4">
             <v-chip-group>
                 <v-chip variant="outlined" v-for="tag in aktivitetItem.tags">
@@ -9,6 +10,15 @@
         </div>
         <div v-show="aktivitetItem.getImage() != null && aktivitetItem.getImage().length > 0" class="hendelse-item-bilde as-margin-top-space-4">
             <img :src="aktivitetItem.getImage() ?? ''" alt="Bilde av aktivitet">
+        </div>
+
+        <div class="share-buttons as-margin-top-space-3 as-margin-bottom-space-4">
+            <v-btn
+                icon
+                class="rounded-circle share-button"
+                @click="onShare">
+                <v-icon>mdi-share-variant</v-icon>
+            </v-btn>
         </div>
 
         <div class="as-margin-top-space-4">
@@ -85,7 +95,34 @@ export default defineComponent({
         },
         meldPaa(aktivitetItem : Aktivitet) {
             window.location.href = 'https://aktiviteter.ukm.no/' + aktivitetItem.id;
-        }
+        },
+        onShare() {
+            console.log(this.aktivitetItem);
+            if(this.aktivitetItem == null) {
+                console.error('Cannot share, aktivitetItem is not set');
+                return;
+            }
+            if (navigator.share) {
+                
+                console.log("https://ukm.no/festivalen/single-aktivitet/?aktivitet-id=" + this.aktivitetItem.id);
+
+                navigator.share({
+                    title: this.aktivitetItem ? this.aktivitetItem.getTitle() : 'UKM Aktivitet',
+                    text: this.aktivitetItem ? this.aktivitetItem.getBeskrivelse() : 'Se denne aktiviteten på UKM Festivalen',
+                    url: "https://ukm.no/festivalen/single-aktivitet/?aktivitet-id=" + this.aktivitetItem.id, // or any other URL you'd like to share
+                })
+                .then(() => {
+                    console.log('Shared successfully');
+                })
+                .catch((error) => {
+                    console.error('Error sharing:', error);
+                });
+            } else {
+                // Fallback for browsers that do not support the Web Share API
+                window.open("https://ukm.no/festivalen/single-aktivitet/?aktivitet-id=" + this.aktivitetItem.id, '_blank');
+
+            }
+        },
     }
 });
 </script>
@@ -97,5 +134,9 @@ export default defineComponent({
 }
 .landsfestivalen-btn-green {
     background: #00ff89 !important;
+}
+.share-button {
+    background: #e0e0ea;
+    box-shadow: none !important;
 }
 </style>
