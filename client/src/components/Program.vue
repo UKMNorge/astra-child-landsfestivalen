@@ -883,6 +883,7 @@ export default {
 }
 .share-button :deep(.mdi-share-variant) {
     color: #00004c !important;
+    margin-left: -2px;
 }
 
 @media (max-width: 767px) {

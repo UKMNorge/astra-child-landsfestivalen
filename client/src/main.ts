@@ -9,6 +9,7 @@ import ProgramDeltakere from "./components/ProgramDeltakere.vue";
 import AktiviteterStart from "./components/AktiviteterStart.vue";
 import SingleAktivitet from "./components/SingleAktivitet.vue";
 import SingleHendelse from "./components/SingleHendelse.vue";
+import Timeplan from "./components/Timeplan.vue";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -102,6 +103,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case 'single-hendelse':
                 component = SingleHendelse;
+                break;
+            case 'timeplan':
+                component = Timeplan;
                 break;
             default:
                 throw new Error('Unknown component: ' + componentName);
