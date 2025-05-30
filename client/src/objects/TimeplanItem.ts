@@ -28,6 +28,16 @@ class TimeplanItem {
         return this.place;
     }
 
+    public getStartEndTimeHumanReadable(): string {
+        // 10:00 - 11:00
+        const startHours = this.startDate.getHours().toString().padStart(2, '0');
+        const startMinutes = this.startDate.getMinutes().toString().padStart(2, '0');
+        const endHours = this.endDate.getHours().toString().padStart(2, '0');
+        const endMinutes = this.endDate.getMinutes().toString().padStart(2, '0');
+        return `${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
+    }
+
+
     getDescription(): string {
         return this.description;
     }
