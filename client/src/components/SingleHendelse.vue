@@ -10,7 +10,7 @@
                 <h1 class="title-hendelse" v-if="hendelse != null">{{ hendelse.getTitle() }} - {{ hendelse.getStart() }}</h1>
                 <p class="beskrivelse-hendelse" v-if="hendelse != null && hendelse.beskrivelse">{{ hendelse.beskrivelse }}</p>
             </div>
-            <div class="single-hendelse as-margin-bottom-space-8">
+            <div v-show="noDataInHendelse == false" class="single-hendelse as-margin-bottom-space-8">
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
             </div>
         </div>
@@ -34,6 +34,7 @@ export default {
             hendelse : null as Hendelse | null,
             noHendelseId : false as boolean,
             fetched : false as boolean,
+            noDataInHendelse : false as boolean,
         }
     },
     mounted() {
@@ -41,8 +42,21 @@ export default {
         this.hendelseId = this.director.getParam('hendelse-id') ?? -1;
         this.openInnslagId = this.director.getParam('innslag') ?? -1;
         this.fetchHendelse();
+        this.fetchHendelseContent();
     },
     methods : {
+        async fetchHendelseContent() {
+            var data = {
+                hendelseId: this.hendelseId,
+            };
+
+            var results = await this.spaInteraction.runAjaxCall('getHendelseContent.ajax.php', 'POST', data);
+            if(results == null || results.aktiviteter.length < 1 && results.innslagPersoner < 1) {
+                this.noDataInHendelse = true;
+                return;
+            }
+
+        },
         async fetchHendelse() {
             if(this.hendelseId == -1) {
                 this.noHendelseId = true;
