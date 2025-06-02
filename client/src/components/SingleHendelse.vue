@@ -92,7 +92,8 @@ export default {
     background-color: #fff;
     border-radius: var(--radius-high);
 }
-.title-hendelse {
+.title-hendelse,
+.beskrivelse-hendelse {
     color: #fff;
     text-align: center;
 }
