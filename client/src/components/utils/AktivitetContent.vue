@@ -40,11 +40,11 @@
                 <span class="beskrivelse" v-html="aktivitetItem.getBeskrivelse()"></span>
             </div>
 
-            <div class="beskrivelse beskrivelse as-margin-top-space-4">
+            <div v-show="aktivitetItem.getLederBeskrivelse() && aktivitetItem.getLederBeskrivelse().length > 1" class="beskrivelse beskrivelse as-margin-top-space-4">
                 <div class="as-margin-bottom-space-4">
                     <hr>
                 </div>
-                <h5 v-show="aktivitetItem.getLederBeskrivelse() && aktivitetItem.getLederBeskrivelse().length > 1">Beskrivelse av den som leder aktiviteten</h5>
+                <h5>Beskrivelse av den som leder aktiviteten</h5>
                 <span class="beskrivelse" v-html="aktivitetItem.getLederBeskrivelse()"></span>
             </div>
         </div>
