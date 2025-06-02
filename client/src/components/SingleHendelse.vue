@@ -13,8 +13,8 @@
             <div v-show="noDataInHendelse == false" class="single-hendelse as-margin-bottom-space-8">
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
             </div>
-            <div v-show="noDataInHendelse" class="as-card-1 as-padding-space-6">
-                <img :src="hendelse.img" alt="Bilde av hendelse">
+            <div v-show="noDataInHendelse && hendelse.img && hendelse.img.length > 0" class="as-display-flex as-card-1 as-padding-space-6">
+                <img class="hendelse-bilde" :src="hendelse.img" alt="Bilde av hendelse">
             </div>
         </div>
     </div>
@@ -113,5 +113,8 @@ export default {
 .beskrivelse-hendelse {
     color: #fff;
     text-align: center;
+}
+.hendelse-bilde {
+    margin: auto;
 }
 </style>
