@@ -53,7 +53,7 @@
                     </div>
 
                     <div>
-                        <div v-for="tp in timeplanItem" class="timeplan-item tplan-style" :key="tp.getId()">
+                        <div @click="openTimeplanItem(tp)" v-for="tp in timeplanItem" :class="{'item-with-link' : tp.getLink() != null}" class="timeplan-item tplan-style" :key="tp.getId()">
                             <h3 class="title">{{ tp.getTitle() }}</h3>
                             <p class="time">{{ tp.getStartEndTimeHumanReadable() }}</p>
                             <p v-show="tp.getPlace().length > 0" class="place">{{ tp.getPlace() }}</p>
@@ -97,6 +97,12 @@ export default {
         this.tab = this.getTabs()[0]; // Set initial tab to the first available tab
     },
     methods : {
+        openTimeplanItem(tp: TimeplanItem) {
+            // Only if the link is defined and not empty
+            if(tp.getLink() != null && tp.getLink().length > 0) {
+                window.open(tp.getLink(), '_blank');
+            }
+        },
         moveToTab(dayTab: string) {
             if(this.tab == dayTab) {
                 return;
@@ -136,41 +142,41 @@ export default {
         async fetchTimeplan() {
             this.timeplanItems.push(
                 // Lørdag 21.06
-                new TimeplanItem(1, 'Kreativ tid & bli kjent', 'OLAVSHALLEN', '', new Date('2025-06-21T16:00:00'), new Date('2025-06-21T19:30:00')),
-                new TimeplanItem(2, 'Åpning av kunstutstilling', '', '', new Date('2025-06-21T19:30:00'), new Date('2025-06-21T20:00:00')),
-                new TimeplanItem(3, 'Åpningsforestilling', 'OLAVSHALLEN', '', new Date('2025-06-21T20:30:00'), new Date('2025-06-21T21:30:00')),
-                new TimeplanItem(4, 'Bli kjent kveld', 'SPEKTRUM', '', new Date('2025-06-21T23:00:00'), new Date('2025-06-21T00:30:00')),
+                new TimeplanItem(1, 'Kreativ tid & bli kjent', 'OLAVSHALLEN', '', new Date('2025-06-21T16:00:00'), new Date('2025-06-21T19:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18846'),
+                new TimeplanItem(2, 'Åpning av kunstutstilling', '', '', new Date('2025-06-21T19:30:00'), new Date('2025-06-21T20:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18258'),
+                new TimeplanItem(3, 'Åpningsforestilling', 'OLAVSHALLEN', '', new Date('2025-06-21T20:30:00'), new Date('2025-06-21T21:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18842'),
+                new TimeplanItem(4, 'Bli kjent kveld', 'SPEKTRUM', '', new Date('2025-06-21T23:00:00'), new Date('2025-06-21T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18843'),
 
                 // Søndag 22.06
                 new TimeplanItem(5, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-22T07:00:00'), new Date('2025-06-22T08:30:00')),
-                new TimeplanItem(6, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-22T09:00:00'), new Date('2025-06-22T09:30:00')),
-                new TimeplanItem(7, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T09:30:00'), new Date('2025-06-22T12:00:00')),
-                new TimeplanItem(8, 'Forestilling 2', 'OLAVSHALLEN', '', new Date('2025-06-22T12:30:00'), new Date('2025-06-22T14:30:00')),
-                new TimeplanItem(9, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T15:00:00'), new Date('2025-06-22T17:30:00')),
-                new TimeplanItem(10, 'Forestilling 3', 'OLAVSHALLEN', '', new Date('2025-06-22T18:00:00'), new Date('2025-06-22T19:30:00')),
-                new TimeplanItem(11, 'Waterparty', 'PIRBADET', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T22:00:00')),
-                new TimeplanItem(12, 'Spillquest-show', 'OLAVSHALLEN', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T21:30:00')),
-                new TimeplanItem(13, 'Nattkino', 'SPEKTRUM', '', new Date('2025-06-22T23:00:00'), new Date('2025-06-22T00:30:00')),
+                new TimeplanItem(6, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-22T09:00:00'), new Date('2025-06-22T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=S%C3%B8ndag'),
+                new TimeplanItem(7, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T09:30:00'), new Date('2025-06-22T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18848'),
+                new TimeplanItem(8, 'Forestilling 2', 'OLAVSHALLEN', '', new Date('2025-06-22T12:30:00'), new Date('2025-06-22T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18859'),
+                new TimeplanItem(9, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T15:00:00'), new Date('2025-06-22T17:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18847'),
+                new TimeplanItem(10, 'Forestilling 3', 'OLAVSHALLEN', '', new Date('2025-06-22T18:00:00'), new Date('2025-06-22T19:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18858'),
+                new TimeplanItem(11, 'Waterparty', 'PIRBADET', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T22:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18854'),
+                new TimeplanItem(12, 'Spillquest-show', 'OLAVSHALLEN', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T21:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18855'),
+                new TimeplanItem(13, 'Nattkino', 'SPEKTRUM', '', new Date('2025-06-22T23:00:00'), new Date('2025-06-22T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18866'),
 
                 // Mandag 23.06
                 new TimeplanItem(14, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-23T07:00:00'), new Date('2025-06-23T08:30:00')),
-                new TimeplanItem(15, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-23T09:00:00'), new Date('2025-06-23T09:30:00')),
-                new TimeplanItem(16, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T09:30:00'), new Date('2025-06-23T12:00:00')),
-                new TimeplanItem(17, 'Forestilling 4', 'OLAVSHALLEN', '', new Date('2025-06-23T12:30:00'), new Date('2025-06-23T14:30:00')),
-                new TimeplanItem(18, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T15:00:00'), new Date('2025-06-23T17:30:00')),
-                new TimeplanItem(19, 'Forestilling 5', 'OLAVSHALLEN', '', new Date('2025-06-23T18:00:00'), new Date('2025-06-23T20:00:00')),
-                new TimeplanItem(20, 'Akustisk konsert', 'VÅR FRUE KIRKE', '', new Date('2025-06-23T21:00:00'), new Date('2025-06-23T21:45:00')),
-                new TimeplanItem(21, 'Karaoke-Cup', 'SPEKTRUM', '', new Date('2025-06-23T23:00:00'), new Date('2025-06-23T00:30:00')),
+                new TimeplanItem(15, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-23T09:00:00'), new Date('2025-06-23T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=Mandag'),
+                new TimeplanItem(16, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T09:30:00'), new Date('2025-06-23T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18863'),
+                new TimeplanItem(17, 'Forestilling 4', 'OLAVSHALLEN', '', new Date('2025-06-23T12:30:00'), new Date('2025-06-23T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18853'),
+                new TimeplanItem(18, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T15:00:00'), new Date('2025-06-23T17:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18864'),
+                new TimeplanItem(19, 'Forestilling 5', 'OLAVSHALLEN', '', new Date('2025-06-23T18:00:00'), new Date('2025-06-23T20:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18852'),
+                new TimeplanItem(20, 'Akustisk konsert', 'VÅR FRUE KIRKE', '', new Date('2025-06-23T21:00:00'), new Date('2025-06-23T21:45:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18857'),
+                new TimeplanItem(21, 'Karaoke-Cup', 'SPEKTRUM', '', new Date('2025-06-23T23:00:00'), new Date('2025-06-23T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18867'),
 
                 // Tirsdag 24.06
                 new TimeplanItem(22, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-24T07:00:00'), new Date('2025-06-24T08:30:00')),
-                new TimeplanItem(23, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-24T09:00:00'), new Date('2025-06-24T09:30:00')),
-                new TimeplanItem(24, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-24T09:30:00'), new Date('2025-06-24T12:00:00')),
-                new TimeplanItem(25, 'Forestilling 6', 'OLAVSHALLEN', '', new Date('2025-06-24T12:30:00'), new Date('2025-06-24T14:30:00')),
-                new TimeplanItem(26, 'Fritid og opplevelser', 'Rundt i byen', '', new Date('2025-06-24T15:00:00'), new Date('2025-06-24T17:00:00')),
-                new TimeplanItem(27, 'Forestilling 7', 'OLAVSHALLEN', '', new Date('2025-06-24T17:00:00'), new Date('2025-06-24T18:30:00')),
-                new TimeplanItem(28, 'PETER PAN - Stargate to Neverland', 'NYE HJORTEN TEATER', '', new Date('2025-06-24T19:30:00'), new Date('2025-06-24T22:30:00')),
-                new TimeplanItem(29, 'Avskjedsdisco', 'SPEKTRUM', '', new Date('2025-06-24T23:30:00'), new Date('2025-06-24T01:00:00')),
+                new TimeplanItem(23, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-24T09:00:00'), new Date('2025-06-24T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=Tirsdag'),
+                new TimeplanItem(24, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-24T09:30:00'), new Date('2025-06-24T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18849'),
+                new TimeplanItem(25, 'Forestilling 6', 'OLAVSHALLEN', '', new Date('2025-06-24T12:30:00'), new Date('2025-06-24T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18862'),
+                new TimeplanItem(26, 'Fritid og opplevelser', 'Rundt i byen', '', new Date('2025-06-24T15:00:00'), new Date('2025-06-24T17:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18845'),
+                new TimeplanItem(27, 'Forestilling 7', 'OLAVSHALLEN', '', new Date('2025-06-24T17:00:00'), new Date('2025-06-24T18:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18861'),
+                new TimeplanItem(28, 'PETER PAN - Stargate to Neverland', 'NYE HJORTEN TEATER', '', new Date('2025-06-24T19:30:00'), new Date('2025-06-24T22:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18865'),
+                new TimeplanItem(29, 'Avskjedsdisco', 'SPEKTRUM', '', new Date('2025-06-24T23:30:00'), new Date('2025-06-24T01:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18856'),
             );
         },
     }
@@ -200,6 +206,11 @@ export default {
 .timeplan-item {
     margin-bottom: var(--initial-space-box);
     background-color: #262667;
+}
+.timeplan-item.item-with-link:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: background-color 0.3s ease;
 }
 .tabs-timeplan :deep(.v-btn__content) {
     font-weight: 700;

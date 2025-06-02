@@ -6,26 +6,39 @@ class TimeplanItem {
     private description: string;
     private startDate: Date;
     private endDate: Date;
+    private link?: string;
 
-    constructor(id: number, title: string, place: string, description: string, startDate: Date, endDate: Date) {
+    constructor(id: number, 
+        title: string, 
+        place: string, 
+        description: string, 
+        startDate: Date, 
+        endDate: Date,
+        link?: string
+    ) {
         this.id = id;
         this.title = title;
         this.place = place;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.link = link;
     }
 
-    getId(): number {
+    public getId(): number {
         return this.id;
     }
 
-    getTitle(): string {
+    public getTitle(): string {
         return this.title;
     }
 
     public getPlace(): string {
         return this.place;
+    }
+
+    public getLink(): string | null {
+        return this.link ? this.link : null;
     }
 
     public getStartEndTimeHumanReadable(): string {
