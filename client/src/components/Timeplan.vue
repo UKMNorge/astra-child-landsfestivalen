@@ -143,7 +143,7 @@ export default {
 
                 // Søndag 22.06
                 new TimeplanItem(5, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-22T07:00:00'), new Date('2025-06-22T08:30:00')),
-                new TimeplanItem(6, 'Morgenmøter (Olavshallen)', 'OLAVSHALLEN', '', new Date('2025-06-22T09:00:00'), new Date('2025-06-22T09:30:00')),
+                new TimeplanItem(6, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-22T09:00:00'), new Date('2025-06-22T09:30:00')),
                 new TimeplanItem(7, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T09:30:00'), new Date('2025-06-22T12:00:00')),
                 new TimeplanItem(8, 'Forestilling 2', 'OLAVSHALLEN', '', new Date('2025-06-22T12:30:00'), new Date('2025-06-22T14:30:00')),
                 new TimeplanItem(9, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T15:00:00'), new Date('2025-06-22T17:30:00')),
@@ -154,7 +154,7 @@ export default {
 
                 // Mandag 23.06
                 new TimeplanItem(14, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-23T07:00:00'), new Date('2025-06-23T08:30:00')),
-                new TimeplanItem(15, 'Morgenmøter (Olavshallen)', 'OLAVSHALLEN', '', new Date('2025-06-23T09:00:00'), new Date('2025-06-23T09:30:00')),
+                new TimeplanItem(15, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-23T09:00:00'), new Date('2025-06-23T09:30:00')),
                 new TimeplanItem(16, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T09:30:00'), new Date('2025-06-23T12:00:00')),
                 new TimeplanItem(17, 'Forestilling 4', 'OLAVSHALLEN', '', new Date('2025-06-23T12:30:00'), new Date('2025-06-23T14:30:00')),
                 new TimeplanItem(18, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T15:00:00'), new Date('2025-06-23T17:30:00')),
@@ -164,7 +164,7 @@ export default {
 
                 // Tirsdag 24.06
                 new TimeplanItem(22, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-24T07:00:00'), new Date('2025-06-24T08:30:00')),
-                new TimeplanItem(23, 'Morgenmøter (Olavshallen)', 'OLAVSHALLEN', '', new Date('2025-06-24T09:00:00'), new Date('2025-06-24T09:30:00')),
+                new TimeplanItem(23, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-24T09:00:00'), new Date('2025-06-24T09:30:00')),
                 new TimeplanItem(24, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-24T09:30:00'), new Date('2025-06-24T12:00:00')),
                 new TimeplanItem(25, 'Forestilling 6', 'OLAVSHALLEN', '', new Date('2025-06-24T12:30:00'), new Date('2025-06-24T14:30:00')),
                 new TimeplanItem(26, 'Fritid og opplevelser', 'Rundt i byen', '', new Date('2025-06-24T15:00:00'), new Date('2025-06-24T17:00:00')),
