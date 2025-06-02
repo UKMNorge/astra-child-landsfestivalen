@@ -13,6 +13,9 @@
             <div v-show="noDataInHendelse == false" class="single-hendelse as-margin-bottom-space-8">
                 <HendelseContent :hendelse="hendelse" :openInnslag="openInnslagId ?? null"  />
             </div>
+            <div v-show="noDataInHendelse" class="as-card-1 as-padding-space-6">
+                <img :src="hendelse.img" alt="Bilde av hendelse">
+            </div>
         </div>
     </div>
 </template>
