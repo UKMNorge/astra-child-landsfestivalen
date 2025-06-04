@@ -132,6 +132,9 @@ export default defineComponent({
     border-radius: var(--radius-high) !important;
     overflow: hidden;
 }
+.hendelse-item-bilde img {
+    border-radius: var(--radius-high) !important;
+}
 .landsfestivalen-btn-green {
     background: #00ff89 !important;
 }
