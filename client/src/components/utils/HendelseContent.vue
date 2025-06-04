@@ -363,7 +363,7 @@ export default {
     height: 100%;
 }
 .hendelse-item-bilde img {
-    border-radius: 22px;
+    border-radius: 22px !important;
     width: 100%;
     height: 100%;
     object-fit: cover;

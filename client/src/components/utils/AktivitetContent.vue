@@ -129,7 +129,7 @@ export default defineComponent({
 
 <style scoped>
 .hendelse-item-bilde {
-    border-radius: var(--radius-high);
+    border-radius: var(--radius-high) !important;
     overflow: hidden;
 }
 .landsfestivalen-btn-green {
