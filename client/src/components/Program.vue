@@ -73,6 +73,7 @@
                         </div>
                         <div class="hendelse-content">
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>
+                            <span v-show="!hendelse.isOpen" class="tid under-tittel">{{ hendelse.getStart() }}</span>
                         </div>
                         <div class="hendelse-sted">
                             <span v-show="!hendelse.isOpen" class="sted">{{ hendelse.getSted() }}</span>
@@ -889,6 +890,9 @@ export default {
 .hendelse-sted .sted {
     margin: 0;
 }
+.tid.under-tittel {
+    display: none !important;
+}
 
 @media (max-width: 767px) {
     .hendelse-bilde {
@@ -957,8 +961,11 @@ export default {
     .hendelse-beskrivelse .beskrivelse {
         font-size: 18px;
     }
-    .hendelse-sted .sted {
-        font-size: 12px;
+    .hendelse-sted {
+        display: none !important;
+    }
+    .tid.under-tittel {
+        display: inline !important;
     }
     .hendelse-sted .dag {
         font-size: 12px;
