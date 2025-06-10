@@ -75,7 +75,8 @@
                             <h2 class="hendelse-title">{{ hendelse.title }}</h2>
                         </div>
                         <div class="hendelse-sted">
-                            <span v-show="!hendelse.isOpen" class="sted">{{ hendelse.sted }}</span>
+                            <span v-show="!hendelse.isOpen" class="sted">{{ hendelse.getSted() }}</span>
+                            <span v-show="!hendelse.isOpen" class="dag">{{ hendelse.getStartDag() }}</span>
                             <!-- <v-chip class="tid" v-show="hendelse.isOpen">{{ hendelse.getStart() }}</v-chip> -->
                         </div>
                         <div class="open-indicator">
@@ -885,6 +886,9 @@ export default {
     color: #00004c !important;
     margin-left: -2px;
 }
+.hendelse-sted .sted {
+    margin: 0;
+}
 
 @media (max-width: 767px) {
     .hendelse-bilde {
@@ -932,13 +936,16 @@ export default {
     }
 }
 @media (max-width: 520px) {
+    .hendelse-bilde {
+        margin-right: 24px;
+        width: 100px !important;
+        min-width: 100px !important;
+        height: 75px !important;
+    }
     .hendelse-content {
         width: 100%;
     }
     .hendelse-info-extendable .hendelse-bilde {
-        display: none;
-    }
-    .hendelse-sted {
         display: none;
     }
     .under-content { 
@@ -951,7 +958,11 @@ export default {
         font-size: 18px;
     }
     .hendelse-sted .sted {
-        font-size: 14px;
+        font-size: 12px;
+    }
+    .hendelse-sted .dag {
+        font-size: 12px;
+        font-weight: 300;
     }
     .v-select-program-meny {
         width: 80px;
