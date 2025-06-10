@@ -967,6 +967,9 @@ export default {
     .tid.under-tittel {
         display: inline !important;
     }
+    .hendelse-title {
+        margin-bottom: 0;
+    }
     .hendelse-sted .dag {
         font-size: 12px;
         font-weight: 300;
