@@ -16,9 +16,11 @@ class HendelseGruppe extends Hendelse {
         fylker : string[],
         deltakereNavn : string[],
         hendelser : Hendelse[],
+        tag: string = null
     ) {
-        super(id, title, img, start, end, sted, type, beskrivelse, innslag, fylker, deltakereNavn);
+        super(id, title, img, start, end, sted, type, beskrivelse, innslag, fylker, deltakereNavn, tag);
         this.hendelser = hendelser;
+        this.tag = tag;
     }
 
     public getTitle(): string {
@@ -30,8 +32,12 @@ class HendelseGruppe extends Hendelse {
         return this.hendelser.some(hendelse => hendelse.getSted() == sted);
     }
 
+    // Type for hendelsegrupper er tag
     public hasType(type: string): boolean {
-        return this.hendelser.some(hendelse => hendelse.hasType(type));
+        if( !this.tag ) {
+            return false;
+        }
+        return this.tag.toLowerCase() == type.toLowerCase();
     }
 
     public getSted(): string {

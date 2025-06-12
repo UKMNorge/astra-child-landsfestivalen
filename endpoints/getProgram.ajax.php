@@ -56,6 +56,7 @@ foreach(HendelseGruppe::getAlleByArrangement($arrangement) as $hendelseGruppe) {
         'navn' => $hendelseGruppe->getNavn(),
         'beskrivelse' => $hendelseGruppe->getBeskrivelse(),
         'start' => $hendelseGruppe->getStart() ? $hendelseGruppe->getStart()->getTimestamp() : null,
+        'tag' => $hendelseGruppe->getTag() ?? null,
         'hendelser' => [],
     ];
     foreach($hendelseGruppe->getHendelser() as $hendelse) {

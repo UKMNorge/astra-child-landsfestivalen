@@ -417,14 +417,7 @@ export default {
         //     });
         // },
         getFilteredHendelser(): Hendelse[] {
-            let filtered = this.hendelser.filter(h => {
-                for(let hendelseGruppe of this.hendelseGrupper) {
-                    if(hendelseGruppe.hasHendelse(h.id)) {
-                        return false; // Håp over hendelseGruppe, de skal vises som grupper
-                    }
-                }
-                return true;
-            });
+            let filtered = this.hendelser;
 
             // Append hendelser from hendelseGrupper
             for(let hendelseGruppe of this.hendelseGrupper) {
@@ -432,11 +425,9 @@ export default {
                 filtered = filtered.concat(hendelseGruppe);
             }
 
-            if (
-                this.selectedSteder.length > 0 ||
+            if (this.selectedSteder.length > 0 ||
                 this.selectedTider.length > 0 ||
-                this.selectedTyper.length > 0
-            ) {
+                this.selectedTyper.length > 0) {
                 filtered = filtered.filter((h : Hendelse) => {
                     if (this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => h.hasSted(String(sted)))) return false;
                     if (this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) return false;
@@ -569,6 +560,11 @@ export default {
             for(let key in results.hendelseGrupper) {
                 let hG = results.hendelseGrupper[key];
 
+                let tag = hG.tag ?? '';
+                if(this.availableTyper.find(t => t.id == tag) == undefined && tag.trim() != '') {
+                    this.availableTyper.push({'id' : tag, 'title' : tag});
+                }
+
                 let alleHendelser = [];
                 for(let hId of hG.hendelser) {
                     let hendelse = this.getHendelse(hId);
@@ -591,6 +587,7 @@ export default {
                         [],
                         [],
                         alleHendelser,
+                        hG.tag ?? null,
                     )
                 );
             }
