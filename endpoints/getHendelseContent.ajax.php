@@ -45,6 +45,16 @@ foreach( $hendelser as $hendelse ) {
             // Hent fylke
             $innslag->getFylke();
 
+            // Hent alle filmene
+            foreach($innslag->getFilmer()->getAll() as $film) {
+                $filmObj = [];
+                $filmObj['id'] = $film->getId();
+                $filmObj['tittel'] = $film->getTitle();
+                $filmObj['beskrivelse'] = $film->getDescription();
+                $filmObj['embededHTML'] = $film->getEmbedHtml();    
+                $objInnslag['filmer'][$film->getId()] = $filmObj;
+            }
+
             // Bilder
             $objInnslag['bilder'] = [];
             if(count($innslag->getBilder()->getAll()) > 0) {
@@ -77,4 +87,5 @@ foreach( $hendelser as $hendelse ) {
 $handleCall->sendToClient([
     'aktiviteter' => $aktiviteter,
     'innslagPersoner' => $innslagPersoner,
+    'filmer' => $filmer,
 ]);

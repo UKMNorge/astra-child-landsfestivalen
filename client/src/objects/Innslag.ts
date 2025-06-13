@@ -17,8 +17,9 @@ class Innslag extends HendelseContent {
         personer : any[] = [],
         bilder : string[] = [],
         fylke : string|null,
+        filmer : any[],
     ) {
-        super(id, title, bilder, beskrivelse);
+        super(id, title, bilder, filmer, beskrivelse);
         this.key = key;
         this.isSinglePerson = isSinglePerson;
         this.personer = personer;

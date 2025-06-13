@@ -214,6 +214,7 @@ export default {
                     innPerson.personer,
                     innslagBilder,
                     innslag.fylke ? innslag.fylke.navn : '',
+                    innPerson.filmer,
                 );
                 this.contentItems.push(innslagObj);
                 innslagObj.setThumbnailBilde(thumbnailBilde);

@@ -20,11 +20,16 @@
             </div>
         </div>
         
-        <div class="innslag-bilder">
+        <div class="innslag-bilder as-margin-bottom-space-2">
             <div v-for="bilde in innslagItem.getBilder()" class="hendelse-item-bilde as-margin-top-space-4">
                 <img class="innslag-bilde-item" :src="bilde" alt="Bilde av innslag" />
             </div>
+        </div>
 
+        <div class="innslag-filmer as-margin-bottom-space-2">
+            <div v-for="film in innslagItem.getFilmer()" class="hendelse-item-bilde as-margin-top-space-4">
+                <div class="film-innslag" v-html="film.embededHTML"></div>
+            </div>
         </div>
 
         <div class="beskrivelser as-margin-top-space-2">
@@ -105,6 +110,13 @@ export default defineComponent({
 .share-button :deep(.mdi-share-variant) {
     color: #fff !important;
     margin-left: -2px;
+}
+.film-innslag {
+    display: flex;
+    position: relative;
+    height: auto;
+    width: 100%;
+    min-height: 350px;
 }
 @media (max-width: 767px) {
     .chip-group-innslag-personer :deep(.v-chip__content) {

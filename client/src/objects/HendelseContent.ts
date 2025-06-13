@@ -8,12 +8,14 @@ export abstract class HendelseContent {
     public beskrivelse?: string|undefined;
     public isOpen: boolean = false;
     protected bilder : string[] = [];
+    protected filmer : any[] = [];
     protected thumbnailBilde : string = '';
 
-    constructor(id: string, title: string, bilder : string[], beskrivelse?: string) {
+    constructor(id: string, title: string, bilder : string[], filmer : any[], beskrivelse?: string) {
         this.id = id;
         this.title = title;
         this.bilder = bilder ? bilder : [];
+        this.filmer = filmer ? filmer : [];
         this.beskrivelse = beskrivelse;
     }
 
@@ -64,6 +66,10 @@ export abstract class HendelseContent {
     
     public getBilder(): string[] {
         return this.bilder != null ? this.bilder : [];
+    }
+
+    public getFilmer(): any[] {
+        return this.filmer != null ? this.filmer : [];
     }
 }
 

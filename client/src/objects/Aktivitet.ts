@@ -22,7 +22,7 @@ class Aktivitet extends HendelseContent {
         hendelseId : string|number,
         kursholder : string
     ) {
-        super(id, navn, bilder, beskrivelse);
+        super(id, navn, bilder, [], beskrivelse);
         this.sted = sted;
         this.beskrivelseLeder = beskrivelseLeder;
         this.hendelseId = hendelseId;
