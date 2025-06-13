@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="beskrivelser as-margin-top-space-2">
+        <div class="beskrivelser as-margin-top-space-4">
             <div class="beskrivelse">
                 <span class="beskrivelse" v-html="innslagItem.getBeskrivelse()"></span>
             </div>
@@ -112,11 +112,18 @@ export default defineComponent({
     margin-left: -2px;
 }
 .film-innslag {
-    display: flex;
     position: relative;
-    height: auto;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+.film-innslag iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    min-height: 350px;
+    height: 100%;
 }
 @media (max-width: 767px) {
     .chip-group-innslag-personer :deep(.v-chip__content) {
