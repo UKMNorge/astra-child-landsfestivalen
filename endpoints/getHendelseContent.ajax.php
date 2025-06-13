@@ -46,7 +46,7 @@ foreach( $hendelser as $hendelse ) {
             $innslag->getFylke();
 
             // Hent alle filmene
-            foreach($innslag->getFilmer()->getAll() as $film) {
+            foreach($innslag->getFilmer($arrangement->getId())->getAll() as $film) {
                 $filmObj = [];
                 $filmObj['id'] = $film->getId();
                 $filmObj['tittel'] = $film->getTitle();
