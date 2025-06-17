@@ -34,6 +34,9 @@ class HendelseGruppe extends Hendelse {
 
     // Type for hendelsegrupper er tag
     public hasType(type: string): boolean {
+        if(this.hendelser.some(hendelse => hendelse.hasType(type))) {
+            return true;
+        }
         if( !this.tag ) {
             return false;
         }
