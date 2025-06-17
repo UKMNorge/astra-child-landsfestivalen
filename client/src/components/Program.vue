@@ -417,13 +417,17 @@ export default {
         //     });
         // },
         getFilteredHendelser(): Hendelse[] {
-            let filtered = this.hendelser;
+            // let filtered = this.hendelser;
 
             // Append hendelser from hendelseGrupper
-            for(let hendelseGruppe of this.hendelseGrupper) {
-                if(hendelseGruppe.getHendelser().length == 0) continue; // Skip empty groups
-                filtered = filtered.concat(hendelseGruppe);
-            }
+            let filtered = this.hendelser.filter(h => {
+                for(let hendelseGruppe of this.hendelseGrupper) {
+                    if(hendelseGruppe.hasHendelse(h.id)) {
+                        return false; // Håp over hendelseGruppe, de skal vises som grupper
+                    }
+                }
+                return true;
+            });
 
             if (this.selectedSteder.length > 0 ||
                 this.selectedTider.length > 0 ||
