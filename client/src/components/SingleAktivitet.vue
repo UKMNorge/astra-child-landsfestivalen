@@ -60,7 +60,6 @@ export default {
                 this.fetched = true;
                 return;
             }
-
             this.aktivitet = new Aktivitet(
                 results.aktivitet.id, 
                 results.aktivitet.navn,
@@ -72,6 +71,7 @@ export default {
                 results.aktivitet.tags,
                 -1,
                 results.kursholder,
+                results.isProgramSynlig,
             );
 
             this.fetched = true;

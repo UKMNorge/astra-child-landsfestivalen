@@ -8,6 +8,7 @@ class Aktivitet extends HendelseContent {
     hendelseId: string|number;
     tidspunkter: Tidspunkt[] = [];
     kursholder : string;
+    isProgramSynlig : boolean;
     tags : any[] = [];
 
     constructor(
@@ -20,7 +21,8 @@ class Aktivitet extends HendelseContent {
         tidspunkter : any[],
         tags : any[],
         hendelseId : string|number,
-        kursholder : string
+        kursholder : string,
+        isProgramSynlig : boolean = true
     ) {
         super(id, navn, bilder, [], beskrivelse);
         this.sted = sted;
@@ -28,6 +30,7 @@ class Aktivitet extends HendelseContent {
         this.hendelseId = hendelseId;
         this.kursholder = kursholder;
         this.tags = tags;
+        this.isProgramSynlig = isProgramSynlig;
         
         // add tidspunkter
         for(let tidspunkt of tidspunkter) {
@@ -46,7 +49,7 @@ class Aktivitet extends HendelseContent {
                         tidspunkt.start,
                         tidspunkt.slutt,
                         this,
-                        tidspunkt.hendelseId
+                        tidspunkt.hendelseId,
                     )
                 );
             }

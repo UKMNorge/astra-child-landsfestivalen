@@ -146,7 +146,11 @@ export default {
         //     return false;
         // },
         getFilteredHendelser(): Aktivitet[] {
+            
             let filtered = this.aktiviteter;
+            
+            // Filter out activities where isProgramSynlig is false
+            filtered = filtered.filter(aktivitet => aktivitet.isProgramSynlig !== false);
 
             if (
                 this.selectedSteder.length > 0 ||
@@ -199,6 +203,7 @@ export default {
                     ak.tags,
                     -1,
                     ak.kursholder,
+                    ak.isProgramSynlig,
                 )
                 this.aktiviteter.push(newAktivitet);
 
