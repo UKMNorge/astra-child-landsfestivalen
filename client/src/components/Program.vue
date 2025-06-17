@@ -417,9 +417,6 @@ export default {
         //     });
         // },
         getFilteredHendelser(): Hendelse[] {
-            // let filtered = this.hendelser;
-
-            // Append hendelser from hendelseGrupper
             let filtered = this.hendelser.filter(h => {
                 for(let hendelseGruppe of this.hendelseGrupper) {
                     if(hendelseGruppe.hasHendelse(h.id)) {
@@ -429,9 +426,17 @@ export default {
                 return true;
             });
 
-            if (this.selectedSteder.length > 0 ||
+            // Append hendelser from hendelseGrupper
+            for(let hendelseGruppe of this.hendelseGrupper) {
+                if(hendelseGruppe.getHendelser().length == 0) continue; // Skip empty groups
+                filtered = filtered.concat(hendelseGruppe);
+            }
+
+            if (
+                this.selectedSteder.length > 0 ||
                 this.selectedTider.length > 0 ||
-                this.selectedTyper.length > 0) {
+                this.selectedTyper.length > 0
+            ) {
                 filtered = filtered.filter((h : Hendelse) => {
                     if (this.selectedSteder.length > 0 && !this.selectedSteder.find(sted => h.hasSted(String(sted)))) return false;
                     if (this.selectedTider.length > 0 && !this.selectedTider.find(t => (<any>t) == h.getStartDag())) return false;
