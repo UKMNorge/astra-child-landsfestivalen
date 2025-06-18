@@ -19,6 +19,7 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 
 $retHendelser = [];
 $innslagPersoner = [];
+$innslagTitler = [];
 $hendelseMedAktiviteter = [];
 
 
@@ -38,6 +39,18 @@ foreach( $hendelser as $hendelse ) {
                 $personObj['context'] = $innslag->getContext();
 
                 $innslagPersoner[$innslag->getId()][] = $personObj;
+            }
+            
+            // Add titles for this innslag if it has titles
+            if($innslag->getType()->harTitler()) {
+                foreach($innslag->getTitler()->getAll() as $tittel) {
+                    $tittelObj = [];
+                    $tittelObj['id'] = $tittel->getId();
+                    $tittelObj['tittel'] = $tittel->getTittel();
+                    $tittelObj['varighet'] = $tittel->getVarighet()->getHumanShort();
+                    
+                    $innslagTitler[$innslag->getId()][] = $tittelObj;
+                }
             }
         }
         $retHendelser[] = $hendelse;
@@ -68,6 +81,7 @@ foreach(HendelseGruppe::getAlleByArrangement($arrangement) as $hendelseGruppe) {
 $handleCall->sendToClient([
     'hendelser' => $retHendelser,
     'innslagPersoner' => $innslagPersoner,
+    'innslagTitler' => $innslagTitler,
     'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
     'hendelseGrupper' => $hendelseGrupper,
 ]);
