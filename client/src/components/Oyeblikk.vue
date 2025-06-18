@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-tabs v-model="tab" class="tabs-timeplan">
-            <v-tab v-for="dayTab in getTabs()" :key="dayTab" :value="dayTab">Hendelse {{ dayTab }}</v-tab>
+            <v-tab v-for="dayTab in getTabs()" :key="dayTab" :value="dayTab">{{ getHendelseNameById(dayTab) }}</v-tab>
         </v-tabs>
 
 
@@ -43,20 +43,70 @@
         </div>
         
 
-        <v-card-text class="nop-impt as-margin-top-space-4">
+        <v-card-text v-if="dataFetched" class="nop-impt as-margin-top-space-4">
             <v-tabs-window v-model="tab">
-                <v-tabs-window-item v-for="timeplanItem, key in getTimeplan()" :value="key" :key="key">
+                <v-tabs-window-item v-for="timeplanItem, key in getHendelserTimeplan()" :value="key" :key="key">
                     <div>
                         <div class="timeplan-item tplan-style dag">
-                            <h3 class="title">Hendelse {{ key }}</h3>
+                            <h3 class="title">Her kommer livestreaming</h3>
                         </div>
                     </div>
 
                     <div>
-                        <div @click="openTimeplanItem(tp)" v-for="tp in timeplanItem" :class="{'item-with-link' : tp.getLink() != null}" class="timeplan-item tplan-style" :key="tp.getId()">
-                            <h3 class="title">{{ tp.getTitle() }}</h3>
-                            <p class="time">{{ tp.getStartEndTimeHumanReadable() }}</p>
-                            <p v-show="tp.getPlace().length > 0" class="place">{{ tp.getPlace() }}</p>
+                        <div @click="toggleTimeplanItem(tp)" v-for="tp in timeplanItem" :class="{'item-with-link' : tp.getLink() != null, 'item-expanded': tp.isOpen}" class="timeplan-item tplan-style" :key="tp.getId()">
+                            <div class="item-header">
+                                <h3 class="title">{{ tp.getTitle() }}</h3>
+                                <p class="time">{{ tp.getStartEndTimeHumanReadable() }}</p>
+                                <p v-show="tp.getPlace().length > 0" class="place">{{ tp.getPlace() }}</p>
+                                <div class="expand-indicator" :class="{'expanded': tp.isOpen}">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div v-if="tp.isOpen" class="item-content">
+                                <div class="expanded-info">
+                                    <p v-if="tp.getDescription()" class="description">{{ tp.getDescription() }}</p>
+                                    
+                                    <!-- Show list of persons/deltakere -->
+                                    <div v-if="getPersonsForInnslag(tp).length > 0" class="persons-section">
+                                        <div class="persons-chips">
+                                            <v-chip 
+                                                v-for="person in getPersonsForInnslag(tp)" 
+                                                :key="person.id" 
+                                                class="person-chip"
+                                                color="#FFF056"
+                                                text-color="#00004C"
+                                                size="small"
+                                            >
+                                                <v-icon left size="small" color="#00004C">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8ZM8 10C5.33 10 0 11.34 0 14V15C0 15.55 0.45 16 1 16H15C15.55 16 16 15.55 16 15V14C16 11.34 10.67 10 8 10Z" fill="currentColor"/>
+                                                    </svg>
+                                                </v-icon>
+                                                <span class="person-name">{{ person.fornavn }} {{ person.etternavn }}</span>
+                                                <span v-if="person.fylke" class="person-location"> ({{ person.fylke.navn }})</span>
+                                            </v-chip>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Show list of titles (songs, etc.) -->
+                                    <div v-if="getTitlesForInnslag(tp).length > 0" class="titles-section">
+                                        <h4 class="titles-title">Tittel:</h4>
+                                        <div class="titles-list">
+                                            <div 
+                                                v-for="title in getTitlesForInnslag(tp)" 
+                                                :key="title.id" 
+                                                class="title-item"
+                                            >
+                                                <span class="title-name">{{ title.tittel }}</span>
+                                                <span v-if="title.varighet && title.varighet !== '0'" class="title-duration">({{ title.varighet }})</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </v-tabs-window-item>
@@ -66,8 +116,15 @@
 </template>
 <script lang="ts">
 import HendelseItem from '../objects/HendelseItem';
+import Hendelse from '../objects/Hendelse';
 
 export default {
+    props: {
+        programType: {
+            type: String,
+            default: 'publikum'
+        }
+    },
     components: {
 
     },
@@ -77,7 +134,12 @@ export default {
             tab: null as string | null,
             hendelseItems: [] as HendelseItem[],
             daysOfWeek: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
-
+            hendelser: [] as Hendelse[],
+            deltakere: {} as { [key: string]: any },
+            alleInnslag: {} as { [key: string]: any },
+            innslagTitler: {} as { [key: string]: any },
+            dataFetched: false as boolean,
+            fetchingStarted: false as boolean,
         }
     },
     computed: {
@@ -89,14 +151,12 @@ export default {
         }
     },
     mounted() {
-        this.fetchTimeplan();
-        if(this.getTabs().length == 0) {
-            console.warn('No tabs available, please check your timeplan items.');
-            return;
-        }
-        this.tab = this.getTabs()[0]; // Set initial tab to the first available tab
+        this.fetchProgramData();
     },
     methods : {
+        toggleTimeplanItem(tp: HendelseItem) {
+            tp.toggleOpen();
+        },
         openTimeplanItem(tp: HendelseItem) {
             // Only if the link is defined and not empty
             if(tp.getLink() != null && tp.getLink().length > 0) {
@@ -126,7 +186,59 @@ export default {
             return retTabs;
         },
         
-        getTimeplan() : any {
+        getHendelseNameById(hendelseId: string): string {
+            const hendelse = this.hendelser.find(h => h.id.toString() === hendelseId);
+            return hendelse ? hendelse.title : `Hendelse ${hendelseId}`;
+        },
+        
+        getPersonsForInnslag(hendelseItem: HendelseItem): any[] {
+            const persons: any[] = [];
+            
+            // Find the innslag that corresponds to this HendelseItem
+            for (let innslagId in this.alleInnslag) {
+                const innslag = this.alleInnslag[innslagId];
+                
+                // Check if this innslag belongs to the same hendelse and has the same name as the HendelseItem
+                if (innslag.hendelseId === hendelseItem.getHendelseId() && 
+                    innslag.navn === hendelseItem.getTitle()) {
+                    
+                    // Find all persons for this innslag
+                    for (let deltakerKey in this.deltakere) {
+                        const deltaker = this.deltakere[deltakerKey];
+                        if (deltaker.innslagId == innslag.id) {
+                            persons.push(deltaker);
+                        }
+                    }
+                    break;
+                }
+            }
+            
+            return persons;
+        },
+        
+        getTitlesForInnslag(hendelseItem: HendelseItem): any[] {
+            const titles: any[] = [];
+            
+            // Find the innslag that corresponds to this HendelseItem
+            for (let innslagId in this.alleInnslag) {
+                const innslag = this.alleInnslag[innslagId];
+                
+                // Check if this innslag belongs to the same hendelse and has the same name as the HendelseItem
+                if (innslag.hendelseId === hendelseItem.getHendelseId() && 
+                    innslag.navn === hendelseItem.getTitle()) {
+                    
+                    // Find all titles for this innslag
+                    if (this.innslagTitler[innslag.id]) {
+                        titles.push(...this.innslagTitler[innslag.id]);
+                    }
+                    break;
+                }
+            }
+            
+            return titles;
+        },
+        
+        getHendelserTimeplan() : any {
             if(this.hendelseItems == null || this.hendelseItems.length == 0) {
                 return [];
             }
@@ -141,45 +253,145 @@ export default {
 
             return timeplanMap;
         },
-        async fetchTimeplan() {
-            this.hendelseItems.push(
-                // Lørdag 21.06
-                new HendelseItem(1, 'Kreativ tid & bli kjent', 'OLAVSHALLEN', '', new Date('2025-06-21T16:00:00'), new Date('2025-06-21T19:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18846', 1),
-                new HendelseItem(2, 'Åpning av kunstutstilling', '', '', new Date('2025-06-21T19:30:00'), new Date('2025-06-21T20:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18258', 1),
-                new HendelseItem(3, 'Åpningsforestilling', 'OLAVSHALLEN', '', new Date('2025-06-21T20:30:00'), new Date('2025-06-21T21:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18842', 1),
-                new HendelseItem(4, 'Bli kjent kveld', 'SPEKTRUM', '', new Date('2025-06-21T23:00:00'), new Date('2025-06-21T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18843', 1),
+        generateTimeplan() {
+            // Clear existing items
+            this.hendelseItems = [];
+            
+            // Generate HendelseItem objects from alleInnslag which contains the actual innslag data
+            let itemId = 1;
+            
+            for (let innslagId in this.alleInnslag) {
+                let innslag = this.alleInnslag[innslagId];
+                
+                // Find the corresponding hendelse for this innslag
+                let hendelse = this.hendelser.find(h => h.id === innslag.hendelseId);
+                if (!hendelse) {
+                    continue;
+                }
+                
+                // Convert timestamps to Date objects
+                let startDate: Date;
+                let endDate: Date;
+                
+                if (innslag.start && innslag.start * 1000) {
+                    startDate = new Date(innslag.start * 1000);
+                } else {
+                    // Fallback to hendelse start time
+                    startDate = new Date(hendelse.start * 1000);
+                }
+                
+                if (innslag.slutt && innslag.slutt * 1000) {
+                    endDate = new Date(innslag.slutt * 1000);
+                } else {
+                    // If no end time, add 1 hour to start time
+                    endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+                }
+                
+                // Generate link to hendelse page
+                const hendelseLink = `https://ukm.no/festivalen/single-hendelse/?hendelse-id=${hendelse.id}`;
+                
+                // Create the HendelseItem
+                const hendelseItem = new HendelseItem(
+                    itemId++,
+                    innslag.navn || 'Uten navn',
+                    hendelse.sted || '',
+                    innslag.beskrivelse || hendelse.beskrivelse || '',
+                    startDate,
+                    endDate,
+                    hendelseLink,
+                    hendelse.id
+                );
+                
+                this.hendelseItems.push(hendelseItem);
+            }
+            
+            // Sort items by start time
+            this.hendelseItems.sort((a, b) => {
+                return a.getStartDate().getTime() - b.getStartDate().getTime();
+            });
+            
+            console.log('Generated timeplan items:', this.hendelseItems);
+            
+            // Set the first tab as selected after data is loaded
+            const tabs = this.getTabs();
+            if (tabs.length > 0) {
+                this.tab = tabs[0];
+            } else {
+                console.warn('No tabs available, please check your timeplan items.');
+            }
+        },
+        async fetchProgramData() {
+            this.fetchingStarted = true;
+            this.dataFetched = false;
 
-                // Søndag 22.06
-                new HendelseItem(5, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-22T07:00:00'), new Date('2025-06-22T08:30:00'), '', 2),
-                new HendelseItem(6, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-22T09:00:00'), new Date('2025-06-22T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=S%C3%B8ndag', 2),
-                new HendelseItem(7, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T09:30:00'), new Date('2025-06-22T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18848', 2),
-                new HendelseItem(8, 'Forestilling 2', 'OLAVSHALLEN', '', new Date('2025-06-22T12:30:00'), new Date('2025-06-22T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18859', 2),
-                new HendelseItem(9, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-22T15:00:00'), new Date('2025-06-22T17:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18847', 2),
-                new HendelseItem(10, 'Forestilling 3', 'OLAVSHALLEN', '', new Date('2025-06-22T18:00:00'), new Date('2025-06-22T19:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18858', 2),
-                new HendelseItem(11, 'Waterparty', 'PIRBADET', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T22:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18854', 2),
-                new HendelseItem(12, 'Spillquest-show', 'OLAVSHALLEN', '', new Date('2025-06-22T20:00:00'), new Date('2025-06-22T21:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18855', 2),
-                new HendelseItem(13, 'Nattkino', 'SPEKTRUM', '', new Date('2025-06-22T23:00:00'), new Date('2025-06-22T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18866', 2),
+            var data = {
+                erDeltakerProgram: this.programType == 'deltakere'
+            };
 
-                // Mandag 23.06
-                new HendelseItem(14, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-23T07:00:00'), new Date('2025-06-23T08:30:00'), '', 3),
-                new HendelseItem(15, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-23T09:00:00'), new Date('2025-06-23T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=Mandag', 3),
-                new HendelseItem(16, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T09:30:00'), new Date('2025-06-23T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18863', 3),
-                new HendelseItem(17, 'Forestilling 4', 'OLAVSHALLEN', '', new Date('2025-06-23T12:30:00'), new Date('2025-06-23T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18853', 3),
-                new HendelseItem(18, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-23T15:00:00'), new Date('2025-06-23T17:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18864', 3),
-                new HendelseItem(19, 'Forestilling 5', 'OLAVSHALLEN', '', new Date('2025-06-23T18:00:00'), new Date('2025-06-23T20:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18852', 3),
-                new HendelseItem(20, 'Akustisk konsert', 'VÅR FRUE KIRKE', '', new Date('2025-06-23T21:00:00'), new Date('2025-06-23T21:45:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18857', 3),
-                new HendelseItem(21, 'Karaoke-Cup', 'SPEKTRUM', '', new Date('2025-06-23T23:00:00'), new Date('2025-06-23T00:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18867', 3),
+            var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'POST', data);
+            
+            this.hendelseMedAktiviteter = results.hendelseMedAktiviteter;
+            this.innslagTitler = results.innslagTitler;
 
-                // Tirsdag 24.06
-                new HendelseItem(22, 'Morgenaktiviteter', 'SPEKTRUM', '', new Date('2025-06-24T07:00:00'), new Date('2025-06-24T08:30:00'), '', 4),
-                new HendelseItem(23, 'Morgenmøter', 'OLAVSHALLEN', '', new Date('2025-06-24T09:00:00'), new Date('2025-06-24T09:30:00'), 'https://ukm.no/festivalen/deltakerprogram/?filter-dag=Tirsdag', 4),
-                new HendelseItem(24, 'Workshops og kreativ tid', 'OLAVSHALLEN', '', new Date('2025-06-24T09:30:00'), new Date('2025-06-24T12:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18849', 4),
-                new HendelseItem(25, 'Forestilling 6', 'OLAVSHALLEN', '', new Date('2025-06-24T12:30:00'), new Date('2025-06-24T14:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18862', 4),
-                new HendelseItem(26, 'Fritid og opplevelser', 'Rundt i byen', '', new Date('2025-06-24T15:00:00'), new Date('2025-06-24T17:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18845', 4),
-                new HendelseItem(27, 'Forestilling 7', 'OLAVSHALLEN', '', new Date('2025-06-24T17:00:00'), new Date('2025-06-24T18:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18861', 4),
-                new HendelseItem(28, 'PETER PAN - Stargate to Neverland', 'NYE HJORTEN TEATER', '', new Date('2025-06-24T19:30:00'), new Date('2025-06-24T22:30:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18865', 4),
-                new HendelseItem(29, 'Avskjedsdisco', 'SPEKTRUM', '', new Date('2025-06-24T23:30:00'), new Date('2025-06-24T01:00:00'), 'https://ukm.no/festivalen/single-hendelse/?hendelse-id=18856', 4),
-            );
+            for (let h of results.hendelser) {
+                let alleInnslag = h.innslag;
+
+                // Innslag og deltakere
+                let innslagArrObj : {name : string, antallDeltakere : number, url : string}[] = [];
+                let antallDeltakere = 0;
+
+                let fylker : string[] = [];
+                let deltakereNavn : string[] = [];
+
+                for(let innslag of alleInnslag.innslag) {
+                    antallDeltakere += results.innslagPersoner[innslag.id] ? results.innslagPersoner[innslag.id].length : 0;
+
+                    if(innslag.fylke) {
+                        fylker.push(innslag.fylke.navn);
+                    }
+
+                    innslagArrObj.push({
+                        name: innslag.navn,
+                        antallDeltakere: antallDeltakere,
+                        url: 'inPerson.url'
+                    });
+
+                    if(results.innslagPersoner[innslag.id]) {
+                        for(let person of results.innslagPersoner[innslag.id]) {
+                            person.hendelse = h;
+                            // Legger til innslagId i deltakeren
+                            person.innslagId = innslag.id;
+                            this.deltakere[person.id +'_'+ person.context.forestilling.id+ '_' + person.innslagId] = person;
+                            deltakereNavn.push(person.fornavn + ' ' + person.etternavn);
+                        }
+                    }
+                    innslag.hendelseId = h.id;
+                    this.alleInnslag[innslag.id] = innslag;
+                }
+
+                var newHendelse = new Hendelse(
+                    h.id, 
+                    h.navn, 
+                    h.bilde ?? 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png', 
+                    h.start, 
+                    0, 
+                    h.sted, 
+                    h.tag, 
+                    h.beskrivelse,
+                    innslagArrObj,
+                    fylker,
+                    deltakereNavn,
+                    h.visning,
+                );
+                this.hendelser.push(newHendelse);
+            }
+            this.dataFetched = true;
+            this.fetchingStarted = false;
+            
+            // Generate timeplan items after data is fetched
+            this.generateTimeplan();
+            
+            console.log('Fetched hendelser:', this.hendelser);
         },
     }
 }
@@ -208,11 +420,156 @@ export default {
 .timeplan-item {
     margin-bottom: var(--initial-space-box);
     background-color: #262667;
-}
-.timeplan-item.item-with-link:hover {
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+.timeplan-item.item-expanded {
+    background-color: #47477E;
+}
+.item-header {
+    position: relative;
+}
+.expand-indicator {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+    color: #fff;
+}
+.expand-indicator.expanded {
+    transform: translateY(-50%) rotate(180deg);
+}
+.item-content {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideDown 0.3s ease;
+}
+.expanded-info .description {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    text-align: left;
+    color: #fff;
+
+}
+.persons-section {
+    margin: 16px 0;
+}
+.titles-section {
+    margin: 16px 0;
+}
+.titles-title {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: #FFF056;
+    font-weight: 600;
+}
+.titles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.title-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid #FFF056;
+}
+.title-name {
+    font-weight: 500;
+    color: #fff;
+    flex: 1;
+}
+.title-duration {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: normal;
+}
+@media (max-width: 767px) {
+    .title-item {
+        padding: 6px 10px;
+    }
+    .title-name {
+        font-size: 14px;
+    }
+    .title-duration {
+        font-size: 11px;
+    }
+}
+.persons-title {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: #FFF056;
+    font-weight: 600;
+}
+.persons-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+.person-chip {
+    font-size: 12px !important;
+    height: auto !important;
+    padding: 8px 12px !important;
+    background-color: #00004C !important;
+    color: #fff !important;
+}
+.person-chip :deep(.v-chip__content) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+.person-name {
+    font-weight: 500;
+    padding-left: 4px;
+}
+.person-location {
+    font-size: 11px;
     opacity: 0.8;
-    transition: background-color 0.3s ease;
+    font-weight: normal;
+}
+@media (max-width: 767px) {
+    .persons-chips {
+        gap: 6px;
+    }
+    .person-chip {
+        font-size: 11px !important;
+    }
+}
+.link-section {
+    margin-top: 12px;
+}
+.external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #FFF056;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+.external-link:hover {
+    color: #fff;
+}
+.external-link svg {
+    flex-shrink: 0;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 200px;
+    }
 }
 .tabs-timeplan :deep(.v-btn__content) {
     font-weight: 700;
