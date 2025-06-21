@@ -281,7 +281,11 @@ export default {
                     for (let deltakerKey in this.deltakere) {
                         const deltaker = this.deltakere[deltakerKey];
                         if (deltaker.innslagId == innslag.id) {
-                            persons.push(deltaker);
+                            // Add person only if it doesn't already exist in the array
+                            const existingPerson = persons.find(p => p.id === deltaker.id);
+                            if (!existingPerson) {
+                                persons.push(deltaker);
+                            }
                         }
                     }
                     break;
