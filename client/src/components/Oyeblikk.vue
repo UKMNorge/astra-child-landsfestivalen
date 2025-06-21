@@ -593,6 +593,9 @@ export default {
     color: #00004C !important;
     font-size: 18px !important;
 }
+.tplan-style.direktesending.title-alone .title {
+    margin: auto !important;
+}
 .timeplan-item {
     margin-bottom: var(--initial-space-box);
     background-color: #262667;
