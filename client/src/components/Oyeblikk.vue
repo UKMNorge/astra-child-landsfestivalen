@@ -240,7 +240,8 @@ export default {
                     }
                 }
                 
-                return `Direktesending starter kl. ${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
+                const dayName = this.daysOfWeek[start.getDay()];
+                return `Direktesending starter ${dayName.toLowerCase()} kl. ${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
             }
         },
         getDirektesending(hendelseId: number): any {
