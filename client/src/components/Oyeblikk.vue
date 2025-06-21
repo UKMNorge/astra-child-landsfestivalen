@@ -473,6 +473,8 @@ export default {
                     // Add 2 hours to both start and stop
                     start.setHours(start.getHours() + 2);
                     stop.setHours(stop.getHours() + 2);
+                    // Add 15 minutes to stop time (maybe the program may be longer than 2 hours)
+                    stop.setMinutes(stop.getMinutes() + 15);
 
                     // Update the date strings
                     ds.start.date = start.toISOString();
