@@ -223,21 +223,21 @@ export default {
                     const hours = Math.floor(hoursDiff);
                     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                     
-                    // if (hours === 0) {
-                    //     if (minutes <= 1) {
-                    //         return 'Direktesending starter om ca. 1 minutt';
-                    //     } else if (minutes < 60) {
-                    //         return `Direktesending starter om ca. ${minutes} minutter`;
-                    //     }
-                    // } else if (hours === 1) {
-                    //     return minutes > 0 ? 
-                    //         `Direktesending starter om ca. 1 time og ${minutes} minutter` : 
-                    //         'Direktesending starter om ca. 1 time';
-                    // } else {
-                    //     return minutes > 0 ? 
-                    //         `Direktesending starter om ca. ${hours} timer og ${minutes} minutter` : 
-                    //         `Direktesending starter om ca. ${hours} timer`;
-                    // }
+                    if (hours === 0) {
+                        if (minutes <= 1) {
+                            return 'Direktesending starter om ca. 1 minutt';
+                        } else if (minutes < 60) {
+                            return `Direktesending starter om ca. ${minutes} minutter`;
+                        }
+                    } else if (hours === 1) {
+                        return minutes > 0 ? 
+                            `Direktesending starter om ca. 1 time og ${minutes} minutter` : 
+                            'Direktesending starter om ca. 1 time';
+                    } else {
+                        return minutes > 0 ? 
+                            `Direktesending starter om ca. ${hours} timer og ${minutes} minutter` : 
+                            `Direktesending starter om ca. ${hours} timer`;
+                    }
                 }
                 
                 return `Direktesending starter kl. ${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
