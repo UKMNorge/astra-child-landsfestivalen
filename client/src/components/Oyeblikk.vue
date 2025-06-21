@@ -355,7 +355,12 @@ export default {
                     
                     // Find all titles for this innslag
                     if (this.innslagTitler[innslag.id]) {
-                        titles.push(...this.innslagTitler[innslag.id]);
+                        // Add titles only if they are not already in the array
+                        for (let title of this.innslagTitler[innslag.id]) {
+                            if (!titles.some(t => t.id === title.id)) {
+                                titles.push(title);
+                            }
+                        }
                     }
                     break;
                 }
