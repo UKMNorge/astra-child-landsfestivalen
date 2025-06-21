@@ -438,9 +438,26 @@ export default {
             
             
             // Set the first tab as selected after data is loaded
+            // Set the tab closest to current time
             const tabs = this.getTabs();
             if (tabs.length > 0) {
-                this.tab = tabs[0];
+                const now = new Date().getTime();
+                let closestTab = tabs[0];
+                let closestDiff = Infinity;
+
+                for (const tabId of tabs) {
+                    const items = this.hendelseItems.filter(item => item.getHendelseId().toString() === tabId);
+                    if (items.length > 0) {
+                        const firstItemTime = items[0].getStartDate().getTime();
+                        const diff = Math.abs(firstItemTime - now);
+                        if (diff < closestDiff) {
+                            closestTab = tabId;
+                            closestDiff = diff;
+                        }
+                    }
+                }
+
+                this.tab = closestTab;
             } else {
                 console.warn('No tabs available, please check your timeplan items.');
             }
