@@ -68,8 +68,6 @@
                             
                             <div v-if="tp.isOpen" class="item-content">
                                 <div class="expanded-info">
-                                    <p v-if="tp.getDescription()" class="description">{{ tp.getDescription() }}</p>
-                                    
                                     <!-- Show list of persons/deltakere -->
                                     <div v-if="getPersonsForInnslag(tp).length > 0" class="persons-section">
                                         <div class="persons-chips">
@@ -86,23 +84,65 @@
                                                         <path d="M8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8ZM8 10C5.33 10 0 11.34 0 14V15C0 15.55 0.45 16 1 16H15C15.55 16 16 15.55 16 15V14C16 11.34 10.67 10 8 10Z" fill="currentColor"/>
                                                     </svg>
                                                 </v-icon>
-                                                <span class="person-name">{{ person.fornavn }} {{ person.etternavn }}</span>
+                                                <span class="person-name">{{ person.fornavn }} {{ person.etternavn }} {{ person.rolle ? '('+ person.rolle +')' : '' }}</span>
                                                 <span v-if="person.fylke" class="person-location"> ({{ person.fylke.navn }})</span>
                                             </v-chip>
                                         </div>
                                     </div>
+
+                                    <p v-if="tp.getDescription()" class="description">{{ tp.getDescription() }}</p>
                                     
                                     <!-- Show list of titles (songs, etc.) -->
                                     <div v-if="getTitlesForInnslag(tp).length > 0" class="titles-section">
-                                        <h4 class="titles-title">Tittel:</h4>
                                         <div class="titles-list">
                                             <div 
                                                 v-for="title in getTitlesForInnslag(tp)" 
                                                 :key="title.id" 
                                                 class="title-item"
                                             >
-                                                <span class="title-name">{{ title.tittel }}</span>
-                                                <span v-if="title.varighet && title.varighet !== '0'" class="title-duration">({{ title.varighet }})</span>
+                                                <div class="title-header">
+                                                    <span class="title-name">{{ title.tittel }}</span>
+                                                    <span v-if="title.varighet && title.varighet !== '0'" class="title-duration">({{ title.varighet }})</span>
+                                                </div>
+                                                
+                                                <!-- Show metadata based on type -->
+                                                <div v-if="title.tekstOgMelodi || title.tekstAv || title.melodiAv || title.koreografiAv || title.skrevet_av || title.teknikk || title.format" class="title-metadata">
+                                                    <!-- Music metadata -->
+                                                    <div v-if="title.tekstOgMelodi" class="metadata-item">
+                                                        <span class="metadata-label">Tekst og melodi:</span>
+                                                        <span class="metadata-value">{{ title.tekstOgMelodi }}</span>
+                                                    </div>
+                                                    <div v-if="title.tekstAv && !title.tekstOgMelodi" class="metadata-item">
+                                                        <span class="metadata-label">Tekst:</span>
+                                                        <span class="metadata-value">{{ title.tekstAv }}</span>
+                                                    </div>
+                                                    <div v-if="title.melodiAv && !title.tekstOgMelodi" class="metadata-item">
+                                                        <span class="metadata-label">Melodi:</span>
+                                                        <span class="metadata-value">{{ title.melodiAv }}</span>
+                                                    </div>
+                                                    
+                                                    <!-- Dance metadata -->
+                                                    <div v-if="title.koreografiAv" class="metadata-item">
+                                                        <span class="metadata-label">Koreografi:</span>
+                                                        <span class="metadata-value">{{ title.koreografiAv }}</span>
+                                                    </div>
+                                                    
+                                                    <!-- Literature metadata -->
+                                                    <div v-if="title.skrevet_av" class="metadata-item">
+                                                        <span class="metadata-label">Skrevet av:</span>
+                                                        <span class="metadata-value">{{ title.skrevet_av }}</span>
+                                                    </div>
+                                                    
+                                                    <!-- Exhibition metadata -->
+                                                    <div v-if="title.teknikk" class="metadata-item">
+                                                        <span class="metadata-label">Teknikk:</span>
+                                                        <span class="metadata-value">{{ title.teknikk }}</span>
+                                                    </div>
+                                                    <div v-if="title.format" class="metadata-item">
+                                                        <span class="metadata-label">Format:</span>
+                                                        <span class="metadata-value">{{ title.format }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -500,6 +540,7 @@ export default {
 }
 .persons-section {
     margin: 16px 0;
+    margin-top: 0;
 }
 .titles-section {
     margin: 16px 0;
@@ -517,32 +558,71 @@ export default {
 }
 .title-item {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
-    padding: 8px 12px;
+    padding: 12px 16px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    border-left: 3px solid #FFF056;
+}
+.title-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 .title-name {
     font-weight: 500;
     color: #fff;
     flex: 1;
+    font-size: 15px;
 }
 .title-duration {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
     font-weight: normal;
 }
+.title-metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.metadata-item {
+    display: flex;
+    gap: 6px;
+    font-size: 12px;
+    align-items: flex-start;
+}
+.metadata-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    min-width: fit-content;
+}
+.metadata-value {
+    color: rgba(255, 255, 255, 0.9);
+}
 @media (max-width: 767px) {
     .title-item {
-        padding: 6px 10px;
+        padding: 10px 12px;
     }
     .title-name {
         font-size: 14px;
     }
     .title-duration {
         font-size: 11px;
+    }
+    .metadata-item {
+        font-size: 11px;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .metadata-label {
+        font-size: 11px;
+    }
+    .metadata-value {
+        font-size: 11px;
+        margin-left: 8px;
     }
 }
 .persons-title {

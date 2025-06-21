@@ -37,6 +37,7 @@ foreach( $hendelser as $hendelse ) {
                 $personObj['id'] = $person->getId();
                 $personObj['fornavn'] = $person->getFornavn();
                 $personObj['etternavn'] = $person->getEtternavn();
+                $personObj['rolle'] = $person->getRolle() ? $person->getRolle() : '';
                 $personObj['navn'] = $person->getNavn();
                 $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
                 $personObj['context'] = $innslag->getContext();
@@ -51,6 +52,51 @@ foreach( $hendelser as $hendelse ) {
                     $tittelObj['id'] = $tittel->getId();
                     $tittelObj['tittel'] = $tittel->getTittel();
                     $tittelObj['varighet'] = $tittel->getVarighet()->getHumanShort();
+                    
+                    // Add type-specific metadata based on innslag type
+                    $innslagTypeKey = $innslag->getType()->getKey();
+                    
+                    if ($innslagTypeKey == "musikk") {
+                        // Handle music-specific metadata
+                        $tekstAv = $tittel->getTekstAv() ?? '';
+                        $melodiAv = $tittel->getMelodiAv() ?? '';
+                        
+                        if ($tekstAv == $melodiAv && !empty($tekstAv)) {
+                            $tittelObj['tekstOgMelodi'] = $tekstAv;
+                        } else {
+                            if (!$tittel->erInstrumental() && !empty($tekstAv)) {
+                                $tittelObj['tekstAv'] = $tekstAv;
+                            }
+                            if (!empty($melodiAv)) {
+                                $tittelObj['melodiAv'] = $melodiAv;
+                            }
+                        }
+                    } elseif ($innslagTypeKey == "dans") {
+                        // Handle dance-specific metadata
+                        $koreografiAv = $tittel->getKoreografiAv() ?? '';
+                        if (!empty($koreografiAv)) {
+                            $tittelObj['koreografiAv'] = $koreografiAv;
+                        }
+                    } elseif ($innslagTypeKey == "litteratur" && !$tittel->erSelvlaget()) {
+                        // Handle literature-specific metadata
+                        $tekstAv = $tittel->getTekstAv() ?? '';
+                        if (!empty($tekstAv)) {
+                            $tittelObj['skrevet_av'] = $tekstAv;
+                        }
+                    }
+                    
+                    // Handle exhibition-specific metadata
+                    if ($innslagTypeKey == "utstilling") {
+                        $teknikk = $tittel->getTeknikk() ?? '';
+                        $format = $tittel->getFormat() ?? '';
+                        
+                        if (!empty($teknikk)) {
+                            $tittelObj['teknikk'] = $teknikk;
+                        }
+                        if (!empty($format)) {
+                            $tittelObj['format'] = $format;
+                        }
+                    }
                     
                     $innslagTitler[$innslag->getId()][] = $tittelObj;
                 }
