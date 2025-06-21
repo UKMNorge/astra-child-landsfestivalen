@@ -62,7 +62,7 @@
                         <div @click="toggleTimeplanItem(tp)" v-for="tp in timeplanItem" :class="{'item-with-link' : tp.getLink() != null, 'item-expanded': tp.isOpen}" class="timeplan-item tplan-style" :key="tp.getId()">
                             <div class="item-header">
                                 <h3 class="title">{{ tp.getTitle() }}</h3>
-                                <p class="time">{{ tp.getStartEndTimeHumanReadable() }}</p>
+                                <!-- <p class="time">{{ tp.getStartEndTimeHumanReadable() }}</p> -->
                                 <p v-show="tp.getPlace().length > 0" class="place">{{ tp.getPlace() }}</p>
                                 <div class="expand-indicator" :class="{'expanded': tp.isOpen}">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
