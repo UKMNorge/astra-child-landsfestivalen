@@ -51,7 +51,7 @@
                             <h3 class="title">Direktesending</h3>
                             <div v-html="getDirektesending(key).embed"></div>
                         </div>
-                        <div v-else class="timeplan-item tplan-style direktesending">
+                        <div v-else class="timeplan-item title-alone tplan-style direktesending">
                             <template v-if="getDirektesending(key) != null">
                                 <h3 class="title">{{ getDirektesendingInfoTekst(getDirektesending(key)) }}</h3>
                             </template>
@@ -560,6 +560,9 @@ export default {
     background-color: #262667;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+.timeplan-item.title-alone {
+    display: flex;
 }
 .timeplan-item.item-expanded {
     background-color: #47477E;
