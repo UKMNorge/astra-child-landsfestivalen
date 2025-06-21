@@ -583,7 +583,7 @@ export default {
     padding: calc(3*(var(--initial-space-box)));
     border-radius: var(--initial-space-box);
     text-align: center;
-    min-height: 93px;
+    min-height: 73px;
 }
 .tplan-style * {
     color: #fff;
