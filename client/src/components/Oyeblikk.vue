@@ -418,8 +418,8 @@ export default {
             this.direktesendinger = results.direktesendinger;
 
             for (let h of results.hendelser) {
-                if(h.tag != 'forestilling') {
-                    continue; // Only process hendelser with tag 'forestilling'
+                if(h.tag != 'Forestilling' && h.tag != 'forestilling') {
+                    continue; // Only process hendelser with tag 'Forestilling'
                 }
                 let alleInnslag = h.innslag;
 
