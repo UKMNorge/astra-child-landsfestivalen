@@ -107,7 +107,7 @@
                                             >
                                                 <div class="title-header">
                                                     <span class="title-name">{{ title.tittel }}</span>
-                                                    <span v-if="title.varighet && title.varighet !== '0'" class="title-duration">({{ title.varighet }})</span>
+                                                    <span v-if="title.varighet && title.varighet !== '0' && title.varighet !== 0" class="title-duration">({{ title.varighet }})</span>
                                                 </div>
                                                 
                                                 <!-- Show metadata based on type -->
