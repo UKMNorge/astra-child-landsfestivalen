@@ -662,7 +662,7 @@ export default {
     border-radius: 6px;
 }
 .title-header {
-    display: flex;
+    display: inline-grid;
     align-items: center;
     gap: 8px;
 }
