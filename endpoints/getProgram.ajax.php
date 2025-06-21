@@ -56,7 +56,11 @@ foreach( $hendelser as $hendelse ) {
                 }
             }
         }
-        $retHendelser[] = $hendelse;
+        
+        // Create array representation of the hendelse
+        $hendelseData = $hendelse;
+        $hendelseData->tidbruk = $hendelse->getTid();
+        $retHendelser[] = $hendelseData;
 
         // Sjekk om det er aktiviteter tilknyttet denne hendelsen
         if(count(AktivitetTidspunkt::getAllByHendelse($hendelse->getId())) > 0) {

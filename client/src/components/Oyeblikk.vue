@@ -47,7 +47,7 @@
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item v-for="timeplanItem, key in getHendelserTimeplan()" :value="key" :key="key">
                     <div>
-                        <div class="timeplan-item tplan-style direktesending">
+                        <div v-if="hasLivestreamingStarted(key)" class="timeplan-item tplan-style direktesending">
                             <h3 class="title">Direktesending</h3>
                             <div v-html="getDirektesending(key).embed"></div>
                         </div>
@@ -163,6 +163,14 @@ export default {
         toggleTimeplanItem(tp: HendelseItem) {
             tp.toggleOpen();
         },
+        getHendelse(hendelseId : number) : Hendelse | null {
+            for(let hendelse of this.hendelser) {
+                if(hendelse.id == hendelseId) {
+                    return hendelse;
+                }
+            }
+            return null;
+        },
         openTimeplanItem(tp: HendelseItem) {
             // Only if the link is defined and not empty
             if(tp.getLink() != null && tp.getLink().length > 0) {
@@ -191,7 +199,28 @@ export default {
             }
             return retTabs;
         },
-        
+        hasLivestreamingStarted(hendelseId : number) : boolean {
+            const direktesending = this.getDirektesending(hendelseId);
+
+            // Direktesending can be null if no livestreaming is available for this hendelse
+            if (!direktesending) {
+                return false; // No livestreaming for this hendelse
+            }
+
+            const startDirektesending = new Date(direktesending.start.date);
+            const stoppDirektesending = new Date(direktesending.stopp.date);
+
+            console.log(direktesending.navn);
+            console.log('startDirektesending');
+            console.log(startDirektesending);
+            console.log('stoppDirektesending');
+            console.log(stoppDirektesending);
+            console.log('.');
+
+            const now = new Date();
+            return now >= startDirektesending && now <= stoppDirektesending;
+            
+        },
         getHendelseNameById(hendelseId: string): string {
             const hendelse = this.hendelser.find(h => h.id.toString() === hendelseId);
             return hendelse ? hendelse.title : `Hendelse ${hendelseId}`;
@@ -316,7 +345,6 @@ export default {
                 return a.getStartDate().getTime() - b.getStartDate().getTime();
             });
             
-            console.log('Generated timeplan items:', this.hendelseItems);
             
             // Set the first tab as selected after data is loaded
             const tabs = this.getTabs();
@@ -381,12 +409,16 @@ export default {
                     this.alleInnslag[innslag.id] = innslag;
                 }
 
+                // Calculate end time using start time + duration in seconds
+
+                const endTime = Number(h.start) + (h.tidbruk && h.tidbruk.sekunder ? h.tidbruk.sekunder : 0);
+
                 var newHendelse = new Hendelse(
                     h.id, 
                     h.navn, 
                     h.bilde ?? 'http://ukm.no/wp-content/uploads/2025/04/40ukm.png', 
                     h.start, 
-                    0, 
+                    endTime, 
                     h.sted, 
                     h.tag, 
                     h.beskrivelse,
