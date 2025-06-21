@@ -19,16 +19,12 @@ $arrangement = UKMFestival::getCurrentUKMFestival();
 
 $retHendelser = [];
 $innslagPersoner = [];
-$innslagTitler = [];
 $hendelseMedAktiviteter = [];
-$direktesendinger = [];
 
 
 $hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
-    // Legg til direksending for denne hendelsen
-    $direktesendinger[$hendelse->getId()] = $hendelse->harSending() ? $hendelse->getSending() : null;
-
+    // var_dump($hendelse);
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
             $innslag->getFylke();
@@ -37,76 +33,14 @@ foreach( $hendelser as $hendelse ) {
                 $personObj['id'] = $person->getId();
                 $personObj['fornavn'] = $person->getFornavn();
                 $personObj['etternavn'] = $person->getEtternavn();
-                $personObj['rolle'] = $person->getRolle() ? $person->getRolle() : '';
                 $personObj['navn'] = $person->getNavn();
                 $personObj['kommune'] = $person->getKommune()->getNavn() ?? '';
                 $personObj['context'] = $innslag->getContext();
 
                 $innslagPersoner[$innslag->getId()][] = $personObj;
             }
-            
-            // Add titles for this innslag if it has titles
-            if($innslag->getType()->harTitler()) {
-                foreach($innslag->getTitler()->getAll() as $tittel) {
-                    $tittelObj = [];
-                    $tittelObj['id'] = $tittel->getId();
-                    $tittelObj['tittel'] = $tittel->getTittel();
-                    $tittelObj['varighet'] = $tittel->getVarighet()->getHumanShort();
-                    
-                    // Add type-specific metadata based on innslag type
-                    $innslagTypeKey = $innslag->getType()->getKey();
-                    
-                    if ($innslagTypeKey == "musikk") {
-                        // Handle music-specific metadata
-                        $tekstAv = $tittel->getTekstAv() ?? '';
-                        $melodiAv = $tittel->getMelodiAv() ?? '';
-                        
-                        if ($tekstAv == $melodiAv && !empty($tekstAv)) {
-                            $tittelObj['tekstOgMelodi'] = $tekstAv;
-                        } else {
-                            if (!$tittel->erInstrumental() && !empty($tekstAv)) {
-                                $tittelObj['tekstAv'] = $tekstAv;
-                            }
-                            if (!empty($melodiAv)) {
-                                $tittelObj['melodiAv'] = $melodiAv;
-                            }
-                        }
-                    } elseif ($innslagTypeKey == "dans") {
-                        // Handle dance-specific metadata
-                        $koreografiAv = $tittel->getKoreografiAv() ?? '';
-                        if (!empty($koreografiAv)) {
-                            $tittelObj['koreografiAv'] = $koreografiAv;
-                        }
-                    } elseif ($innslagTypeKey == "litteratur" && !$tittel->erSelvlaget()) {
-                        // Handle literature-specific metadata
-                        $tekstAv = $tittel->getTekstAv() ?? '';
-                        if (!empty($tekstAv)) {
-                            $tittelObj['skrevet_av'] = $tekstAv;
-                        }
-                    }
-                    
-                    // Handle exhibition-specific metadata
-                    if ($innslagTypeKey == "utstilling") {
-                        $teknikk = $tittel->getTeknikk() ?? '';
-                        $format = $tittel->getFormat() ?? '';
-                        
-                        if (!empty($teknikk)) {
-                            $tittelObj['teknikk'] = $teknikk;
-                        }
-                        if (!empty($format)) {
-                            $tittelObj['format'] = $format;
-                        }
-                    }
-                    
-                    $innslagTitler[$innslag->getId()][] = $tittelObj;
-                }
-            }
         }
-        
-        // Create array representation of the hendelse
-        $hendelseData = $hendelse;
-        $hendelseData->tidbruk = $hendelse->getTid();
-        $retHendelser[] = $hendelseData;
+        $retHendelser[] = $hendelse;
 
         // Sjekk om det er aktiviteter tilknyttet denne hendelsen
         if(count(AktivitetTidspunkt::getAllByHendelse($hendelse->getId())) > 0) {
@@ -134,8 +68,6 @@ foreach(HendelseGruppe::getAlleByArrangement($arrangement) as $hendelseGruppe) {
 $handleCall->sendToClient([
     'hendelser' => $retHendelser,
     'innslagPersoner' => $innslagPersoner,
-    'innslagTitler' => $innslagTitler,
     'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
     'hendelseGrupper' => $hendelseGrupper,
-    'direktesendinger' => $direktesendinger,
 ]);
