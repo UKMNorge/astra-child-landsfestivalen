@@ -407,7 +407,7 @@ export default {
                 erDeltakerProgram: this.programType == 'deltakere'
             };
 
-            var results = await this.spaInteraction.runAjaxCall('getProgram.ajax.php', 'POST', data);
+            var results = await this.spaInteraction.runAjaxCall('getProgramOyeblikk.ajax.php', 'POST', data);
             
             this.hendelseMedAktiviteter = results.hendelseMedAktiviteter;
             this.innslagTitler = results.innslagTitler;
@@ -619,10 +619,10 @@ export default {
     }
     .metadata-label {
         font-size: 11px;
+        margin-right: 8px;
     }
     .metadata-value {
         font-size: 11px;
-        margin-left: 8px;
     }
 }
 .persons-title {
