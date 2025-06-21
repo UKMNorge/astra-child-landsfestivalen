@@ -21,11 +21,14 @@ $retHendelser = [];
 $innslagPersoner = [];
 $innslagTitler = [];
 $hendelseMedAktiviteter = [];
+$direktesendinger = [];
 
 
 $hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
 foreach( $hendelser as $hendelse ) {
-    // var_dump($hendelse);
+    // Legg til direksending for denne hendelsen
+    $direktesendinger[$hendelse->getId()] = $hendelse->harSending() ? $hendelse->getSending() : null;
+
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
             $innslag->getFylke();
@@ -84,4 +87,5 @@ $handleCall->sendToClient([
     'innslagTitler' => $innslagTitler,
     'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
     'hendelseGrupper' => $hendelseGrupper,
+    'direktesendinger' => $direktesendinger,
 ]);
