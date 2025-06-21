@@ -182,7 +182,7 @@ export default {
             daysOfWeek: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
             hendelser: [] as Hendelse[],
             deltakere: {} as { [key: string]: any },
-            alleInnslag: {} as { [key: string]: any },
+            alleInnslag: [] as any,
             innslagTitler: {} as { [key: string]: any },
             dataFetched: false as boolean,
             fetchingStarted: false as boolean,
@@ -391,6 +391,9 @@ export default {
             // Generate HendelseItem objects from alleInnslag which contains the actual innslag data
             let itemId = 1;
             
+            console.log('this.alleInnslag');
+            console.log(this.alleInnslag);
+
             for (let innslagId in this.alleInnslag) {
                 let innslag = this.alleInnslag[innslagId];
                 
@@ -542,7 +545,7 @@ export default {
                         }
                     }
                     innslag.hendelseId = h.id;
-                    this.alleInnslag[innslag.id] = innslag;
+                    this.alleInnslag.push(innslag);
                 }
 
                 // Calculate end time using start time + duration in seconds
