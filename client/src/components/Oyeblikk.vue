@@ -51,6 +51,11 @@
                             <h3 class="title">Direktesending</h3>
                             <div v-html="getDirektesending(key).embed"></div>
                         </div>
+                        <div v-else class="timeplan-item tplan-style direktesending">
+                            <template v-if="getDirektesending(key) != null">
+                                <h3 class="title">{{ getDirektesendingInfoTekst(getDirektesending(key)) }}</h3>
+                            </template>
+                        </div>
                     </div>
 
                     <div>
@@ -194,9 +199,50 @@ export default {
     },
     mounted() {
         this.fetchProgramData();
+        let tab = this.tab;
         this.testFetch();
     },
     methods : {
+        getDirektesendingInfoTekst(direktesending: any) : string {
+            if(!direktesending || !direktesending.start || !direktesending.stopp) {
+                return 'Ingen direktesending tilgjengelig';
+            }
+            const start = new Date(direktesending.start.date);
+            const stopp = new Date(direktesending.stopp.date);
+            const now = new Date();
+            
+            if (now >= start && now <= stopp) {
+                return 'Direktesending pågår nå';
+            } else if (now > stopp) {
+                return 'Direktesending er avsluttet';
+            } else {
+                const timeDiff = start.getTime() - now.getTime();
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
+                
+                if (hoursDiff <= 5) {
+                    const hours = Math.floor(hoursDiff);
+                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    if (hours === 0) {
+                        if (minutes <= 1) {
+                            return 'Direktesending starter om ca. 1 minutt';
+                        } else if (minutes < 60) {
+                            return `Direktesending starter om ca. ${minutes} minutter`;
+                        }
+                    } else if (hours === 1) {
+                        return minutes > 0 ? 
+                            `Direktesending starter om ca. 1 time og ${minutes} minutter` : 
+                            'Direktesending starter om ca. 1 time';
+                    } else {
+                        return minutes > 0 ? 
+                            `Direktesending starter om ca. ${hours} timer og ${minutes} minutter` : 
+                            `Direktesending starter om ca. ${hours} timer`;
+                    }
+                }
+                
+                return `Direktesending starter kl. ${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
+            }
+        },
         getDirektesending(hendelseId: number): any {
             return this.direktesendinger[hendelseId] || null;
         },
