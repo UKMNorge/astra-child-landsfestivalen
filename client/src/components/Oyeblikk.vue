@@ -47,8 +47,9 @@
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item v-for="timeplanItem, key in getHendelserTimeplan()" :value="key" :key="key">
                     <div>
-                        <div class="timeplan-item tplan-style dag">
-                            <h3 class="title">Her kommer livestreaming</h3>
+                        <div class="timeplan-item tplan-style direktesending">
+                            <h3 class="title">Direktesending</h3>
+                            <div v-html="getDirektesending(key).embed"></div>
                         </div>
                     </div>
 
@@ -140,6 +141,7 @@ export default {
             innslagTitler: {} as { [key: string]: any },
             dataFetched: false as boolean,
             fetchingStarted: false as boolean,
+            direktesendinger: {} as { [key: string]: any },
         }
     },
     computed: {
@@ -152,8 +154,12 @@ export default {
     },
     mounted() {
         this.fetchProgramData();
+        this.testFetch();
     },
     methods : {
+        getDirektesending(hendelseId: number): any {
+            return this.direktesendinger[hendelseId] || null;
+        },
         toggleTimeplanItem(tp: HendelseItem) {
             tp.toggleOpen();
         },
@@ -320,6 +326,11 @@ export default {
                 console.warn('No tabs available, please check your timeplan items.');
             }
         },
+        async testFetch() {
+            // let data = {};
+            // var results = await this.spaInteraction.runAjaxCall('getLivestreaming.ajax.php', 'POST', data);
+            // console.log('Test fetch results:', results);
+        },
         async fetchProgramData() {
             this.fetchingStarted = true;
             this.dataFetched = false;
@@ -332,6 +343,7 @@ export default {
             
             this.hendelseMedAktiviteter = results.hendelseMedAktiviteter;
             this.innslagTitler = results.innslagTitler;
+            this.direktesendinger = results.direktesendinger;
 
             for (let h of results.hendelser) {
                 let alleInnslag = h.innslag;
@@ -408,12 +420,13 @@ export default {
 .tplan-style * {
     color: #fff;
 }
-.tplan-style.dag {
-    display: flex;
+.tplan-style.direktesending {
+    display: block;
     background: #FFF056 !important;
 }
-.tplan-style.dag .title {
+.tplan-style.direktesending .title {
     margin: auto;
+    margin-bottom: 12px;
     color: #00004C !important;
     font-size: 18px !important;
 }
@@ -637,6 +650,9 @@ export default {
 @media (max-width: 767px) {
     .xs-scroller {
         display: flex;
+    }
+    .timeplan-item {
+        padding: 10px;
     }
 }
 
