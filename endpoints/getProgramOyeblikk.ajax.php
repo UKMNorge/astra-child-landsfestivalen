@@ -85,18 +85,18 @@ foreach( $hendelser as $hendelse ) {
                         }
                     }
                     
-                    // Handle exhibition-specific metadata
-                    if ($innslagTypeKey == "utstilling") {
-                        $teknikk = $tittel->getTeknikk() ?? '';
-                        $format = $tittel->getFormat() ?? '';
+                    // // Handle exhibition-specific metadata
+                    // if ($innslagTypeKey == "utstilling") {
+                    //     $teknikk = $tittel->getTeknikk() ?? '';
+                    //     $format = $tittel->getFormat() ?? '';
                         
-                        if (!empty($teknikk)) {
-                            $tittelObj['teknikk'] = $teknikk;
-                        }
-                        if (!empty($format)) {
-                            $tittelObj['format'] = $format;
-                        }
-                    }
+                    //     if (!empty($teknikk)) {
+                    //         $tittelObj['teknikk'] = $teknikk;
+                    //     }
+                    //     if (!empty($format)) {
+                    //         $tittelObj['format'] = $format;
+                    //     }
+                    // }
                     
                     $innslagTitler[$innslag->getId()][] = $tittelObj;
                 }
