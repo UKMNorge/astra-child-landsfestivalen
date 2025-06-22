@@ -500,7 +500,7 @@ export default {
     margin: auto;
 }
 .direktesending-button {
-    display: none;
+    display: none !important;
     position: fixed;
     top: 60px;
     left: 0;
