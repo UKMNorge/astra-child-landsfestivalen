@@ -11,6 +11,7 @@ import SingleAktivitet from "./components/SingleAktivitet.vue";
 import SingleHendelse from "./components/SingleHendelse.vue";
 import Timeplan from "./components/Timeplan.vue";
 import Oyeblikk from "./components/Oyeblikk.vue";
+import LivestreamButton from "./components/LivestreamButton.vue";
 
 import hljs from "highlight.js/lib/core";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -110,6 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case 'oyeblikk':
                 component = Oyeblikk;
+                break;
+            case 'livestream-button':
+                component = LivestreamButton;
                 break;
             default:
                 throw new Error('Unknown component: ' + componentName);
