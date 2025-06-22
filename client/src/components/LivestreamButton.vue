@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div class="direktesending-button">
             <v-btn
                 v-if="shouldShowButton"
                 class="button-livestreaming"
@@ -51,22 +51,31 @@ export default {
         shouldShowButton() : boolean {
             const now = new Date();
 
-            // Check if any direktesending is starting within 20 minutes
+            // Check if any direktesending is starting within 20 minutes or is currently running or has finished within 10 minutes
             for (let hendelseId in this.direktesendinger) {
                 const direktesending = this.direktesendinger[hendelseId];
                 
-                if (!direktesending || !direktesending.start) {
+                if (!direktesending || !direktesending.start || !direktesending.stopp) {
                     continue;
                 }
                 
                 const startTime = new Date(direktesending.start.date);
-                const timeDiff = startTime.getTime() - now.getTime();
-                const minutesDiff = timeDiff / (1000 * 60);
+                const stopTime = new Date(direktesending.stopp.date);
                 
-                console.warn(`Direktesending ${direktesending.navn} starts in ${minutesDiff} minutes`);
+                // Add 10 minutes buffer after stop time
+                const stopTimeWithBuffer = new Date(stopTime.getTime() + 10 * 60 * 1000);
+                
+                const timeDiffToStart = startTime.getTime() - now.getTime();
+                const minutesDiffToStart = timeDiffToStart / (1000 * 60);
+                
+                console.warn(`Direktesending ${direktesending.navn} starts in ${minutesDiffToStart} minutes`);
 
-                // Show button if direktesending starts within 20 minutes (and hasn't started yet)
-                if (minutesDiff >= 0 && minutesDiff <= 20) {
+                // Show button if:
+                // 1. Direktesending starts within 20 minutes (and hasn't started yet)
+                // 2. Direktesending has started and is currently running
+                // 3. Direktesending has finished but within 10 minutes after stop time
+                if ((minutesDiffToStart >= 0 && minutesDiffToStart <= 20) || 
+                    (now >= startTime && now <= stopTimeWithBuffer)) {
                     return true;
                 }
             }
@@ -488,5 +497,15 @@ export default {
     box-shadow: none;
     padding: 20px;
     height: auto !important;
+    margin: auto;
+}
+.direktesending-button {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    width: 100%;
+    display: flex;
+    z-index: 1000;
 }
 </style>
