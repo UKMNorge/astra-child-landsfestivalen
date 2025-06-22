@@ -154,7 +154,7 @@
                                 </div>
                                 <!-- Filmer -->
                                 <div>
-                                    <div v-if="getFilmer(tp).length > 0" class="alle-filmer as-margin-top-space-4">
+                                    <div v-if="getFilmer(tp).length > 0" class="alle-filmer as-margin-top-space-3">
                                         <template v-for="film in getFilmer(tp)">
                                             <div class="film-innslag" v-html="film.embededHTML"></div>
                                         </template>
