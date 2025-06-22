@@ -152,6 +152,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Filmer -->
+                                <div>
+                                    <div class="alle-filmer as-margin-top-space-4">
+                                        <template v-for="film in getFilmer(tp)">
+                                            <div class="film-innslag" v-html="film.embededHTML"></div>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -187,6 +195,7 @@ export default {
             dataFetched: false as boolean,
             fetchingStarted: false as boolean,
             direktesendinger: {} as { [key: string]: any },
+            filmer : {} as any,
         }
     },
     computed: {
@@ -203,6 +212,12 @@ export default {
         this.testFetch();
     },
     methods : {
+        getFilmer(tp : any) : any[] {
+            if(this.filmer[tp.getId()]) {
+                return this.filmer[tp.getId()];
+            }
+            return [];
+        },
         getDirektesendingInfoTekst(direktesending: any) : string {
             if(!direktesending || !direktesending.start || !direktesending.stopp) {
                 return 'Ingen direktesending tilgjengelig';
@@ -370,6 +385,8 @@ export default {
         },
         
         getHendelserTimeplan() : any {
+            console.warn('this.hendelseItems');
+            console.log(this.hendelseItems);
             if(this.hendelseItems == null || this.hendelseItems.length == 0) {
                 return [];
             }
@@ -425,11 +442,8 @@ export default {
                 const hendelseLink = `https://ukm.no/festivalen/single-hendelse/?hendelse-id=${hendelse.id}`;
                 
                 // Create the HendelseItem
-
-                console.log(1240);
-                console.log(innslag);
                 const hendelseItem = new HendelseItem(
-                    itemId++,
+                    innslag.id,
                     innslag.navn || 'Uten navn',
                     innslag.type && innslag.type.name ? innslag.type.name : '',
                     innslag.beskrivelse || hendelse.beskrivelse || '',
@@ -491,6 +505,8 @@ export default {
             this.hendelseMedAktiviteter = results.hendelseMedAktiviteter;
             this.innslagTitler = results.innslagTitler;
             
+            this.filmer = results.filmer;
+
             for(let key in results.direktesendinger) {
                 const ds = results.direktesendinger[key];
 
@@ -766,6 +782,14 @@ export default {
     font-size: 11px;
     opacity: 0.8;
     font-weight: normal;
+}
+.alle-filmer {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: 8px;
 }
 @media (max-width: 767px) {
     .persons-chips {
