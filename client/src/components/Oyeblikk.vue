@@ -425,10 +425,13 @@ export default {
                 const hendelseLink = `https://ukm.no/festivalen/single-hendelse/?hendelse-id=${hendelse.id}`;
                 
                 // Create the HendelseItem
+
+                console.log(1240);
+                console.log(innslag);
                 const hendelseItem = new HendelseItem(
                     itemId++,
                     innslag.navn || 'Uten navn',
-                    hendelse.sted || '',
+                    innslag.type && innslag.type.name ? innslag.type.name : '',
                     innslag.beskrivelse || hendelse.beskrivelse || '',
                     startDate,
                     endDate,
