@@ -500,15 +500,19 @@ export default {
     margin: auto;
 }
 .direktesending-button {
-    display: none !important;
-    position: fixed;
-    top: 60px;
+    position: absolute;
+    top: -40px;
     left: 0;
     right: 0;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0;
+    padding-right: 0;
     width: 100%;
     display: flex;
     z-index: 1000;
+}
+@media (max-width: 768px) {
+    .direktesending-button {
+        top: -30px;
+    }
 }
 </style>
