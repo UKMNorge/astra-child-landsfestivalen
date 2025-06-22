@@ -502,8 +502,10 @@ export default {
 .direktesending-button {
     position: fixed;
     top: 60px;
-    left: 10px;
-    right: 10px;
+    left: 0;
+    right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
     width: 100%;
     display: flex;
     z-index: 1000;
