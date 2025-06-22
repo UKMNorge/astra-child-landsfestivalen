@@ -22,6 +22,7 @@ $innslagPersoner = [];
 $innslagTitler = [];
 $hendelseMedAktiviteter = [];
 $direktesendinger = [];
+$filmer = [];
 
 
 $hendelser = $erDeltakerProgram ? $arrangement->getProgram()->getAbsoluteAll() : $arrangement->getProgram()->getAll();
@@ -31,6 +32,16 @@ foreach( $hendelser as $hendelse ) {
 
     if($hendelse->erSynligRammeprogram()) {
         foreach($hendelse->getInnslag()->getAll() as $innslag) {
+
+            foreach($innslag->getFilmer($arrangement->getId())->getAll() as $film) {
+                $filmObj = [];
+                $filmObj['id'] = $film->getId();
+                $filmObj['tittel'] = $film->getTitle();
+                $filmObj['beskrivelse'] = $film->getDescription();
+                $filmObj['embededHTML'] = $film->getEmbedHtml();    
+                $filmer[$innslag->getId()][] = $filmObj;
+            }
+
             $innslag->getFylke();
             foreach($innslag->getPersoner()->getAll() as $person) {
                 $personObj = [];
@@ -138,4 +149,5 @@ $handleCall->sendToClient([
     'hendelseMedAktiviteter' => $hendelseMedAktiviteter,
     'hendelseGrupper' => $hendelseGrupper,
     'direktesendinger' => $direktesendinger,
+    'filmer' => $filmer,
 ]);
