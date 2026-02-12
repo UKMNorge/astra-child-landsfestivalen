@@ -49,8 +49,15 @@ export default {
     },
     methods : {
         async fetchHendelseContent() {
+            const path = window.location.pathname;
+            let season = -1; // Current season
+            if (path.startsWith("/festivalen-arkiv-2025")) {
+                season = 2025;
+            }
+
             var data = {
                 hendelseId: this.hendelseId,
+                season: season
             };
 
             var results = await this.spaInteraction.runAjaxCall('getHendelseContent.ajax.php', 'POST', data);
@@ -66,8 +73,16 @@ export default {
                 this.fetched = true;
                 return;
             }
+
+            const path = window.location.pathname;
+            let season = -1; // Current season
+            if (path.startsWith("/festivalen-arkiv-2025")) {
+                season = 2025;
+            }
+
             var data = {
                 hendelseId: this.hendelseId,
+                season: season
             };
 
             var results = await this.spaInteraction.runAjaxCall('getSingleHendelse.ajax.php', 'POST', data);

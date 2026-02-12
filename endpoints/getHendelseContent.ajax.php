@@ -13,12 +13,24 @@ require_once('UKM/Autoloader.php');
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-$handleCall = new HandleAPICall(['hendelseId'], [], ['GET', 'POST'], false);
+$handleCall = new HandleAPICall(['hendelseId', 'season'], [], ['GET', 'POST'], false);
 
 $hendelseId = $handleCall->getArgument('hendelseId');
 $hendelse = new Hendelse($hendelseId);
 
-$arrangement = UKMFestival::getCurrentUKMFestival();
+$seasonArg = $handleCall->getArgument('season');
+if (!is_numeric($seasonArg)) {
+    $handleCall->sendErrorToClient('Sesong må være tall', 400);
+    return;
+}
+
+$season = intval($seasonArg);
+
+if($season == -1) {
+    $arrangement = UKMFestival::getCurrentUKMFestival();
+} else {
+    $arrangement = UKMFestival::getBySeason($season);
+}
 
 // Aktiviteter
 $aktiviteter = [];

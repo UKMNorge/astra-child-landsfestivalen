@@ -9,9 +9,21 @@ require_once('UKM/Autoloader.php');
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
-$handleCall = new HandleAPICall([], [], ['GET', 'POST'], false);
+$handleCall = new HandleAPICall(['season'], [], ['GET', 'POST'], false);
 
-$arrangement = UKMFestival::getCurrentUKMFestival();
+$seasonArg = $handleCall->getArgument('season');
+if (!is_numeric($seasonArg)) {
+    $handleCall->sendErrorToClient('Sesong må være tall', 400);
+    return;
+}
+
+$season = intval($seasonArg);
+
+if($season == -1) {
+    $arrangement = UKMFestival::getCurrentUKMFestival();
+} else {
+    $arrangement = UKMFestival::getBySeason($season);
+}
 
 // Aktiviteter
 $aktiviteter = [];

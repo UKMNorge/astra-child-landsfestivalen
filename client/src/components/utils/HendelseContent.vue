@@ -165,8 +165,15 @@ export default {
             this.fetchingStarted = true;
             this.dataFetched = false;
 
+            const path = window.location.pathname;
+            let season = -1; // Current season
+            if (path.startsWith("/festivalen-arkiv-2025")) {
+                season = 2025;
+            }
+
             var data = {
                 hendelseId: this.hendelse.id,
+                season: season
             };
 
             var results = await this.spaInteraction.runAjaxCall('getHendelseContent.ajax.php', 'POST', data);

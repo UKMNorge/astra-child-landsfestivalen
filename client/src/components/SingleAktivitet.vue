@@ -49,8 +49,16 @@ export default {
                 this.fetched = true;
                 return;
             }
+
+            const path = window.location.pathname;
+            let season = -1; // Current season
+            if (path.startsWith("/festivalen-arkiv-2025")) {
+                season = 2025;
+            }
+
             var data = {
                 aktivitetId: this.aktivitetId,
+                season: season
             };
 
             var results = await this.spaInteraction.runAjaxCall('getSingleAktivitet.ajax.php', 'POST', data);

@@ -114,6 +114,7 @@ export default {
         return {
             isActive : false,
             spaInteraction : (<any>window).spaInteraction, // Definert i main.ts
+            director : (<any>window).director, // Definert i main.ts
             dataFetched: false,
             fetchingStarted: false,
             availableSteder: [] as {id: number|string, title: string}[],
@@ -182,7 +183,15 @@ export default {
             this.fetchingStarted = true;
             this.dataFetched = false;
 
-            var data = {};
+            const path = window.location.pathname;
+            let season = -1; // Current season
+            if (path.startsWith("/festivalen-arkiv-2025")) {
+                season = 2025;
+            }
+
+            var data = {
+                season: season
+            };
 
             var results = await this.spaInteraction.runAjaxCall('getAlleAktiviteter.ajax.php', 'POST', data);
             
