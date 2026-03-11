@@ -10,3 +10,5 @@ Innlegg er utvided via functions.php og har disse kategoriene:
 1. `innlegg-info-til-deltakere`
 2. `innlegg-info-til-publikum`
 3. `innlegg-info-til-reiseleder`
+
+Kategoriene opprettes automatisk hvis de ikke finnes.
