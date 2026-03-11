@@ -63,9 +63,26 @@ add_action('init', 'register_custom_post_types');
 
 
 function infosak_allowed_category_slugs(): array {
-    // TODO: Replace with YOUR 3 category slugs
     return array('innlegg-info-til-deltakere', 'innlegg-info-til-publikum', 'innlegg-info-til-reiseleder');
 }
+
+/**
+ * Create the allowed categories if they don't already exist.
+ */
+function infosak_ensure_categories_exist() {
+    $categories = array(
+        'innlegg-info-til-deltakere' => 'Info til deltakere',
+        'innlegg-info-til-publikum'  => 'Info til publikum',
+        'innlegg-info-til-reiseleder' => 'Info til reiseleder',
+    );
+
+    foreach ($categories as $slug => $name) {
+        if (!get_term_by('slug', $slug, 'category')) {
+            wp_insert_term($name, 'category', array('slug' => $slug));
+        }
+    }
+}
+add_action('init', 'infosak_ensure_categories_exist');
 
 /**
  * Resolve allowed slugs to term IDs (cached).
