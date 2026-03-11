@@ -36,6 +36,11 @@ function enqueue_shortcodes_script() {
     wp_enqueue_script('UKMFestivalenSideStyleVueJs', '/wp-content/themes/astra-child-theme/client/dist/assets/build.js', array(), '', true);
 }
 
+// Remove Astra main menu item from admin menu
+add_action('admin_menu', function () {
+    remove_menu_page('astra'); // Astra main menu
+}, 999);
+
 //
 function register_custom_post_types() {
 
