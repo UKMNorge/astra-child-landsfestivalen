@@ -157,6 +157,27 @@ add_action('save_post_infosak', function ($post_id, $post, $update) {
  * Add 3 submenu items under "Deltakerinfo" in admin, each filtered to one category.
  * Clicking them shows the infosak list filtered by that category.
  */
+/**
+ * The Innlegg menu links to the unfiltered list. Open Info til deltakere instead.
+ */
+add_action('load-edit.php', function () {
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
+        return;
+    }
+    if (($_GET['post_type'] ?? '') !== 'innlegg' || !empty($_GET['category_name'])) {
+        return;
+    }
+
+    $extra = $_GET;
+    unset($extra['post_type'], $extra['mode']);
+    if (!empty($extra)) {
+        return;
+    }
+
+    wp_safe_redirect(admin_url('edit.php?post_type=innlegg&category_name=innlegg-info-til-deltakere'));
+    exit;
+});
+
 add_action('admin_menu', function () {
     $allowed = infosak_allowed_category_ids();
 
