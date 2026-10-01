@@ -47,7 +47,7 @@ function register_custom_post_types() {
     register_post_type('innlegg', array(
         'labels' => array(
             'name' => 'Innlegg på nettsiden',
-            'singular_name' => 'Innlegg på nettsiden'
+            'singular_name' => 'Innlegg'
         ),
         'public' => true,
         'has_archive' => true,
